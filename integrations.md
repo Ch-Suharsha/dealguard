@@ -173,6 +173,8 @@ POST /api/campaign-concept
 
 Each route works in fallback mode immediately. When the required provider key/configuration is present, it attempts the live provider and returns `source: "live"`; otherwise it returns `source: "fallback"` and a `missingConfiguration` field for diagnosis.
 
+The v2 browser is now wired to these routes through same-origin `fetch` calls. This keeps the browser contract stable while allowing the server adapter to change when private sponsor schemas arrive.
+
 ## 7. Key handoff checklist
 
 When the hackathon team provides access:

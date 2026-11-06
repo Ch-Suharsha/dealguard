@@ -6,7 +6,7 @@ const videos = [
   { id: 5, title: 'My creator stack', meta: '51.3K views · 9.1% saves', selected: true },
 ];
 
-const state = { selectedVideos: new Set(videos.filter(v => v.selected).map(v => v.id)), reportVisible: false };
+const state = { selectedVideos: new Set(videos.filter(v => v.selected).map(v => v.id)), reportVisible: false, apiSource: 'fallback' };
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
@@ -51,10 +51,31 @@ function appendMessage(text, role) {
   $('#chat-messages').appendChild(message); $('#chat-messages').scrollTop = $('#chat-messages').scrollHeight;
 }
 
-function sendChat(prompt) {
+async function apiRequest(path, payload) {
+  const response = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+  if (!response.ok) throw new Error(`DealGuard API ${response.status}`);
+  return response.json();
+}
+
+function creatorContext() {
+  return {
+    niche: $('#niche').value,
+    audience: $('#audience').value,
+    boundary: $('#boundary').value,
+    selectedVideos: [...state.selectedVideos],
+  };
+}
+
+async function sendChat(prompt) {
   if (!prompt) return;
   $('#chat-drawer').classList.add('open'); appendMessage(prompt, 'user');
-  setTimeout(() => appendMessage(assistantAnswer(prompt), 'assistant'), 350);
+  try {
+    const result = await apiRequest('/api/chat', { question: prompt, creatorContext: creatorContext(), offer: $('#offer-input').value });
+    state.apiSource = result.source || 'fallback';
+    appendMessage(result.answer || assistantAnswer(prompt), 'assistant');
+  } catch {
+    appendMessage(assistantAnswer(prompt), 'assistant');
+  }
 }
 
 function updateSimulator() {
@@ -67,12 +88,18 @@ function updateSimulator() {
   $('#simulator-note').textContent = count ? `You’re pricing ${count} additional right${count === 1 ? '' : 's'}.` : 'Only the base content fee remains.';
 }
 
-function analyzeDeal() {
+async function analyzeDeal() {
   if (state.selectedVideos.size === 0) { showToast('Select at least one video so DealGuard can understand your style.'); return; }
   if (!$('#offer-input').value.trim()) { showToast('Paste a brand offer before analyzing the deal.'); $('#offer-input').focus(); return; }
   state.reportVisible = true; $('#report-section').classList.remove('hidden');
   $('#report-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  showToast('Deal analyzed — your creator context is now part of the recommendation.');
+  try {
+    const result = await apiRequest('/api/analyze', { videos: [...state.selectedVideos].map(id => videos.find(video => video.id === id)), creatorContext: creatorContext(), offer: $('#offer-input').value });
+    state.apiSource = result.source || 'fallback';
+    showToast(`Deal analyzed · ${state.apiSource === 'live' ? 'live sponsor data' : 'fallback data'}`);
+  } catch {
+    showToast('Deal analyzed · local fallback kept the flow running');
+  }
 }
 
 renderVideos();
@@ -93,7 +120,12 @@ $('#download-report').addEventListener('click', () => {
   const link = document.createElement('a'); link.href = url; link.download = 'dealguard-decision-packet.txt'; link.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000); showToast('Decision packet downloaded.');
 });
-$('#generate-concept').addEventListener('click', () => showToast('Compound concept regenerated from your selected videos.'));
+$('#generate-concept').addEventListener('click', async () => {
+  try {
+    const result = await apiRequest('/api/campaign-concept', { creatorContext: creatorContext(), offer: $('#offer-input').value, concept: $('#counteroffer-text').textContent });
+    showToast(`Compound concept ready · ${result.source === 'live' ? 'live render' : 'handoff preview'}`);
+  } catch { showToast('Compound concept ready in handoff mode.'); }
+});
 $$('.toggle-row input').forEach(input => input.addEventListener('change', () => { updateSimulator(); showToast('Deal value recalculated from your selected rights.'); }));
 
 $$('.nav-item[data-view]').forEach(button => button.addEventListener('click', () => {

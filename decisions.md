@@ -282,3 +282,11 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** The report includes a trust layer alongside financial risk.
 
+## D036 — Frontend API gateway wiring
+
+**Decision:** V2 browser actions call DealGuard's same-origin `/api/analyze`, `/api/chat`, and `/api/campaign-concept` routes, with local UI fallback if the gateway is unavailable.
+
+**Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
+
+**Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.
+

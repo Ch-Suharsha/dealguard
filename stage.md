@@ -104,6 +104,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** The V2 deal lab has been added. Rights toggles update the suggested counter deterministically, and the brand-trust card is visible in the report. Browser regression testing and live API wiring remain next.
 
+### Stage 11 — Frontend integration wiring
+
+**Definition of done:** V2 browser actions call the local API gateway while preserving fallback behavior.
+
+**Checkpoint:** The frontend integration wiring has been added. Analyze, Creator AI, and campaign-concept actions now attempt the server routes; keys remain server-side and the fallback path remains available. Provider-specific live verification is still pending.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

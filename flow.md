@@ -303,3 +303,15 @@ V2 preserves every step above and adds an interactive decision layer after the f
 
 **Decision references:** D033, D034, D035.
 
+## 13. V2 frontend-to-provider wiring
+
+The v2 browser now calls the local DealGuard gateway for live-capable actions:
+
+- Analyze button → `POST /api/analyze`.
+- Creator AI question → `POST /api/chat`.
+- Compound concept action → `POST /api/campaign-concept`.
+
+Each call sends creator context, selected-video metadata, and the current offer. The browser never sends a provider key. If the gateway is unavailable or a provider fails, the existing local response remains usable and the UI reports fallback/handoff mode.
+
+**Decision references:** D027, D028, D036.
+
