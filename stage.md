@@ -128,6 +128,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** The `context.md` composer, copy action, download action, and privacy-preserving handoff language have been installed. Direct Butler/Claude API integration remains optional future work and is not required for the portable handoff.
 
+### Stage 15 — Compact Creator AI drawer
+
+**Definition of done:** Creator AI remains useful without covering the whole workspace, including on mobile.
+
+**Checkpoint:** The chat drawer has been reduced to a bounded 320px by 430px floating panel with a mobile-safe width rule. Its existing chat behavior is preserved.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

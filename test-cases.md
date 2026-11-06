@@ -255,6 +255,14 @@ This test plan covers the local MVP in `dist/`:
 | CTX-004 | Change profile or rights state, then export | Export reflects the current values at click time | Implemented by dynamic composer; browser check pending |
 | CTX-005 | Inspect privacy boundary | No automatic upload or outbound AI request is triggered by export | PASS by architecture |
 
+### Creator AI layout tests
+
+| ID | Scenario | Expected result | Result |
+|---|---|---|---|
+| AI-UI-001 | Open Creator AI on desktop | Drawer is compact and does not replace the workspace | Implemented; static checked |
+| AI-UI-002 | Open Creator AI on 320px mobile viewport | Drawer fits within viewport without horizontal overflow | Implemented CSS; browser check pending |
+| AI-UI-003 | Use suggestions and chat input in compact drawer | Existing controls remain visible and usable | Implemented; browser check pending |
+
 ## Browser execution results
 
 The local browser run completed successfully for the primary vertical flow:

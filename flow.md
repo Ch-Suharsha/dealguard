@@ -350,3 +350,13 @@ For deterministic QA, setting `window.DEALGUARD_SIMULATE_TIMEOUT = true` before 
 
 **Decision references:** D010, D017, D018, D039.
 
+## 17. Compact Creator AI interaction
+
+1. The creator clicks `Ask Creator AI`.
+2. DealGuard opens a compact floating drawer above the workspace.
+3. The creator can see the report behind or around the drawer while asking questions.
+4. The chat drawer keeps its suggestions, input, loading state, and close action.
+5. On mobile, the drawer remains within the viewport with a bounded width and height.
+
+**Decision references:** D015, D021, D040.
+

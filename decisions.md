@@ -310,6 +310,14 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** After analysis, the creator can explicitly copy or download a Markdown handoff. DealGuard does not automatically upload or transmit the context to another AI. The creator chooses the destination and remains responsible for reviewing sensitive deal information before sharing it.
 
+## D040 — Compact Creator AI drawer
+
+**Decision:** Reduce the Creator AI drawer to a compact floating panel: 320px wide and 430px tall on larger screens, with the same constrained dimensions on mobile where available.
+
+**Reason:** The previous 350px by 550px drawer dominated the mobile viewport and obscured the deal workspace. Creator AI should feel like an always-available assistant, not a full-screen replacement for the report.
+
+**Flow impact:** Opening Creator AI keeps the surrounding deal workspace visible while preserving the chat history, suggestions, input, and close control.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.
