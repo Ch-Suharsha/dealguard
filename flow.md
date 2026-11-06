@@ -372,3 +372,14 @@ For deterministic QA, setting `window.DEALGUARD_SIMULATE_TIMEOUT = true` before 
 
 **Decision references:** D020, D028, D041, D042.
 
+## 19. GMI event-capability flow
+
+1. At the event, claim the GMI credits in the console and discover available models through the API or GMI MCP server.
+2. Pin one verified text model in the local environment and run the standard DealGuard report/chat smoke test.
+3. Keep GMI's OpenAI-compatible inference route as the critical path for report reasoning, Creator AI, and counteroffer drafting.
+4. If time and credits allow, test one audio model behind an optional voice control; text chat remains the fallback.
+5. If Oriane cannot ingest local videos, evaluate AgentBox as a separate worker that receives a clip, extracts usable evidence, and returns a normalized file/result to DealGuard.
+6. Do not couple the main demo to MCP or AgentBox until the event-day credential and latency checks pass.
+
+**Decision references:** D030, D043.
+

@@ -276,6 +276,17 @@ This test plan covers the local MVP in `dist/`:
 | ORI-007 | Local video selected | UI does not claim Oriane video upload is live unless event capability confirms it | PASS by documented boundary |
 | ORI-008 | Authentication convention | Use only the header/query format confirmed by Oriane workspace/help desk | Pending confirmation |
 
+### GMI event capability tests
+
+| ID | Scenario | Expected result | Result |
+|---|---|---|---|
+| GMI-001 | Claim event credits in GMI console | Credits appear on the account without changing the codebase | Pending event-day action |
+| GMI-002 | Call `/v1/models` | Select and pin a model actually available to the account | Pending credentials |
+| GMI-003 | Run report with verified text model | Structured DealGuard reasoning completes through the existing API adapter | Pending credentials |
+| GMI-004 | Use GMI MCP for discovery | Model/price/docs discovery works without placing MCP in the runtime critical path | Pending event-day access |
+| GMI-005 | Test optional audio model | Voice response works or text fallback remains available | Pending voice credential/model |
+| GMI-006 | Test AgentBox credential separately | Container launch/upload/execute works without confusing AgentBox credentials with inference credentials | Pending AgentBox access |
+
 ## Browser execution results
 
 The local browser run completed successfully for the primary vertical flow:

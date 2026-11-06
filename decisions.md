@@ -334,6 +334,14 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** The next integration pass must confirm authentication, URL indexing, and local-file handling. Until then, the app labels unverified sources as fallback-ready and keeps the demo functional.
 
+## D043 — GMI capabilities from event deck
+
+**Decision:** Use GMI's standard OpenAI-compatible API as the critical runtime path, keep voice as an optional enhancement, use MCP for development-time discovery, and reserve AgentBox for a later isolated media-processing worker.
+
+**Reason:** The event deck confirms text, image, video, and audio model availability, an OpenAI-compatible endpoint, an MCP server, and AgentBox container execution. The core DealGuard demo needs reliable text reasoning first; adding AgentBox or realtime voice to the critical path would increase event-day risk.
+
+**Flow impact:** The current API adapter remains the primary GMI integration. The verified model should come from `/v1/models`; the deck's `deepseek-ai/DeepSeek-V4` is the new default example. Voice and AgentBox are documented extension points with explicit credential and time checks.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.

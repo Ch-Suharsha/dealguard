@@ -61,7 +61,7 @@ class GmiAdapter {
   constructor(env = process.env) {
     this.key = env.GMI_API_KEY;
     this.baseUrl = (env.GMI_BASE_URL || 'https://api.gmi-serving.com/v1').replace(/\/$/, '');
-    this.model = env.GMI_MODEL || 'deepseek-ai/DeepSeek-V4-Pro';
+    this.model = env.GMI_MODEL || 'deepseek-ai/DeepSeek-V4';
     this.timeoutMs = Number(env.GMI_TIMEOUT_MS || 30000);
   }
 

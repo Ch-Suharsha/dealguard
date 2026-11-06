@@ -90,6 +90,25 @@ GMI Cloud publicly documents an OpenAI-compatible inference API at `https://api.
 - Retry-safe timeout/error result.
 - Fallback report when the key is unavailable.
 
+### GMI Cloud event deck findings
+
+The hackathon deck adds several useful capabilities beyond the public inference endpoint:
+
+- GMI presents an OpenAI-compatible endpoint at `https://api.gmi-serving.com/v1` and shows `deepseek-ai/DeepSeek-V4` as the example model. The current adapter now uses that model as its default, while `/v1/models` remains the source of truth at the event.
+- The catalog includes text, image, video, and audio models. This makes a future Creator AI voice mode plausible, but it requires a voice-capable model and must remain optional until credits and browser permissions are confirmed.
+- AgentBox can package and run a creator-processing container, upload a clip, execute a command, and return files. This is a strong fit for a future local-video worker that extracts frames/transcripts before GMI reasoning. It is a separate path from the inference key and should not be added to the critical hackathon demo path without time to verify it.
+- The GMI MCP server lets Codex, Claude, Cursor, or another assistant sign in once and discover models, price jobs, run them, fetch results, and read docs. It is useful for exploration and development, but the deployed DealGuard runtime should continue using the deterministic server-side API adapter.
+- The deck shows a credit claim code `GMISF1002` for `console.gmicloud.ai`. The creator must claim this in the GMI console and verify the resulting key/credits. Do not put the code or key in the repository.
+
+### Recommended use for DealGuard
+
+1. Use the standard GMI API for the live report, Creator AI, and structured counteroffer reasoning.
+2. Use the audio catalog only as an optional voice demo after text reasoning is stable.
+3. Use AgentBox later for raw local-video processing if Oriane confirms it cannot ingest local video.
+4. Use MCP during the event to discover available models and prices quickly, then pin the verified model in `.env` for the demo.
+
+AgentBox environment values shown in the deck (`GMI_MAAS_API_KEY`, `GMI_MAAS_BASE_URL`, and `GMI_MODELS`) are separate from the inference key used by the current `/v1/chat/completions` adapter. Confirm which credential the event supplies before wiring AgentBox.
+
 ## 3. Lovable — app and connector platform
 
 ### What it provides

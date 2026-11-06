@@ -140,6 +140,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** The Oriane REST audit has been recorded in `integrations.md`, `decisions.md`, and `flow.md`. The current generic Oriane adapter is not yet live-ready because its default path and payload mapping must be replaced with `/rest/contents/search`, and authentication/URL-ingestion details still require confirmation.
 
+### Stage 17 — GMI event capability audit
+
+**Definition of done:** The event deck's GMI capabilities are mapped to DealGuard without destabilizing the core demo.
+
+**Checkpoint:** The GMI API, model discovery, audio, MCP, AgentBox, credit claim, and credential separation have been recorded. The default inference model is aligned to the deck's `deepseek-ai/DeepSeek-V4` example. Live model availability, credits, voice capability, and AgentBox credentials remain event-day verification tasks.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:
