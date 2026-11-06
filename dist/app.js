@@ -102,8 +102,34 @@ function assistantAnswer(prompt) {
   return 'I’m grounding this in your five selected videos, your creator context, and the ClipForge offer. I’d focus first on paid usage, exclusivity, and revision limits. Want me to change one assumption and show how the recommendation moves?';
 }
 
+function formatAssistantMessage(text) {
+  const lines = String(text || '').replace(/\r\n/g, '\n').trim().split('\n');
+  const html = [];
+  let list = [];
+  const flushList = () => { if (list.length) { html.push(`<ul>${list.join('')}</ul>`); list = []; } };
+  lines.forEach(rawLine => {
+    const line = rawLine.trim();
+    if (!line || /^\|?\s*:?-{3,}/.test(line)) { flushList(); return; }
+    const cells = line.split('|').map(cell => cell.trim()).filter(Boolean);
+    if (cells.length >= 2 && rawLine.includes('|')) {
+      flushList();
+      html.push(`<div class="chat-detail-row"><span>${escapeHtml(cells[0])}</span><b>${escapeHtml(cells.slice(1).join(' · '))}</b></div>`);
+      return;
+    }
+    const bullet = line.match(/^[-*•]\s+(.*)$/);
+    if (bullet) { list.push(`<li>${escapeHtml(bullet[1].replace(/\*\*/g, ''))}</li>`); return; }
+    flushList();
+    const heading = line.replace(/^#{1,6}\s+/, '').replace(/\*\*/g, '');
+    html.push(`<p>${escapeHtml(heading).replace(/\n/g, '<br>')}</p>`);
+  });
+  flushList();
+  return html.join('') || '<p>I’m here. What would you like to work through?</p>';
+}
+
 function appendMessage(text, role) {
-  const message = document.createElement('div'); message.className = `chat-bubble ${role}`; message.textContent = text;
+  const message = document.createElement('div'); message.className = `chat-bubble ${role}`;
+  if (role === 'assistant') message.innerHTML = formatAssistantMessage(text);
+  else message.textContent = text;
   $('#chat-messages').appendChild(message); $('#chat-messages').scrollTop = $('#chat-messages').scrollHeight;
 }
 

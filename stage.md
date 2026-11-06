@@ -196,6 +196,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Update:** Oriane analysis now uses the same 30-second live-provider window, with explicit retry/fallback behavior.
 
+### Stage 26 — Human-readable Creator AI
+
+**Definition of done:** Creator AI responses no longer expose raw Markdown and read like concise advisor messages in the drawer.
+
+**Checkpoint:** Installed conversational GMI instruction, safe client-side formatter, and structured table/list styling. Browser verification remains.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

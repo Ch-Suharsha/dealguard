@@ -503,3 +503,12 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D060.
 
+## 30. Conversational Creator AI presentation
+
+1. The creator submits a question and sees a thinking state.
+2. GMI is instructed to answer directly in short, human conversational prose.
+3. DealGuard safely renders the response as paragraphs, simple bullets, or compact detail rows instead of exposing Markdown syntax.
+4. The creator can continue the conversation with another question.
+
+**Decision references:** D061.
+

@@ -382,4 +382,6 @@ Browser execution could not yet verify mobile layout, keyboard-only navigation, 
 - **E2E-002:** Open Creator AI, submit a negotiation question, confirm thinking state, duplicate-submit prevention, and live/fallback status.
 - **E2E-003:** Toggle deal rights and confirm the suggested counter updates.
 - **E2E-004:** Download `context.md` after analysis and confirm the portable handoff action is available.
+- **CHAT-005:** Submit a response containing bold markers, bullets, and a pipe-delimited table; confirm the chat shows readable prose/detail rows with no raw `**`, `|`, or separator lines.
+- **CHAT-006:** Ask two distinct Creator AI questions and confirm the live response text is not replaced by the same canned fallback when GMI is available.
 

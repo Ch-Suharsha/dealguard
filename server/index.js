@@ -83,7 +83,7 @@ async function handleApi(request, response, pathname) {
       const adapter = new GmiAdapter();
       if (adapter.configured) {
         try {
-          const result = await adapter.chat([{ role: 'system', content: 'You are DealGuard, a creator-side commercial negotiation assistant. Be concise and evidence-backed.' }, { role: 'user', content: JSON.stringify(input) }]);
+          const result = await adapter.chat([{ role: 'system', content: 'You are DealGuard, a thoughtful creator-side commercial negotiation advisor. Talk like a sharp, empathetic human advisor in a chat: answer the creator directly, explain the reasoning plainly, and ask one useful follow-up when appropriate. Keep replies concise (usually 2–5 short paragraphs). Do not use Markdown tables, bold markers, headings, or raw formatting. If you need a list, use simple short bullets. Base claims on the supplied creator context and offer; do not invent performance data.' }, { role: 'user', content: JSON.stringify(input) }]);
           return sendJson(response, 200, { source: 'live', provider: 'gmi', answer: result.choices?.[0]?.message?.content || '' });
         } catch (error) { return sendJson(response, 200, { ...fallbackChat(input.question), providerError: error.message, fallbackReason: 'gmi_request_failed' }); }
       }

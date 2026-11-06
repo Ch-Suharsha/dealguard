@@ -478,6 +478,14 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** The demo waits for live evidence long enough to show Oriane’s metrics; timeout, retry, and fallback remain explicit if the provider is unavailable.
 
+## D061 — Render Creator AI as human-readable conversation
+
+**Decision:** Ask GMI for short conversational replies without Markdown formatting, and normalize any remaining model formatting into readable paragraphs, bullets, and detail rows in the chat UI.
+
+**Reason:** Raw Markdown made the assistant look like an unprocessed API response, especially for tables and bold markers. The creator needs an advisor-like conversation that is scannable during a live demo.
+
+**Flow impact:** Live and fallback answers use the same readable chat renderer; model content remains escaped before presentation.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.
