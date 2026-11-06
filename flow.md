@@ -340,3 +340,13 @@ For deterministic QA, setting `window.DEALGUARD_SIMULATE_TIMEOUT = true` before 
 
 **Decision references:** D007, D008, D010, D038.
 
+## 16. Portable AI context handoff
+
+1. DealGuard composes `context.md` from the creator's current editable profile, selected video signal, brand offer, rights simulator state, recommendation, risks, and negotiation preferences.
+2. The creator reviews the handoff controls in the `AI HANDOFF` card.
+3. `Copy context.md` places the Markdown in the clipboard for direct pasting into Butler AI or another assistant.
+4. `Download context.md` saves a local Markdown file for upload to an AI tool that accepts files.
+5. No external upload or AI-to-AI connection occurs automatically.
+
+**Decision references:** D010, D017, D018, D039.
+

@@ -105,6 +105,63 @@ function creatorContext() {
   };
 }
 
+function buildContextMarkdown() {
+  const selected = videos.filter(video => state.selectedVideos.has(video.id));
+  const rights = $$('.toggle-row input:checked').map(input => `${input.dataset.label} (+$${input.dataset.fee})`);
+  return `# DealGuard Creator Context
+
+> Portable handoff for the creator's personal AI agency or Butler AI.
+> Generated locally from DealGuard. Treat this as creator-owned context, not legal advice.
+
+## Creator identity and working style
+
+- Niche: ${$('#niche').value.trim() || 'Not provided'}
+- Audience: ${$('#audience').value.trim() || 'Not provided'}
+- Creator boundary: ${$('#boundary').value.trim() || 'Not provided'}
+
+## Selected content signal
+
+${selected.map(video => `- ${video.title} — ${video.meta}`).join('\n') || '- No videos selected'}
+
+## Current brand offer
+
+${$('#offer-input').value.trim() || 'No offer provided'}
+
+## DealGuard recommendation
+
+- Recommendation: COUNTER
+- Fair range: $1,450–$1,800
+- Current suggested counter: ${$('#suggested-counter').textContent}
+- Rights currently priced: ${rights.join(', ') || 'Base content only'}
+
+## Risks to protect
+
+- Paid advertising usage should be priced separately from the content fee.
+- Exclusivity should have a short duration or an additional fee.
+- Raw footage should be treated as a separate deliverable.
+- Unlimited revisions should be replaced with a defined revision limit.
+
+## Negotiation voice
+
+Keep the message practical, confident, and collaborative. Do not accept vague usage, unlimited revisions, or broad exclusivity without clarifying scope and price.
+
+## How another AI should use this
+
+Use this context to help the creator evaluate brand deals, draft counteroffers, create campaign concepts, and ask follow-up questions. Always explain assumptions, preserve the creator's boundaries, and ask for approval before changing the official recommendation or sending anything externally.
+`;
+}
+
+async function copyContext() {
+  try { await navigator.clipboard.writeText(buildContextMarkdown()); showToast('context.md copied — paste it into your Butler AI.'); }
+  catch { showToast('Context ready — use Download context.md instead.'); }
+}
+
+function downloadContext() {
+  const url = URL.createObjectURL(new Blob([buildContextMarkdown()], { type: 'text/markdown' }));
+  const link = document.createElement('a'); link.href = url; link.download = 'context.md'; link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000); showToast('context.md downloaded.');
+}
+
 async function sendChat(prompt) {
   if (!prompt || state.chatting) return;
   state.chatting = true;
@@ -162,6 +219,8 @@ async function analyzeDeal() {
 renderVideos();
 $('#analyze-button').addEventListener('click', analyzeDeal);
 $('#retry-analysis').addEventListener('click', () => { if (state.lastAnalysisPayload) analyzeDeal(); });
+$('#copy-context').addEventListener('click', copyContext);
+$('#download-context').addEventListener('click', downloadContext);
 $('#ai-fab').addEventListener('click', () => openChat());
 $('#close-chat').addEventListener('click', () => $('#chat-drawer').classList.remove('open'));
 $('#chat-form').addEventListener('submit', (event) => { event.preventDefault(); const input = $('#chat-input'); sendChat(input.value.trim()); input.value = ''; });

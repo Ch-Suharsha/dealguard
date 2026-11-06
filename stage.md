@@ -122,6 +122,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** Separate link and file controls, validation, selected-source rendering, and remove actions have been installed. Provider-specific URL indexing and raw-file upload are intentionally pending until Oriane's private event schema is confirmed.
 
+### Stage 14 — Portable AI context handoff
+
+**Definition of done:** The creator can export their DealGuard context as Markdown for use in another AI tool without automatic external transmission.
+
+**Checkpoint:** The `context.md` composer, copy action, download action, and privacy-preserving handoff language have been installed. Direct Butler/Claude API integration remains optional future work and is not required for the portable handoff.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

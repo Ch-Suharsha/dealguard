@@ -245,6 +245,16 @@ This test plan covers the local MVP in `dist/`:
 | MEDIA-005 | Remove added source | Source disappears and selection count updates | Implemented; browser check pending |
 | MEDIA-006 | Analyze with mixed fixtures, links, and files | Existing analysis flow receives the combined selected collection | Implemented by shared payload; live provider mapping pending |
 
+### Portable context handoff tests
+
+| ID | Scenario | Expected result | Result |
+|---|---|---|---|
+| CTX-001 | Open analyzed report | AI HANDOFF card explains the portable context workflow | Implemented; static checked |
+| CTX-002 | Click Copy context.md | Current creator context is copied as Markdown and confirmation appears | Implemented; browser check pending |
+| CTX-003 | Click Download context.md | Local `context.md` file downloads with creator context and recommendation | Implemented; browser check pending |
+| CTX-004 | Change profile or rights state, then export | Export reflects the current values at click time | Implemented by dynamic composer; browser check pending |
+| CTX-005 | Inspect privacy boundary | No automatic upload or outbound AI request is triggered by export | PASS by architecture |
+
 ## Browser execution results
 
 The local browser run completed successfully for the primary vertical flow:

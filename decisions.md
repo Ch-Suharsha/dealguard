@@ -302,6 +302,14 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** A creator can paste a valid HTTP(S) video URL or choose one or more local video files, review the added source, remove it, and continue through the same analysis flow. Existing fixture videos and V1 behavior remain intact.
 
+## D039 — Portable creator context handoff
+
+**Decision:** Add `Copy context.md` and `Download context.md` actions that export the creator's editable context, selected content signal, current offer, rights simulator state, recommendation, negotiation risks, and AI operating instructions.
+
+**Reason:** Creators may already have a personal Butler, Claude, or other AI agency. DealGuard should transfer the creator's accumulated context instead of forcing them into another silo.
+
+**Flow impact:** After analysis, the creator can explicitly copy or download a Markdown handoff. DealGuard does not automatically upload or transmit the context to another AI. The creator chooses the destination and remains responsible for reviewing sensitive deal information before sharing it.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.

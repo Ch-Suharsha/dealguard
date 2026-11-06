@@ -195,6 +195,17 @@ The browser now normalizes both creator-provided source types into the selected 
 
 The UI intentionally does not transmit a local file to a third party yet; it records the source locally and preserves the fallback demo path until provider upload requirements are known.
 
+## 10. Personal AI agency handoff
+
+DealGuard now exports a provider-neutral `context.md` artifact rather than requiring a direct Butler/Claude integration. The artifact contains the creator context, selected content sources, current offer, recommendation, rights state, risks, and instructions for another AI to preserve creator boundaries.
+
+This is intentionally a user-controlled handoff:
+
+- `Copy context.md` supports paste-based AI workflows.
+- `Download context.md` supports file-upload-based AI workflows.
+- DealGuard does not transmit the file to another service automatically.
+- A future direct integration may be added only after the target AI tool's connector/API and privacy model are confirmed.
+
 ## 7. Key handoff checklist
 
 When the hackathon team provides access:
