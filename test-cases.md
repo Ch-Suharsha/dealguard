@@ -210,6 +210,18 @@ This test plan covers the local MVP in `dist/`:
 | V2-007 | Run v2 without provider keys | Simulator works and fallback report remains available | P0 | Static checked |
 | V2-008 | Compare v1 tag with v2 branch | v1 has no v2 simulator changes | P0 | Git tag/branch separation created |
 
+## Sponsor gateway tests
+
+| ID | Scenario | Expected result | Result |
+|---|---|---|---|
+| API-001 | `GET /api/health` with no keys | Returns provider readiness without secrets | PASS |
+| API-002 | `POST /api/analyze` with no Oriane key | Returns fallback recommendation and structured risks | PASS |
+| API-003 | `POST /api/chat` with no GMI key | Returns contextual fallback answer | PASS |
+| API-004 | `POST /api/campaign-concept` with no Compound config | Returns handoff-ready concept | PASS |
+| API-005 | Frontend calls `/api/analyze` | Same-origin gateway call is wired with fallback preservation | PASS by syntax/static wiring; browser live route pending |
+| API-006 | Provider returns error/timeout | Route should preserve fallback and expose a safe provider error | Implemented; live failure simulation pending |
+| API-007 | Provider key present | Route should return `source: "live"` after schema confirmation | Pending keys and private schemas |
+
 ## Browser execution results
 
 The local browser run completed successfully for the primary vertical flow:
