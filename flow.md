@@ -440,3 +440,14 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D052.
 
+## 24. GMI authenticated reasoning flow
+
+1. Server loads `GMI_API_KEY` and the account-verified `GMI_MODEL` from the ignored `.env`.
+2. Setup calls `/v1/models` to verify model availability without exposing the key.
+3. DealGuard sends the creator context, normalized Oriane evidence, offer terms, and question to `/v1/chat/completions`.
+4. The server returns only the assistant answer, provider source, and safe usage/status metadata to the browser.
+5. If GMI times out, rejects the model, or runs out of credits, Creator AI falls back to the local contextual answer.
+6. Audio/voice is not enabled merely because text chat works; it requires a separate model/schema smoke test.
+
+**Decision references:** D050, D053.
+

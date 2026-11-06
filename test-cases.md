@@ -291,6 +291,10 @@ This test plan covers the local MVP in `dist/`:
 | GMI-005 | Test optional audio model | Voice response works or text fallback remains available | Pending voice credential/model |
 | GMI-006 | Test AgentBox credential separately | Container launch/upload/execute works without confusing AgentBox credentials with inference credentials | Pending AgentBox access |
 
+| GMI-007 | Discover models with authenticated key | `/v1/models` succeeds and local configuration uses an available model | PASS; model pinned to DeepSeek-V4.1-Flash |
+| GMI-008 | Send minimal Creator AI chat request | Chat completions returns an assistant answer and usage metadata | PASS |
+| GMI-009 | Configured model is unavailable | Setup detects the mismatch before the demo and allows a verified model to be pinned | PASS during setup |
+
 ### Hack the Feed judged-vertical tests
 
 | ID | Scenario | Expected result | Result |

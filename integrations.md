@@ -311,6 +311,8 @@ Therefore, do not label the feature “OpenAI voice mode” yet. Label it “opt
 - The adapter contract is now mapped to Oriane's `{operator, filters, queries}` body. Authentication has been verified with the local key; testing with a real indexed creator post remains.
 - The Oriane adapter contract pass is now installed. It loads the local key, uses `platformId.includes` objects of `{platform, platformId}`, requests `projection=full`, and normalizes `data.results` plus pagination/request metadata.
 - An authenticated live smoke test returned HTTP 200 and a valid metadata envelope with the synthetic test ID. It returned zero content matches because the test ID was not a real post; a real creator URL is the next verification input.
+- GMI is now authenticated locally. `GET /v1/models` succeeded and showed the originally configured `deepseek-ai/DeepSeek-V4` was unavailable. The local model was changed to the available `deepseek-ai/DeepSeek-V4.1-Flash`.
+- A live chat-completions smoke test succeeded with a short Creator AI prompt. GMI returned the resolved model name `deepseek-v4-1-flash-260910` and usage metadata. Voice model capability discovery remains separate.
 
 `/rest/contents/search` is the important endpoint for DealGuard. It searches Oriane-indexed social content across Instagram, TikTok, and YouTube. It supports `sort`, `offset`, `limit` (1–100), `projection` (`basic`, `default`, `full`), and `aiSearchAnchor` query parameters.
 

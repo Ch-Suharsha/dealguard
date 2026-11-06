@@ -414,6 +414,14 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** Real TikTok/Instagram/YouTube links can now enter the live search path when their platform IDs are extractable. Synthetic or unindexed IDs return an empty evidence result and should remain understandable in the UI rather than being treated as a provider failure.
 
+## D053 — Pin an account-verified GMI model
+
+**Decision:** Use `deepseek-ai/DeepSeek-V4.1-Flash` in the local environment for the current GMI smoke-tested runtime, replacing the unavailable `deepseek-ai/DeepSeek-V4` default.
+
+**Reason:** The authenticated `/v1/models` response is the source of truth for the event account. A live chat-completions request succeeded with the selected model.
+
+**Flow impact:** Creator AI can use the GMI live path now. The model remains configurable through `.env`; voice still requires separate audio-capability verification.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.

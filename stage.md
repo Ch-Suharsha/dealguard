@@ -164,6 +164,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** The adapter and `.env` loading are installed. An authenticated smoke test returned HTTP 200 with valid request/pagination metadata. The test used a synthetic post ID and therefore matched zero results; testing with a real creator URL and confirming the UI displays returned evidence remain pending.
 
+### Stage 21 — GMI authenticated reasoning
+
+**Definition of done:** The local GMI key is accepted, an available model is discovered, and the existing Creator AI API path completes a real text request.
+
+**Checkpoint:** GMI model discovery and a live chat-completions smoke test passed. The unavailable original model was replaced with `deepseek-ai/DeepSeek-V4.1-Flash`. The remaining GMI work is voice capability discovery, not basic text connectivity.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:
