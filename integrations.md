@@ -303,6 +303,13 @@ Not yet confirmed: the exact audio message schema, supported speech-to-text mode
 
 Therefore, do not label the feature “OpenAI voice mode” yet. Label it “optional voice conversation” and gate it on a model smoke test. A text answer and a visible “Voice unavailable—continue in text” fallback are required.
 
+## 14. Runtime setup status
+
+- Added a local ignored `.env` with Oriane, GMI, Compound, and Lovable placeholders.
+- Added `.gitignore` rules so real provider keys cannot be committed accidentally.
+- Set the local Oriane path to `/rest/contents/search`, matching the public REST documentation.
+- The existing adapter still requires a contract pass before claiming live Oriane support: it currently sends the old generic analysis payload and must be changed to Oriane's `{operator, filters, queries}` body once authentication and test data are confirmed.
+
 `/rest/contents/search` is the important endpoint for DealGuard. It searches Oriane-indexed social content across Instagram, TikTok, and YouTube. It supports `sort`, `offset`, `limit` (1–100), `projection` (`basic`, `default`, `full`), and `aiSearchAnchor` query parameters.
 
 The request body uses a required top-level `operator` (`and` or `or`) and optional `filters`/`queries`. Content filters include platform, external platform ID, format, profile, caption, transcript, on-screen text, hashtags, engagement metrics, publication date, audio, co-authors, mentions, location, and `visualSimilarity`. Nested query depth is limited to two; total filter values are limited to 500; visual-similarity values are limited to 10.

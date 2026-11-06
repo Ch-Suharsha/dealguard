@@ -418,3 +418,14 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D047, D048, D049.
 
+## 22. Runtime provider configuration flow
+
+1. The user opens the ignored local `.env` file and enters the Oriane key.
+2. DealGuard server reads the key from the environment; browser assets never receive it.
+3. The server uses the documented Oriane base URL and contents-search path, then performs a small authenticated smoke test.
+4. If the response contract or auth convention differs, update only `OrianeAdapter`; preserve the browser and normalized evidence interface.
+5. Add the GMI key separately when available.
+6. Use GMI MCP only to inspect available models/docs during setup; pin the verified model in `.env` and use the API for runtime requests.
+
+**Decision references:** D041, D042, D050, D051.
+

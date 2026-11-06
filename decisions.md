@@ -390,6 +390,22 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** Once the user adds the keys locally, the app can run provider health, model discovery, and smoke tests without changing browser code. Missing keys continue to produce explicit fallback status.
 
+## D050 — Use GMI API for runtime and MCP for development discovery
+
+**Decision:** Use GMI's OpenAI-compatible API as the DealGuard runtime integration. Use GMI MCP only for development-time model/docs discovery and troubleshooting.
+
+**Reason:** The app needs a predictable server-side request path, explicit timeouts, retries, provider status, and a stable fallback. MCP is valuable for an assistant operating tools interactively, but it should not be a hidden dependency inside the creator's production request path.
+
+**Flow impact:** DealGuard calls GMI through `GMI_BASE_URL` and `GMI_API_KEY`. MCP may help identify a verified model or inspect docs, after which the selected model is pinned in `.env`. The browser never talks to MCP directly.
+
+## D051 — Create an ignored local environment file
+
+**Decision:** Add a local `.env` template and a `.gitignore` rule before installing provider credentials.
+
+**Reason:** The user needs a safe place to paste the Oriane key, and the repository previously lacked a `.gitignore`. The local file contains placeholders only until the user fills it in.
+
+**Flow impact:** Provider keys stay server-side and out of Git. The Oriane path is set to `/rest/contents/search`, but live testing remains blocked until the adapter request mapping and authentication convention are confirmed.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.
