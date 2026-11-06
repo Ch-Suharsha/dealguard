@@ -234,6 +234,17 @@ This test plan covers the local MVP in `dist/`:
 | RES-006 | Submit duplicate Creator AI question | Duplicate message/request is ignored while the first is active | Implemented; browser check pending |
 | RES-007 | Fallback response returned | Status clearly says prepared fallback data/reasoning | Implemented; browser smoke passed |
 
+### Media intake tests
+
+| ID | Scenario | Expected result | Result |
+|---|---|---|---|
+| MEDIA-001 | Inspect media intake | Separate link input and file upload controls are visible | Implemented; static checked |
+| MEDIA-002 | Add valid HTTPS video link | Link appears in added-source list and is selected | Implemented; browser check pending |
+| MEDIA-003 | Add invalid link | Clear validation message appears and no source is added | Implemented; browser check pending |
+| MEDIA-004 | Add one or more local video files | Each file appears in the added-source list and is selected | Implemented; browser check pending |
+| MEDIA-005 | Remove added source | Source disappears and selection count updates | Implemented; browser check pending |
+| MEDIA-006 | Analyze with mixed fixtures, links, and files | Existing analysis flow receives the combined selected collection | Implemented by shared payload; live provider mapping pending |
+
 ## Browser execution results
 
 The local browser run completed successfully for the primary vertical flow:

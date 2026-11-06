@@ -294,6 +294,14 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** Analysis disables its submit button while running, exposes a retry action after failure, and labels live versus fallback results. Creator AI shows a thinking state, disables duplicate sends, and falls back safely after timeout or error. A test-only `window.DEALGUARD_SIMULATE_TIMEOUT` switch makes timeout behavior reproducible.
 
+## D038 — Explicit creator media intake
+
+**Decision:** Provide separate, visible controls for adding public video links and uploading local video files. Added sources appear in a removable list and are selected for analysis by default.
+
+**Reason:** The original label promised both links and files but only opened a file picker. Creators commonly work from published TikTok, Instagram, or YouTube posts, so link intake must be a first-class interaction.
+
+**Flow impact:** A creator can paste a valid HTTP(S) video URL or choose one or more local video files, review the added source, remove it, and continue through the same analysis flow. Existing fixture videos and V1 behavior remain intact.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.

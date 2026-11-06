@@ -24,6 +24,31 @@ function renderVideos() {
     renderVideos();
     showToast(`${state.selectedVideos.size} video${state.selectedVideos.size === 1 ? '' : 's'} selected`);
   }));
+  renderAddedMedia();
+}
+
+function renderAddedMedia() {
+  const list = $('#added-media-list');
+  if (!list) return;
+  const added = videos.filter(video => video.added);
+  list.innerHTML = added.map(video => `<div class="added-media-item"><span class="added-media-check">${state.selectedVideos.has(video.id) ? '✓' : '○'}</span><span><b>${video.title}</b><small>${video.meta}</small></span><button type="button" data-remove-video="${video.id}" aria-label="Remove ${video.title}">×</button></div>`).join('');
+  list.classList.toggle('hidden', added.length === 0);
+  $$('[data-remove-video]').forEach(button => button.addEventListener('click', () => {
+    const id = Number(button.dataset.removeVideo);
+    const index = videos.findIndex(video => video.id === id);
+    if (index >= 0) videos.splice(index, 1);
+    state.selectedVideos.delete(id);
+    renderVideos();
+    showToast('Added video removed from this analysis.');
+  }));
+}
+
+function addVideoSource(title, meta) {
+  const id = Math.max(...videos.map(video => video.id)) + 1;
+  videos.push({ id, title, meta, selected: true, added: true });
+  state.selectedVideos.add(id);
+  renderVideos();
+  showToast(`${title} added and selected for analysis.`);
 }
 
 function showToast(message) {
@@ -144,7 +169,19 @@ $$('[data-prompt]').forEach(button => button.addEventListener('click', () => sen
 $('#save-profile').addEventListener('click', () => showToast('Creator context saved — future recommendations will use it.'));
 $('#edit-profile').addEventListener('click', () => { $('#niche').focus(); showToast('Your context is always editable.'); });
 $('#reset-offer').addEventListener('click', () => { $('#offer-input').value = 'Hey Suharsha! We love your practical AI content and would love to partner on a 60-second TikTok/Instagram video for ClipForge. We can offer $500 for the post. We\'d also like 12 months of paid advertising usage, 6 months of exclusivity against competing creator tools, the raw footage, and unlimited revisions. Let us know if you\'re interested!'; showToast('Demo offer restored.'); });
-$('#video-input').addEventListener('change', event => { const count = event.target.files.length; if (count) { showToast(`${count} uploaded video${count === 1 ? '' : 's'} ready to select.`); } });
+$('#add-video-link').addEventListener('click', () => {
+  const input = $('#video-link');
+  const value = input.value.trim();
+  if (!value) { input.focus(); showToast('Paste a video link first.'); return; }
+  try {
+    const url = new URL(value);
+    if (!/^https?:$/.test(url.protocol)) throw new Error('Unsupported protocol');
+    addVideoSource(`${url.hostname.replace(/^www\./, '')} video`, `${url.hostname.replace(/^www\./, '')} link · ready to analyze`);
+    input.value = '';
+  } catch { showToast('Use a valid TikTok, Instagram, or YouTube link.'); input.focus(); }
+});
+$('#video-link').addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); $('#add-video-link').click(); } });
+$('#video-input').addEventListener('change', event => { [...event.target.files].forEach(file => addVideoSource(file.name, `local upload · ${(file.size / 1024 / 1024).toFixed(1)} MB`)); event.target.value = ''; });
 $('#copy-counter').addEventListener('click', async () => { const text = $('#counteroffer-text').textContent; try { await navigator.clipboard.writeText(text); showToast('Counteroffer copied to clipboard.'); } catch { showToast('Counteroffer ready — select the message to copy.'); } });
 $('#edit-counter').addEventListener('click', () => { const text = $('#counteroffer-text'); text.contentEditable = 'true'; text.focus(); showToast('Counteroffer is editable. Click away when you are done.'); });
 $('#download-report').addEventListener('click', () => {

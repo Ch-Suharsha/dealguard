@@ -116,6 +116,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** Loading states, abortable client timeout handling, retry analysis, provider-status messaging, Creator AI thinking state, and duplicate-submit guards have been added. Live provider failure simulation remains pending until real provider configuration is available; deterministic client timeout QA is available through `window.DEALGUARD_SIMULATE_TIMEOUT = true`.
 
+### Stage 13 — Explicit media intake
+
+**Definition of done:** Creators can add both public video links and local video files, review the added sources, remove them, and keep them selected for the existing analysis flow.
+
+**Checkpoint:** Separate link and file controls, validation, selected-source rendering, and remove actions have been installed. Provider-specific URL indexing and raw-file upload are intentionally pending until Oriane's private event schema is confirmed.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

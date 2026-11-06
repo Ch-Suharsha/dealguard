@@ -329,3 +329,14 @@ For deterministic QA, setting `window.DEALGUARD_SIMULATE_TIMEOUT = true` before 
 
 **Decision references:** D028, D036, D037.
 
+## 15. Creator media source flow
+
+1. DealGuard shows the existing selected fixture videos.
+2. The creator either pastes a public TikTok, Instagram, or YouTube URL and selects `Add link`, or selects one or more local video files with `Upload video files`.
+3. DealGuard validates the link protocol or accepts the browser's video-file filter.
+4. The source is added to the visible media list and selected for analysis by default.
+5. The creator can remove an added source before analysis.
+6. Analysis receives the selected source collection through the same normalized video payload used by the fixture flow.
+
+**Decision references:** D007, D008, D010, D038.
+

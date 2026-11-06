@@ -186,6 +186,15 @@ The browser now has provider-neutral resilience behavior that does not require l
 
 These are client safeguards; they do not replace live provider verification once keys and private schemas are available.
 
+## 9. Media source handoff
+
+The browser now normalizes both creator-provided source types into the selected video collection:
+
+- Public links carry their source hostname and URL-derived title into the server payload. Oriane mapping will later decide whether to index the URL directly or submit it to the provider's analysis endpoint.
+- Local files currently become upload-ready source entries in the prototype. The production handoff must add multipart/object-storage handling once the Oriane event schema confirms whether raw media uploads are supported.
+
+The UI intentionally does not transmit a local file to a third party yet; it records the source locally and preserves the fallback demo path until provider upload requirements are known.
+
 ## 7. Key handoff checklist
 
 When the hackathon team provides access:

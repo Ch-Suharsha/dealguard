@@ -68,10 +68,17 @@
                 <button class="text-action" id="edit-profile">Edit profile <span>↗</span></button>
               </div>
               <div id="video-grid" class="video-grid"></div>
-              <div class="upload-row">
-                <label class="upload-drop" for="video-input"><span>＋</span> Add video links or upload files</label>
-                <input id="video-input" type="file" accept="video/*" multiple hidden />
-                <span id="selected-count" class="selected-count">5 selected</span>
+              <div class="media-intake">
+                <div class="media-link-row">
+                  <input id="video-link" class="video-link-input" type="url" placeholder="Paste a TikTok, Instagram, or YouTube link…" autocomplete="off" />
+                  <button id="add-video-link" class="secondary-button" type="button">Add link <span>↗</span></button>
+                </div>
+                <div class="upload-row">
+                  <label class="upload-drop" for="video-input"><span>＋</span> Upload video files</label>
+                  <input id="video-input" type="file" accept="video/*" multiple hidden />
+                  <span id="selected-count" class="selected-count">5 selected</span>
+                </div>
+                <div id="added-media-list" class="added-media-list" aria-live="polite"></div>
               </div>
             </section>
 
