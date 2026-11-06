@@ -454,6 +454,30 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** The creator can paste a profile URL/handle or accept a suggested profile match, inspect indexed recent posts, and choose which ones to analyze. Exact post matching remains the preferred path.
 
+## D058 — Make live Oriane evidence visible in the pitch
+
+**Decision:** Add a compact live Oriane signal card to the report showing indexed-match status, performance metrics, evidence counts, and request metadata.
+
+**Reason:** The API was working behind the scenes, but judges must see meaningful video-intelligence usage during a short recording.
+
+**Flow impact:** A live result appears above the recommendation. An empty live result explains catalog coverage while preserving the prepared decision flow.
+
+## D059 — Give live Creator AI enough time for a judge demo
+
+**Decision:** Extend the browser timeout for the GMI Creator AI request to 30 seconds while retaining the visible loading state and fallback answer.
+
+**Reason:** The GMI endpoint is live and compatible, but a real model response can exceed the generic 12-second UI timeout. A false timeout would hide a working sponsor integration during recording.
+
+**Flow impact:** Creator AI can complete live reasoning when the provider needs extra time; genuine failures still resolve to the prepared answer with clear provider status.
+
+## D060 — Use a 30-second window for live Oriane analysis
+
+**Decision:** Extend the browser timeout for Oriane analysis to 30 seconds, matching the live-provider demo reality while keeping the retry and fallback states.
+
+**Reason:** Repeated live requests showed variable provider latency. The default timeout could turn a valid live integration into a fallback result during the recording.
+
+**Flow impact:** The demo waits for live evidence long enough to show Oriane’s metrics; timeout, retry, and fallback remain explicit if the provider is unavailable.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.

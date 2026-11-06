@@ -475,3 +475,31 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D052, D057.
 
+## 27. Live evidence presentation
+
+1. Analysis completes through Oriane.
+2. DealGuard renders a compact live signal card before the recommendation.
+3. The card shows matched-post status, views/likes/comments/shares, and available transcript/on-screen/frame evidence counts.
+4. The recommendation remains the existing transparent rights/value decision.
+5. If there is no indexed match, the card explains the limitation and the prepared report remains recordable.
+
+**Decision references:** D055, D058.
+
+## 28. Live Creator AI timing
+
+1. The creator opens Creator AI after the live Oriane report is visible.
+2. DealGuard shows a thinking state and disables duplicate submission.
+3. The browser allows up to 30 seconds for the GMI-compatible response.
+4. A live answer is labeled as live reasoning; a provider failure or timeout uses the prepared answer and says so.
+
+**Decision references:** D059.
+
+## 29. Live analysis timing and retry
+
+1. The creator submits the selected public post and offer.
+2. DealGuard shows an analysis loading state and disables duplicate submission.
+3. The browser allows up to 30 seconds for Oriane.
+4. A successful response renders the live evidence card; a timeout exposes Retry analysis and preserves the prepared report.
+
+**Decision references:** D060.
+

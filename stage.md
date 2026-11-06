@@ -182,6 +182,20 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** PASS using the public MrBeast TikTok account. Profile search, paginated content search, aggregate analytics, and exact indexed-post lookup all succeeded. Two public post URLs were not indexed, confirming the need for the documented profile-first fallback rather than a hard failure.
 
+### Stage 24 — Pitch-visible live evidence
+
+**Definition of done:** The live Oriane response is visible in the recorded vertical without disrupting the existing recommendation flow.
+
+**Checkpoint:** A compact live evidence card has been installed with live/fallback and empty-result states. Final browser rehearsal remains.
+
+### Stage 25 — Submission rehearsal
+
+**Definition of done:** The recordable vertical demonstrates public-link input, live Oriane evidence, transparent recommendation, Creator AI response, rights simulator, and context export without exposing secrets.
+
+**Checkpoint:** Oriane live path PASS. GMI live path is configured with a 30-second UI timeout and fallback. Final rehearsal and commit are the remaining release actions.
+
+**Update:** Oriane analysis now uses the same 30-second live-provider window, with explicit retry/fallback behavior.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

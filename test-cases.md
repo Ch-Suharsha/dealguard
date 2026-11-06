@@ -312,6 +312,9 @@ This test plan covers the local MVP in `dist/`:
 | ORI-021 | Exact indexed public post through adapter | Existing DealGuard adapter returns one normalized result with metrics and full media evidence | PASS with public TikTok post |
 | ORI-022 | Valid public post not in catalog | Empty result is not treated as an auth failure; profile-first fallback is recommended | PASS at provider level; UI fallback pending |
 
+| ORI-023 | Live indexed result in report | Report visibly shows Oriane live status, metrics, evidence counts, and request metadata | Implemented; final browser rehearsal pending |
+| ORI-024 | Live empty result in report | Report explains no indexed match and keeps the prepared decision visible | Implemented; final browser rehearsal pending |
+
 ### Hack the Feed judged-vertical tests
 
 | ID | Scenario | Expected result | Result |
@@ -372,4 +375,11 @@ Browser execution could not yet verify mobile layout, keyboard-only navigation, 
 2. Add dynamic offer parsing so chat and pricing respond to edited offers.
 3. Add live Oriane adapter and timeout fallback.
 4. Run browser interaction, responsive, keyboard, and visual tests once a preview path is available.
+
+### Submission rehearsal cases
+
+- **E2E-001:** Paste a public indexed TikTok URL, add it, analyze, and confirm the live Oriane evidence card and metrics are visible.
+- **E2E-002:** Open Creator AI, submit a negotiation question, confirm thinking state, duplicate-submit prevention, and live/fallback status.
+- **E2E-003:** Toggle deal rights and confirm the suggested counter updates.
+- **E2E-004:** Download `context.md` after analysis and confirm the portable handoff action is available.
 

@@ -43,9 +43,9 @@ function renderAddedMedia() {
   }));
 }
 
-function addVideoSource(title, meta) {
+function addVideoSource(title, meta, url = '') {
   const id = Math.max(...videos.map(video => video.id)) + 1;
-  videos.push({ id, title, meta, selected: true, added: true });
+  videos.push({ id, title, meta, url, selected: true, added: true });
   state.selectedVideos.add(id);
   renderVideos();
   showToast(`${title} added and selected for analysis.`);
@@ -62,6 +62,29 @@ function setProviderStatus(message, mode = 'ready', retry = false) {
   status.className = `provider-status ${mode}`;
   $('#provider-status-text').textContent = message;
   $('#retry-analysis').classList.toggle('hidden', !retry);
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
+}
+
+function renderOrianeSignal(result) {
+  const card = $('#oriane-signal');
+  if (!card) return;
+  const payload = result?.data;
+  const rows = payload?.results || [];
+  if (result?.source !== 'live' || !payload) { card.classList.add('hidden'); card.innerHTML = ''; return; }
+  if (!rows.length) {
+    card.classList.remove('hidden');
+    card.innerHTML = '<div class="oriane-signal-head"><div><span class="oriane-signal-kicker">ORIANE · LIVE CATALOG</span><h3>No indexed match for this exact post</h3><p>The API and key are working. This public URL is not currently indexed, so DealGuard kept the prepared decision path available.</p></div><span class="oriane-signal-badge">LIVE API</span></div><p class="oriane-signal-foot">Next best path: search the creator profile and let the creator choose indexed posts.</p>';
+    return;
+  }
+  const row = rows[0];
+  const media = row.media?.[0] || {};
+  const formatNumber = value => value == null ? '—' : Number(value).toLocaleString();
+  const evidence = [media.transcript ? 'spoken transcript' : null, media.onScreenText?.length ? `${media.onScreenText.length} on-screen cues` : null, media.frames?.length ? `${media.frames.length} visual frames` : null].filter(Boolean).join(' · ') || 'metadata available';
+  card.classList.remove('hidden');
+  card.innerHTML = `<div class="oriane-signal-head"><div><span class="oriane-signal-kicker">ORIANE · LIVE VIDEO INTELLIGENCE</span><h3>${escapeHtml(row.title || `${row.platform || 'Social'} post analyzed`)}</h3><p>${escapeHtml(evidence)} · ${escapeHtml(row.publishedAt || 'indexed public post')}</p></div><span class="oriane-signal-badge">LIVE API</span></div><div class="oriane-signal-grid"><div class="oriane-signal-stat"><b>${formatNumber(row.viewsCount)}</b><small>views</small></div><div class="oriane-signal-stat"><b>${formatNumber(row.likesCount)}</b><small>likes</small></div><div class="oriane-signal-stat"><b>${formatNumber(row.commentsCount)}</b><small>comments</small></div><div class="oriane-signal-stat"><b>${formatNumber(row.sharesCount)}</b><small>shares</small></div></div><p class="oriane-signal-foot">Evidence request ${escapeHtml(payload.metadata?.requestId || 'complete')} · Oriane result ${escapeHtml(row.id || 'indexed')}</p>`;
 }
 
 function openChat(prompt) {
@@ -169,7 +192,7 @@ async function sendChat(prompt) {
   const input = $('#chat-input'); const send = $('#chat-send'); input.disabled = true; send.disabled = true;
   const loading = document.createElement('div'); loading.className = 'chat-bubble assistant loading-bubble'; loading.setAttribute('aria-label', 'Creator AI is thinking'); loading.innerHTML = '<i></i><i></i><i></i>'; $('#chat-messages').appendChild(loading);
   try {
-    const result = await apiRequest('/api/chat', { question: prompt, creatorContext: creatorContext(), offer: $('#offer-input').value });
+    const result = await apiRequest('/api/chat', { question: prompt, creatorContext: creatorContext(), offer: $('#offer-input').value }, { timeoutMs: 30000 });
     state.apiSource = result.source || 'fallback';
     setProviderStatus(state.apiSource === 'live' ? 'Live sponsor reasoning active' : 'Using prepared fallback reasoning', state.apiSource === 'live' ? 'ready' : 'warning');
     loading.remove();
@@ -204,9 +227,11 @@ async function analyzeDeal() {
   setProviderStatus('Analyzing selected videos and offer…', 'loading');
   $('#report-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
   try {
-    const result = await apiRequest('/api/analyze', state.lastAnalysisPayload);
+    const result = await apiRequest('/api/analyze', state.lastAnalysisPayload, { timeoutMs: 30000 });
     state.apiSource = result.source || 'fallback';
-    setProviderStatus(state.apiSource === 'live' ? 'Live sponsor analysis complete' : 'Analysis complete · prepared fallback data', state.apiSource === 'live' ? 'ready' : 'warning');
+    renderOrianeSignal(result);
+    const liveLabel = result.source === 'live' ? `Live Oriane analysis complete · ${result.data?.results?.length || 0} indexed match${result.data?.results?.length === 1 ? '' : 'es'}` : 'Analysis complete · prepared fallback data';
+    setProviderStatus(liveLabel, state.apiSource === 'live' ? 'ready' : 'warning');
     showToast(`Deal analyzed · ${state.apiSource === 'live' ? 'live sponsor data' : 'fallback data'}`);
   } catch (error) {
     setProviderStatus(error.name === 'AbortError' ? 'Analysis timed out · retry when ready' : 'Analysis failed · retry when ready', 'error', true);
@@ -235,7 +260,7 @@ $('#add-video-link').addEventListener('click', () => {
   try {
     const url = new URL(value);
     if (!/^https?:$/.test(url.protocol)) throw new Error('Unsupported protocol');
-    addVideoSource(`${url.hostname.replace(/^www\./, '')} video`, `${url.hostname.replace(/^www\./, '')} link · ready to analyze`);
+    addVideoSource(`${url.hostname.replace(/^www\./, '')} video`, `${url.hostname.replace(/^www\./, '')} link · ready to analyze`, value);
     input.value = '';
   } catch { showToast('Use a valid TikTok, Instagram, or YouTube link.'); input.focus(); }
 });
