@@ -295,6 +295,18 @@ This test plan covers the local MVP in `dist/`:
 | GMI-008 | Send minimal Creator AI chat request | Chat completions returns an assistant answer and usage metadata | PASS |
 | GMI-009 | Configured model is unavailable | Setup detects the mismatch before the demo and allows a verified model to be pinned | PASS during setup |
 
+### Oriane capability and analytics tests
+
+| ID | Scenario | Expected result | Result |
+|---|---|---|---|
+| ORI-012 | Search an exact indexed post with `projection=full` | Results include available transcript, on-screen text, frames, visual tags, profile, comments, and metrics | Pending real creator URL |
+| ORI-013 | Sort and paginate content search | `sort`, `offset`, `limit`, and `aiSearchAnchor` are passed safely; 206 metadata is preserved | Request path implemented; live pagination pending |
+| ORI-014 | Read content aggregations | DealGuard can show totals/averages and calculate transparent creator comparisons | Normalizer ready; UI pending |
+| ORI-015 | Search creator profile | Profile result includes handle, follower/post/like counts, bio, verification/privacy, language, and timestamps | Adapter not yet implemented |
+| ORI-016 | Create a text visual-search asset | Text asset is capped at 300 characters and returns an asset ID | Adapter not yet implemented |
+| ORI-017 | Submit local video to documented asset endpoint | App does not claim Oriane supports it; source remains fallback/pending | PASS by documented boundary |
+| ORI-018 | Attempt unsupported social mutation | DealGuard offers no take-down, edit, publish, or account-control action through Oriane | PASS by documented boundary |
+
 ### Hack the Feed judged-vertical tests
 
 | ID | Scenario | Expected result | Result |

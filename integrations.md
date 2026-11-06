@@ -314,6 +314,100 @@ Therefore, do not label the feature “OpenAI voice mode” yet. Label it “opt
 - GMI is now authenticated locally. `GET /v1/models` succeeded and showed the originally configured `deepseek-ai/DeepSeek-V4` was unavailable. The local model was changed to the available `deepseek-ai/DeepSeek-V4.1-Flash`.
 - A live chat-completions smoke test succeeded with a short Creator AI prompt. GMI returned the resolved model name `deepseek-v4-1-flash-260910` and usage metadata. Voice model capability discovery remains separate.
 
+## 15. Oriane complete capability map
+
+The official Scalar documentation was reviewed end-to-end on 2026-11-06 at [connect.oriane.xyz/rest/docs](https://connect.oriane.xyz/rest/docs). The API has three documented operations:
+
+```text
+POST /rest/contents/search
+POST /rest/profiles/search
+POST /rest/assets
+```
+
+### A. Content search: the main DealGuard integration
+
+`POST /rest/contents/search` searches indexed social content across platforms. It accepts query parameters:
+
+- `sort`: comma-separated ranking fields such as `visualSimilarity`, `transcriptRelevance`, views, likes, shares, comments, interactions, engagement rates, follower rates, and `publishedAt`, each with optional `:asc` or `:desc`.
+- `offset` and `limit`: paginated retrieval; limit is 1–100.
+- `projection`: `basic`, `default`, or `full`.
+- `aiSearchAnchor`: pagination anchor for later pages of visual-similarity searches.
+
+The request body has a required top-level `operator` (`and` or `or`), optional named queries, nested query groups, and a `filters` object. The documented filter families cover:
+
+- Internal content IDs.
+- Platform and external platform IDs, using `{platform, platformId}` pairs.
+- Format and platform type.
+- Profile/creator identity.
+- Caption, transcript, and on-screen text search.
+- Hashtags, mentions, co-authors, and audio.
+- Published date and numeric engagement ranges.
+- Visual similarity using reusable assets.
+
+Text-like fields support exact, includes-exactly, fuzzy, and exclusion variants. Numeric fields support minimum/maximum bounds. Nested groups are limited to two levels, and total filter values are capped at 500 across query levels.
+
+### B. Content response and analytics
+
+`basic` is suitable for discovery and ranking. `default` adds richer content/profile/media context. `full` is the right projection for DealGuard evidence because it can include:
+
+- Content identity, platform, title, caption, format, publication date, thumbnail, and profile metadata.
+- Views, likes, shares, comments, interactions, follower counts, engagement rates, and views/follower rates.
+- Media duration and captions.
+- Transcript and transcript chunks with timestamps.
+- On-screen text and text regions.
+- Visual tags and tagged profiles.
+- Frame URLs, frame timestamps, frame-level on-screen text, and visual similarity scores.
+- Popular comments, co-authors, hashtags, and mentions where available.
+
+The response is wrapped in `data` and `metadata`. `data` contains `results` and aggregation values. The documented analytics examples include total/average views, likes, and interactions, plus average engagement rate per views, engagement rate per followers, and views rate per followers. `metadata.pagination` exposes offset, limit, total count, and sometimes an AI search anchor. `requestId`, execution time, and timestamp are also returned. HTTP 206 means the result is partial/paginated.
+
+### C. Profile search: creator discovery and benchmarking
+
+`POST /rest/profiles/search` searches indexed creators/profiles. It supports sorting by followers, creation, or update time; pagination; basic/default/full projection; nested queries; and filters for:
+
+- Internal profile ID and platform/external profile ID.
+- Handle and display name with exact/fuzzy variants.
+- Bio text with exact/fuzzy variants.
+- Language, privacy, verification, location, and date fields.
+- Follower, following, post, and like ranges.
+
+Profile responses include creator handles, display names, follower/post/like counts, bio, verification/privacy status, language, location, public email when present, and timestamps. Profile aggregations include total/average followers, following, posts, and likes.
+
+This is useful for a future creator-finder or comparable-creator benchmark, but it is not needed for the first DealGuard vertical.
+
+### D. Asset creation: visual search inputs
+
+`POST /rest/assets` creates reusable assets for visual search:
+
+- Text assets: JSON with `type=text` and text up to 300 characters.
+- Image assets: JSON URL/base64 or multipart image upload.
+- The documented asset operation does not provide a video-upload path.
+
+DealGuard can use a short text asset such as a product description or campaign brief to find visually similar creator content. It should not claim that local video upload is live through Oriane unless the event team provides a separate capability.
+
+### E. What Oriane cannot do according to the docs
+
+The documented REST surface does not provide operations to:
+
+- Take down or edit social accounts/posts.
+- Publish, schedule, or reply to social posts.
+- Arbitrarily upload a creator video for analysis.
+- Manage social credentials or private accounts.
+- Mutate or delete indexed social data.
+
+DealGuard should use Oriane as an evidence/search/analytics layer and keep negotiation decisions, rights valuation, context export, and creator approval inside DealGuard.
+
+### F. How DealGuard should use the capabilities
+
+1. Extract `{platform, platformId}` from each public selected URL.
+2. Search those exact posts with `projection=full`.
+3. Read transcript, on-screen text, frames, visual tags, comments, and performance metrics.
+4. Use the returned analytics to compare the creator's selected videos: median views, engagement rate, follower-normalized reach, recurring hooks, and format patterns.
+5. Pass the normalized evidence and calculated comparison summary to GMI.
+6. Display evidence citations and metrics before showing the recommendation.
+7. Use profile search later for creator benchmarking or brand-side discovery.
+8. Use text/image assets later for product visual similarity or campaign-fit analysis.
+
 `/rest/contents/search` is the important endpoint for DealGuard. It searches Oriane-indexed social content across Instagram, TikTok, and YouTube. It supports `sort`, `offset`, `limit` (1–100), `projection` (`basic`, `default`, `full`), and `aiSearchAnchor` query parameters.
 
 The request body uses a required top-level `operator` (`and` or `or`) and optional `filters`/`queries`. Content filters include platform, external platform ID, format, profile, caption, transcript, on-screen text, hashtags, engagement metrics, publication date, audio, co-authors, mentions, location, and `visualSimilarity`. Nested query depth is limited to two; total filter values are limited to 500; visual-similarity values are limited to 10.

@@ -422,6 +422,30 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** Creator AI can use the GMI live path now. The model remains configurable through `.env`; voice still requires separate audio-capability verification.
 
+## D054 — Treat Oriane as evidence/search/analytics, not social mutation
+
+**Decision:** Use Oriane only for indexed content/profile search, visual/text asset creation, video intelligence, and analytics. Keep creator approvals, negotiation calculations, exports, and any external communication inside DealGuard.
+
+**Reason:** The complete REST documentation exposes three operations and no post/account mutation or publishing operations. This boundary matches DealGuard's creator-control principle and prevents us from promising capabilities Oriane does not document.
+
+**Flow impact:** DealGuard extracts public platform IDs, retrieves full evidence, computes transparent comparisons, and passes the evidence to GMI. Local uploads and any posting workflow remain separate integrations.
+
+## D055 — Use full projection for the judged evidence view
+
+**Decision:** Request `projection=full` for the selected creator posts in the hackathon demo, with bounded pagination and explicit request metadata.
+
+**Reason:** The full response can expose transcripts, transcript chunks, on-screen text, frames, visual tags, popular comments, creator metadata, and engagement metrics—the exact depth the judges say they will evaluate.
+
+**Flow impact:** The first report screen should show at least one spoken/on-screen/visual evidence item and one performance metric per selected post, with a loading/fallback state if a field is unavailable.
+
+## D056 — Build analytics from returned aggregations and per-video metrics
+
+**Decision:** Use Oriane's response aggregations plus per-video metrics to calculate creator-level comparisons such as median views, average engagement, follower-normalized reach, and recurring content patterns.
+
+**Reason:** Oriane already returns aggregate totals/averages and detailed performance fields. DealGuard can turn those into a creator-readable signal without asking GMI to invent metrics.
+
+**Flow impact:** GMI receives computed facts and evidence, while DealGuard owns the math and displays the source fields used in the recommendation.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.

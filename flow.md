@@ -451,3 +451,16 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D050, D053.
 
+## 25. Oriane capability-aware evidence flow
+
+1. Creator selects public posts and optionally adds local files.
+2. DealGuard classifies public URLs that contain extractable platform IDs.
+3. For mapped URLs, DealGuard calls Oriane content search with exact platform-ID filters, `projection=full`, bounded pagination, and a useful sort order.
+4. DealGuard normalizes the returned content, media, transcript, frame, visual, comment, profile, and performance fields.
+5. DealGuard calculates transparent creator analytics from the returned values: per-video metrics, aggregate comparisons, follower-normalized reach, and recurring hooks/formats.
+6. The UI shows evidence and analytics before the recommendation so the creator can inspect the basis for the decision.
+7. GMI receives the normalized evidence plus DealGuard-owned calculations and explains the recommendation.
+8. Unindexed public URLs and local files remain clearly labeled as pending/fallback sources; Oriane is not claimed to ingest them automatically.
+
+**Decision references:** D054, D055, D056.
+

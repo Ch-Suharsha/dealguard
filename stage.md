@@ -170,6 +170,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** GMI model discovery and a live chat-completions smoke test passed. The unavailable original model was replaced with `deepseek-ai/DeepSeek-V4.1-Flash`. The remaining GMI work is voice capability discovery, not basic text connectivity.
 
+### Stage 22 — Oriane capability audit
+
+**Definition of done:** Oriane's documented operations, filters, projections, response evidence, analytics, pagination, asset support, and hard boundaries are understood before expanding implementation.
+
+**Checkpoint:** The complete REST documentation has been mapped into `integrations.md`, `decisions.md`, and `flow.md`. The integration boundary is now precise: content/profile search and asset creation are supported; post mutation, publishing, account control, and documented video upload are not. The next live input is one real public creator URL for an evidence and analytics test.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:
