@@ -134,6 +134,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** The chat drawer has been reduced to a bounded 320px by 430px floating panel with a mobile-safe width rule. Its existing chat behavior is preserved.
 
+### Stage 16 — Oriane documentation audit
+
+**Definition of done:** The public Oriane contract is read end-to-end and the integration plan reflects documented endpoints, schemas, response fields, limits, and unknowns.
+
+**Checkpoint:** The Oriane REST audit has been recorded in `integrations.md`, `decisions.md`, and `flow.md`. The current generic Oriane adapter is not yet live-ready because its default path and payload mapping must be replaced with `/rest/contents/search`, and authentication/URL-ingestion details still require confirmation.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

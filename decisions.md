@@ -318,6 +318,22 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** Opening Creator AI keeps the surrounding deal workspace visible while preserving the chat history, suggestions, input, and close control.
 
+## D041 — Oriane contents-search integration
+
+**Decision:** Integrate DealGuard with Oriane's documented `POST /rest/contents/search` operation rather than the previously assumed `/api/analyze` endpoint.
+
+**Reason:** The complete public OpenAPI document exposes content search, profile search, and text/image asset creation. It does not expose a generic video-analysis or video-upload operation. Contents search returns the transcript, on-screen text, media frames, engagement, and profile evidence needed by DealGuard.
+
+**Flow impact:** DealGuard must translate selected public sources into Oriane search filters, normalize `data.results` into provider-neutral evidence, request full projection for the demo, and preserve fallback behavior for local files or links that cannot be mapped to an indexed platform ID.
+
+## D042 — No invented Oriane authentication or ingestion
+
+**Decision:** Do not guess Oriane's API-key header or claim that arbitrary public URLs/local videos are supported until the API-key panel or event help desk confirms those capabilities.
+
+**Reason:** The public OpenAPI document does not declare a security scheme, URL-ingestion field, or video multipart asset schema. Guessing would create a brittle demo and could waste credits.
+
+**Flow impact:** The next integration pass must confirm authentication, URL indexing, and local-file handling. Until then, the app labels unverified sources as fallback-ready and keeps the demo functional.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.

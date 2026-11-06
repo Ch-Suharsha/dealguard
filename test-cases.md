@@ -263,6 +263,19 @@ This test plan covers the local MVP in `dist/`:
 | AI-UI-002 | Open Creator AI on 320px mobile viewport | Drawer fits within viewport without horizontal overflow | Implemented CSS; browser check pending |
 | AI-UI-003 | Use suggestions and chat input in compact drawer | Existing controls remain visible and usable | Implemented; browser check pending |
 
+### Oriane contract tests
+
+| ID | Scenario | Expected result | Result |
+|---|---|---|---|
+| ORI-001 | Build request for a mapped public post | Uses `/rest/contents/search` with valid operator/filter structure | Required implementation change |
+| ORI-002 | Request full content projection | Response contains transcript, on-screen text, media, frames where available | Supported by documented schema; live test pending |
+| ORI-003 | Normalize wrapped response | Reads `data.results` and preserves `metadata.requestId` and pagination | Required implementation change |
+| ORI-004 | Receive HTTP 206 | Partial result remains usable and pagination metadata is surfaced | Required implementation change |
+| ORI-005 | Receive HTTP 402 | UI explains credits/quota issue and preserves fallback | Required implementation change |
+| ORI-006 | Public URL cannot be mapped to platform ID | No invented request is sent; source remains fallback-ready | Required implementation change |
+| ORI-007 | Local video selected | UI does not claim Oriane video upload is live unless event capability confirms it | PASS by documented boundary |
+| ORI-008 | Authentication convention | Use only the header/query format confirmed by Oriane workspace/help desk | Pending confirmation |
+
 ## Browser execution results
 
 The local browser run completed successfully for the primary vertical flow:

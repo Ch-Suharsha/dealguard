@@ -360,3 +360,15 @@ For deterministic QA, setting `window.DEALGUARD_SIMULATE_TIMEOUT = true` before 
 
 **Decision references:** D015, D021, D040.
 
+## 18. Oriane live evidence flow
+
+1. The creator selects fixture videos, public links, or local files.
+2. DealGuard identifies which public sources can be mapped to an Oriane platform and external post ID.
+3. For mapped sources, the server calls `POST /rest/contents/search` with `projection=full`, a bounded limit, and a filter using `platformId` and/or other confirmed content filters.
+4. DealGuard reads the wrapped response from `data.results` and `metadata`, retaining request ID, pagination, partial-result status, transcript, on-screen text, frames, engagement, and profile fields.
+5. DealGuard normalizes the results into its provider-neutral evidence model.
+6. GMI Cloud receives the normalized evidence plus the offer and creator context for reasoning.
+7. Unmapped URLs, local files, missing keys, credit exhaustion, or unsupported ingestion stay on the prepared fallback path and are disclosed in provider status.
+
+**Decision references:** D020, D028, D041, D042.
+

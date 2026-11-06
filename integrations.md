@@ -206,6 +206,50 @@ This is intentionally a user-controlled handoff:
 - DealGuard does not transmit the file to another service automatically.
 - A future direct integration may be added only after the target AI tool's connector/API and privacy model are confirmed.
 
+## 11. Oriane REST documentation audit
+
+Audited the complete public OpenAPI document at [Oriane REST docs](https://connect.oriane.xyz/rest/docs) on 2026-11-06.
+
+### What the public API actually exposes
+
+The document is OpenAPI 3.0, version 0.0.1, with server `https://connect.oriane.xyz` and three documented operations:
+
+```text
+POST /rest/contents/search
+POST /rest/profiles/search
+POST /rest/assets
+```
+
+`/rest/contents/search` is the important endpoint for DealGuard. It searches Oriane-indexed social content across Instagram, TikTok, and YouTube. It supports `sort`, `offset`, `limit` (1–100), `projection` (`basic`, `default`, `full`), and `aiSearchAnchor` query parameters.
+
+The request body uses a required top-level `operator` (`and` or `or`) and optional `filters`/`queries`. Content filters include platform, external platform ID, format, profile, caption, transcript, on-screen text, hashtags, engagement metrics, publication date, audio, co-authors, mentions, location, and `visualSimilarity`. Nested query depth is limited to two; total filter values are limited to 500; visual-similarity values are limited to 10.
+
+The default/full response contains normalized social evidence such as content ID, platform, title, caption, thumbnail, views, likes, shares, comments, interaction rates, profile metadata, media, transcripts, on-screen text, tags, and—on full projection—transcript chunks, frames, and popular comments. Results are wrapped with metadata including request ID, execution time, timestamp, and pagination. A `206` response represents partial/paginated results.
+
+`/rest/assets` creates reusable text or image assets for visual search. Text assets are limited to 300 characters. The documented multipart upload supports images up to 20 MiB; it does not document video upload.
+
+### Important gaps and corrections
+
+1. The current `OrianeAdapter` default path `/api/analyze` is wrong for this public API. It must default to `/rest/contents/search`.
+2. The current adapter sends DealGuard's internal `{videos, creatorContext, brandContext}` object directly. It must build Oriane's `{operator, filters, queries}` request and then normalize `data.results` into DealGuard evidence.
+3. The public schema has no documented URL field or documented video-ingestion endpoint. A pasted TikTok/Instagram/YouTube URL cannot be sent as an arbitrary `analyze` request. We must either extract a platform post ID and search by `platformId`, confirm that Oriane indexes the URL on demand through a private event capability, or keep the source in fallback mode.
+4. Local video upload is not supported by the documented `/rest/assets` operation. The UI may accept local files, but raw-file analysis needs a separate provider capability or a local/GMI processing path.
+5. The public OpenAPI document does not declare a security scheme or show an authorization header in its examples. The API key is available in the Oriane workspace, but the exact header/query convention must be confirmed from the API-key panel or `#help-desk`; do not guess it in production.
+6. The adapter should preserve `206`, `402`, `416`, and provider `requestId` information so the UI can distinguish partial results, exhausted credits, and pagination/anchor errors.
+
+### What is already good enough
+
+- Server-side provider boundary and secret isolation.
+- Same-origin `/api/analyze` route and fallback behavior.
+- Creator-selected source collection and evidence-oriented report.
+- UI support for public links and local files as creator inputs.
+- V2 rights simulator and transparent valuation remain provider-independent.
+- The API can supply exactly the evidence fields needed for content fit, hooks, transcripts, on-screen text, and performance context once the adapter maps the response.
+
+### Required implementation adjustment
+
+Replace the generic Oriane analyze call with a contents-search adapter. Start with `projection=full`, a small `limit`, and URL-to-platform-ID parsing where possible. Normalize each result into `VideoEvidence`; pass that evidence to the existing DealGuard report/GMI reasoning layer. Keep local-file handling explicitly labeled as fallback until Oriane confirms video upload or an alternate ingestion route.
+
 ## 7. Key handoff checklist
 
 When the hackathon team provides access:
