@@ -5,6 +5,18 @@ const { CompoundAdapter, GmiAdapter, OrianeAdapter, ProviderNotConfiguredError, 
 
 const root = path.resolve(__dirname, '..');
 const dist = path.join(root, 'dist');
+
+function loadDotEnv(filename) {
+  if (!fs.existsSync(filename)) return;
+  const contents = fs.readFileSync(filename, 'utf8');
+  for (const line of contents.split(/\r?\n/)) {
+    const match = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)\s*$/);
+    if (!match || match[1] in process.env) continue;
+    process.env[match[1]] = match[2].replace(/^['"]|['"]$/g, '');
+  }
+}
+
+loadDotEnv(path.join(root, '.env'));
 const port = Number(process.env.PORT || 4173);
 
 function fallbackAnalysis(input = {}) {

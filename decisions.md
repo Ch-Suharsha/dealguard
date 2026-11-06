@@ -406,6 +406,14 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** Provider keys stay server-side and out of Git. The Oriane path is set to `/rest/contents/search`, but live testing remains blocked until the adapter request mapping and authentication convention are confirmed.
 
+## D052 — Use Oriane platformId objects for live content lookup
+
+**Decision:** Map supported public social URLs to Oriane's documented `filters.platformId.includes` objects containing `{platform, platformId}`, and request full projection with bounded pagination.
+
+**Reason:** Oriane's live API validation confirmed that `filters` is an object and that `platformId` values must carry both the platform and external platform ID. A small authenticated request returned HTTP 200 with pagination metadata.
+
+**Flow impact:** Real TikTok/Instagram/YouTube links can now enter the live search path when their platform IDs are extractable. Synthetic or unindexed IDs return an empty evidence result and should remain understandable in the UI rather than being treated as a provider failure.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.

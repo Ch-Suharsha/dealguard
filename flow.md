@@ -429,3 +429,14 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D041, D042, D050, D051.
 
+## 23. Oriane authenticated lookup flow
+
+1. Server loads the ignored local `.env` and keeps `ORIANE_API_KEY` server-side.
+2. DealGuard extracts a supported platform and post ID from each selected public URL.
+3. OrianeAdapter builds `filters.platformId.includes` entries with both values.
+4. DealGuard requests `projection=full` with a bounded limit.
+5. Oriane returns `data.results` and pagination/request metadata; DealGuard normalizes them for the existing analysis boundary.
+6. A successful empty result is treated as “no indexed match yet,” not as a crash; the prepared fixture remains available.
+
+**Decision references:** D052.
+

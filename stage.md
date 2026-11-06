@@ -158,6 +158,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** The voice design and verification gates have been recorded. The workspace does not currently contain a local `.env`, so the user-provided keys have not yet been installed into the runtime. Next inspection is `/v1/models`, followed by one text smoke test and one audio capability test. No realtime/WebRTC compatibility is assumed from the phrase “OpenAI-compatible.”
 
+### Stage 20 — Oriane authenticated adapter
+
+**Definition of done:** The local Oriane key is loaded safely, a real authenticated request uses the documented request shape, and the response is normalized without breaking fallback mode.
+
+**Checkpoint:** The adapter and `.env` loading are installed. An authenticated smoke test returned HTTP 200 with valid request/pagination metadata. The test used a synthetic post ID and therefore matched zero results; testing with a real creator URL and confirming the UI displays returned evidence remain pending.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

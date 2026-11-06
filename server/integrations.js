@@ -37,24 +37,79 @@ class OrianeAdapter {
   constructor(env = process.env) {
     this.key = env.ORIANE_API_KEY;
     this.baseUrl = (env.ORIANE_API_BASE_URL || '').replace(/\/$/, '');
-    this.path = env.ORIANE_ANALYZE_PATH || '/api/analyze';
+    this.path = env.ORIANE_ANALYZE_PATH || '/rest/contents/search';
+    this.authHeader = env.ORIANE_AUTH_HEADER || 'Authorization';
+    this.authPrefix = env.ORIANE_AUTH_PREFIX === undefined ? 'Bearer' : env.ORIANE_AUTH_PREFIX;
     this.timeoutMs = Number(env.ORIANE_TIMEOUT_MS || DEFAULT_TIMEOUT);
   }
 
   get configured() { return Boolean(this.key && this.baseUrl && this.path); }
 
+  buildSearchRequest(input = {}) {
+    const sources = (input.videos || [])
+      .map(video => ({ ...video, url: video.url || video.sourceUrl || '' }))
+      .map(video => ({ ...video, reference: parseOrianeReference(video.url) }))
+      .filter(video => video.reference);
+    const ids = sources.map(video => video.reference.id);
+    if (!ids.length) throw new Error('No supported public platform IDs found for Oriane search');
+    return {
+      operator: 'or',
+      filters: {
+        platformId: {
+          includes: sources.map(video => ({
+            platform: video.reference.platform,
+            platformId: video.reference.id,
+          })),
+          operator: 'or',
+        },
+      },
+      queries: [],
+      sources,
+    };
+  }
+
   async analyze(input) {
     if (!this.configured) throw new ProviderNotConfiguredError('oriane', ['ORIANE_API_KEY', 'ORIANE_API_BASE_URL', 'ORIANE_ANALYZE_PATH']);
-    return requestJson(`${this.baseUrl}${this.path}`, {
+    const search = this.buildSearchRequest(input);
+    const response = await requestJson(`${this.baseUrl}${this.path}?projection=full&limit=20`, {
       method: 'POST',
-      headers: { Authorization: `Bearer ${this.key}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        videos: input.videos,
-        creatorContext: input.creatorContext,
-        brandContext: input.brandContext,
-      }),
+      headers: { [this.authHeader]: `${this.authPrefix ? `${this.authPrefix} ` : ''}${this.key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ operator: search.operator, filters: search.filters, queries: search.queries }),
     }, this.timeoutMs);
+    return normalizeOrianeResponse(response, search.sources);
   }
+}
+
+function parseOrianeReference(value) {
+  if (!value) return null;
+  let url;
+  try { url = new URL(value); } catch { return null; }
+  const host = url.hostname.replace(/^www\./, '').toLowerCase();
+  if (host === 'tiktok.com' || host.endsWith('.tiktok.com')) {
+    const match = url.pathname.match(/\/video\/(\d+)/);
+    return match ? { platform: 'tiktok', id: match[1] } : null;
+  }
+  if (host === 'instagram.com' || host.endsWith('.instagram.com')) {
+    const match = url.pathname.match(/^\/(?:reel|reels|p|tv)\/([^/?#]+)/);
+    return match ? { platform: 'instagram', id: match[1] } : null;
+  }
+  if (host === 'youtube.com' || host === 'youtu.be' || host.endsWith('.youtube.com')) {
+    const id = host === 'youtu.be' ? url.pathname.slice(1).split('/')[0] : url.searchParams.get('v');
+    return id ? { platform: 'youtube', id } : null;
+  }
+  return null;
+}
+
+function normalizeOrianeResponse(response, sources = []) {
+  const envelope = response?.data || response || {};
+  const results = Array.isArray(envelope.results) ? envelope.results : [];
+  return {
+    provider: 'oriane',
+    results,
+    metadata: response?.metadata || envelope.metadata || {},
+    partial: Boolean(response?.metadata?.partial || response?.status === 206),
+    matchedSources: sources.length,
+  };
 }
 
 class GmiAdapter {

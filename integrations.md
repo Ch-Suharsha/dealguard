@@ -308,7 +308,9 @@ Therefore, do not label the feature “OpenAI voice mode” yet. Label it “opt
 - Added a local ignored `.env` with Oriane, GMI, Compound, and Lovable placeholders.
 - Added `.gitignore` rules so real provider keys cannot be committed accidentally.
 - Set the local Oriane path to `/rest/contents/search`, matching the public REST documentation.
-- The existing adapter still requires a contract pass before claiming live Oriane support: it currently sends the old generic analysis payload and must be changed to Oriane's `{operator, filters, queries}` body once authentication and test data are confirmed.
+- The adapter contract is now mapped to Oriane's `{operator, filters, queries}` body. Authentication has been verified with the local key; testing with a real indexed creator post remains.
+- The Oriane adapter contract pass is now installed. It loads the local key, uses `platformId.includes` objects of `{platform, platformId}`, requests `projection=full`, and normalizes `data.results` plus pagination/request metadata.
+- An authenticated live smoke test returned HTTP 200 and a valid metadata envelope with the synthetic test ID. It returned zero content matches because the test ID was not a real post; a real creator URL is the next verification input.
 
 `/rest/contents/search` is the important endpoint for DealGuard. It searches Oriane-indexed social content across Instagram, TikTok, and YouTube. It supports `sort`, `offset`, `limit` (1–100), `projection` (`basic`, `default`, `full`), and `aiSearchAnchor` query parameters.
 

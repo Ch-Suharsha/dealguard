@@ -276,6 +276,10 @@ This test plan covers the local MVP in `dist/`:
 | ORI-007 | Local video selected | UI does not claim Oriane video upload is live unless event capability confirms it | PASS by documented boundary |
 | ORI-008 | Authentication convention | Use only the header/query format confirmed by Oriane workspace/help desk | Pending confirmation |
 
+| ORI-009 | Local key present and synthetic platform ID request | Server sends Bearer-authenticated contents search and receives a valid 200 metadata envelope | PASS; zero matches expected for synthetic ID |
+| ORI-010 | Real TikTok/Instagram URL | URL maps to `{platform, platformId}` and indexed evidence appears in normalized results | Pending real creator URL |
+| ORI-011 | Unindexed but valid public URL | Empty results are disclosed and prepared fallback remains available | Adapter path implemented; UI verification pending |
+
 ### GMI event capability tests
 
 | ID | Scenario | Expected result | Result |
