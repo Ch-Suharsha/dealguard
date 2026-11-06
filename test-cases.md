@@ -307,6 +307,11 @@ This test plan covers the local MVP in `dist/`:
 | ORI-017 | Submit local video to documented asset endpoint | App does not claim Oriane supports it; source remains fallback/pending | PASS by documented boundary |
 | ORI-018 | Attempt unsupported social mutation | DealGuard offers no take-down, edit, publish, or account-control action through Oriane | PASS by documented boundary |
 
+| ORI-019 | Search a public indexed profile | Profile search returns public profile identity, follower/post counts, and pagination metadata | PASS with @mrbeast |
+| ORI-020 | Search indexed profile content | Content search returns 206/200, results, aggregate analytics, and request metadata | PASS with @mrbeast |
+| ORI-021 | Exact indexed public post through adapter | Existing DealGuard adapter returns one normalized result with metrics and full media evidence | PASS with public TikTok post |
+| ORI-022 | Valid public post not in catalog | Empty result is not treated as an auth failure; profile-first fallback is recommended | PASS at provider level; UI fallback pending |
+
 ### Hack the Feed judged-vertical tests
 
 | ID | Scenario | Expected result | Result |

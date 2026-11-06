@@ -408,6 +408,18 @@ DealGuard should use Oriane as an evidence/search/analytics layer and keep negot
 7. Use profile search later for creator benchmarking or brand-side discovery.
 8. Use text/image assets later for product visual similarity or campaign-fit analysis.
 
+### G. Live public-data verification
+
+Using the public TikTok account [@mrbeast](https://www.tiktok.com/@mrbeast) as a read-only test subject:
+
+- Oriane profile search returned one indexed TikTok profile with 141.2M followers and 474 posts.
+- Searching that profile returned HTTP 206 with 26 total indexed posts and valid aggregate analytics.
+- The returned aggregate example included 928.5M total views, 115.5M total likes, 124.6M total interactions, 11.50 average engagement rate per views, 3.40 average engagement rate per followers, and 25.29 average views rate per followers.
+- The existing DealGuard adapter successfully retrieved one indexed post: 8.9M views, 610.7K likes, 22.4K comments, 11.1K shares, 9-second duration, four on-screen-text items, and seven frames.
+- Two other public MrBeast URLs returned zero matches because their post IDs were not present in Oriane's current indexed catalog. This is an expected catalog-coverage case, not an authentication failure.
+
+This confirms that the live pipeline is working. The next product improvement should be a profile-first fallback: if an exact pasted post is not indexed, search the public creator profile and offer the creator's indexed recent posts for selection.
+
 `/rest/contents/search` is the important endpoint for DealGuard. It searches Oriane-indexed social content across Instagram, TikTok, and YouTube. It supports `sort`, `offset`, `limit` (1–100), `projection` (`basic`, `default`, `full`), and `aiSearchAnchor` query parameters.
 
 The request body uses a required top-level `operator` (`and` or `or`) and optional `filters`/`queries`. Content filters include platform, external platform ID, format, profile, caption, transcript, on-screen text, hashtags, engagement metrics, publication date, audio, co-authors, mentions, location, and `visualSimilarity`. Nested query depth is limited to two; total filter values are limited to 500; visual-similarity values are limited to 10.

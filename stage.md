@@ -176,6 +176,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** The complete REST documentation has been mapped into `integrations.md`, `decisions.md`, and `flow.md`. The integration boundary is now precise: content/profile search and asset creation are supported; post mutation, publishing, account control, and documented video upload are not. The next live input is one real public creator URL for an evidence and analytics test.
 
+### Stage 23 — Oriane live public-data verification
+
+**Definition of done:** A public non-user account can be discovered and its indexed content can be retrieved through the real Oriane key, with analytics and evidence fields preserved.
+
+**Checkpoint:** PASS using the public MrBeast TikTok account. Profile search, paginated content search, aggregate analytics, and exact indexed-post lookup all succeeded. Two public post URLs were not indexed, confirming the need for the documented profile-first fallback rather than a hard failure.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

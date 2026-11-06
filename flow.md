@@ -464,3 +464,14 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D054, D055, D056.
 
+## 26. Oriane profile-first coverage fallback
+
+1. DealGuard attempts exact public post lookup from the pasted URL.
+2. If Oriane returns a valid empty result, DealGuard distinguishes “not indexed” from authentication, quota, or validation failure.
+3. DealGuard extracts the public creator handle when available and searches Oriane profiles.
+4. If a profile match is found, DealGuard retrieves a bounded list of recent indexed posts and their aggregate analytics.
+5. The creator selects the posts to analyze; DealGuard never silently substitutes content.
+6. The selected posts re-enter the normal full-evidence and GMI reasoning flow.
+
+**Decision references:** D052, D057.
+

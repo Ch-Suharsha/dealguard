@@ -446,6 +446,14 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** GMI receives computed facts and evidence, while DealGuard owns the math and displays the source fields used in the recommendation.
 
+## D057 — Add profile-first fallback for catalog coverage
+
+**Decision:** When a valid public post URL returns no indexed content, preserve the source as unresolved and offer a profile-search fallback rather than treating the provider as broken.
+
+**Reason:** Live testing with a public MrBeast account showed that Oriane can index the profile and many recent posts while individual public URLs may still return zero matches. Index coverage is distinct from authentication or request validity.
+
+**Flow impact:** The creator can paste a profile URL/handle or accept a suggested profile match, inspect indexed recent posts, and choose which ones to analyze. Exact post matching remains the preferred path.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.
