@@ -222,6 +222,18 @@ This test plan covers the local MVP in `dist/`:
 | API-006 | Provider returns error/timeout | Route should preserve fallback and expose a safe provider error | Implemented; live failure simulation pending |
 | API-007 | Provider key present | Route should return `source: "live"` after schema confirmation | Pending keys and private schemas |
 
+### Resilience tests
+
+| ID | Scenario | Expected result | Result |
+|---|---|---|---|
+| RES-001 | Click Analyze twice quickly | Only one request runs; button is disabled while busy | Implemented; browser smoke passed |
+| RES-002 | Analyze while request is pending | Button shows analyzing state and provider status shows loading | Implemented; browser smoke passed |
+| RES-003 | Set `window.DEALGUARD_SIMULATE_TIMEOUT = true` and analyze | Request aborts, status shows timeout, retry button appears | Implemented; deterministic browser check pending |
+| RES-004 | Click Retry analysis after failure | Previous analysis payload is retried without re-entering data | Implemented; browser check pending |
+| RES-005 | Submit Creator AI question | Thinking indicator appears and send control is disabled | Implemented; browser check pending |
+| RES-006 | Submit duplicate Creator AI question | Duplicate message/request is ignored while the first is active | Implemented; browser check pending |
+| RES-007 | Fallback response returned | Status clearly says prepared fallback data/reasoning | Implemented; browser smoke passed |
+
 ## Browser execution results
 
 The local browser run completed successfully for the primary vertical flow:

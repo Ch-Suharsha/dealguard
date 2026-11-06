@@ -121,6 +121,7 @@
               <div><span class="step-kicker">STEP 03 · YOUR DECISION</span><h2>The honest read, <span>not the brand-friendly one.</span></h2></div>
               <div class="report-actions"><button class="ghost-button" id="download-report">↓ Download packet</button><button class="primary-button" id="copy-counter">Copy counteroffer <span>↗</span></button></div>
             </div>
+            <div class="provider-status" id="provider-status" role="status" aria-live="polite"><span class="provider-status-dot"></span><span id="provider-status-text">Ready to analyze</span><button class="retry-button hidden" id="retry-analysis" type="button">Retry analysis</button></div>
             <div class="decision-grid">
               <div class="decision-card counter">
                 <div class="decision-top"><span class="decision-badge">RECOMMENDATION</span><span class="confidence">● 87% confidence</span></div>
@@ -175,7 +176,7 @@
         <div class="chat-header"><div><span class="online-dot"></span> Creator AI <small>context-aware</small></div><button id="close-chat" class="close-button">×</button></div>
         <div id="chat-messages" class="chat-messages"><div class="chat-bubble assistant">Hey! I know your selected videos, creator context, and the ClipForge offer. Ask me anything—or challenge the recommendation.</div></div>
         <div class="chat-suggestions"><button data-prompt="Why did you recommend countering this offer?">Why counter?</button><button data-prompt="What happens if I remove exclusivity?">Remove exclusivity?</button><button data-prompt="Show me the full pricing calculation">Show calculation</button></div>
-        <form id="chat-form" class="chat-form"><input id="chat-input" placeholder="Ask about this situation…" autocomplete="off" /><button aria-label="Send">↑</button></form>
+        <form id="chat-form" class="chat-form"><input id="chat-input" placeholder="Ask about this situation…" autocomplete="off" /><button id="chat-send" aria-label="Send">↑</button></form>
       </aside>
     </div>
     <script src="app.js"></script>

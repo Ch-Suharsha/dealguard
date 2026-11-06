@@ -286,6 +286,14 @@ This file records product and implementation decisions. Every decision is also r
 
 **Decision:** V2 browser actions call DealGuard's same-origin `/api/analyze`, `/api/chat`, and `/api/campaign-concept` routes, with local UI fallback if the gateway is unavailable.
 
+## D037 — Resilient request states
+
+**Decision:** Add explicit loading, timeout, retry, provider-status, and duplicate-submit behavior to every live-facing browser action.
+
+**Reason:** A hackathon demo must remain understandable when an API is slow, unavailable, or still unconfigured. These states can be implemented without sponsor keys and protect the creator from duplicate requests.
+
+**Flow impact:** Analysis disables its submit button while running, exposes a retry action after failure, and labels live versus fallback results. Creator AI shows a thinking state, disables duplicate sends, and falls back safely after timeout or error. A test-only `window.DEALGUARD_SIMULATE_TIMEOUT` switch makes timeout behavior reproducible.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.

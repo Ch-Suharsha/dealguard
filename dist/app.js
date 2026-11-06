@@ -6,7 +6,7 @@ const videos = [
   { id: 5, title: 'My creator stack', meta: '51.3K views · 9.1% saves', selected: true },
 ];
 
-const state = { selectedVideos: new Set(videos.filter(v => v.selected).map(v => v.id)), reportVisible: false, apiSource: 'fallback' };
+const state = { selectedVideos: new Set(videos.filter(v => v.selected).map(v => v.id)), reportVisible: false, apiSource: 'fallback', analyzing: false, chatting: false, lastAnalysisPayload: null };
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
@@ -31,6 +31,14 @@ function showToast(message) {
   clearTimeout(window.toastTimer); window.toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
 }
 
+function setProviderStatus(message, mode = 'ready', retry = false) {
+  const status = $('#provider-status');
+  if (!status) return;
+  status.className = `provider-status ${mode}`;
+  $('#provider-status-text').textContent = message;
+  $('#retry-analysis').classList.toggle('hidden', !retry);
+}
+
 function openChat(prompt) {
   $('#chat-drawer').classList.add('open');
   if (prompt) sendChat(prompt);
@@ -51,8 +59,14 @@ function appendMessage(text, role) {
   $('#chat-messages').appendChild(message); $('#chat-messages').scrollTop = $('#chat-messages').scrollHeight;
 }
 
-async function apiRequest(path, payload) {
-  const response = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+async function apiRequest(path, payload, options = {}) {
+  const controller = new AbortController();
+  const timeoutMs = window.DEALGUARD_SIMULATE_TIMEOUT ? 40 : (options.timeoutMs || 12000);
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  let response;
+  try {
+    response = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), signal: controller.signal });
+  } finally { clearTimeout(timer); }
   if (!response.ok) throw new Error(`DealGuard API ${response.status}`);
   return response.json();
 }
@@ -67,14 +81,23 @@ function creatorContext() {
 }
 
 async function sendChat(prompt) {
-  if (!prompt) return;
+  if (!prompt || state.chatting) return;
+  state.chatting = true;
   $('#chat-drawer').classList.add('open'); appendMessage(prompt, 'user');
+  const input = $('#chat-input'); const send = $('#chat-send'); input.disabled = true; send.disabled = true;
+  const loading = document.createElement('div'); loading.className = 'chat-bubble assistant loading-bubble'; loading.setAttribute('aria-label', 'Creator AI is thinking'); loading.innerHTML = '<i></i><i></i><i></i>'; $('#chat-messages').appendChild(loading);
   try {
     const result = await apiRequest('/api/chat', { question: prompt, creatorContext: creatorContext(), offer: $('#offer-input').value });
     state.apiSource = result.source || 'fallback';
+    setProviderStatus(state.apiSource === 'live' ? 'Live sponsor reasoning active' : 'Using prepared fallback reasoning', state.apiSource === 'live' ? 'ready' : 'warning');
+    loading.remove();
     appendMessage(result.answer || assistantAnswer(prompt), 'assistant');
-  } catch {
+  } catch (error) {
+    loading.remove();
     appendMessage(assistantAnswer(prompt), 'assistant');
+    setProviderStatus(error.name === 'AbortError' ? 'Creator AI timed out · fallback answer used' : 'Creator AI unavailable · fallback answer used', 'warning');
+  } finally {
+    state.chatting = false; input.disabled = false; send.disabled = false; input.focus();
   }
 }
 
@@ -89,21 +112,31 @@ function updateSimulator() {
 }
 
 async function analyzeDeal() {
+  if (state.analyzing) return;
   if (state.selectedVideos.size === 0) { showToast('Select at least one video so DealGuard can understand your style.'); return; }
   if (!$('#offer-input').value.trim()) { showToast('Paste a brand offer before analyzing the deal.'); $('#offer-input').focus(); return; }
+  state.analyzing = true;
+  state.lastAnalysisPayload = { videos: [...state.selectedVideos].map(id => videos.find(video => video.id === id)), creatorContext: creatorContext(), offer: $('#offer-input').value };
+  const analyzeButton = $('#analyze-button'); analyzeButton.disabled = true; analyzeButton.innerHTML = 'Analyzing your deal <span class="button-spinner">◌</span>';
   state.reportVisible = true; $('#report-section').classList.remove('hidden');
+  setProviderStatus('Analyzing selected videos and offer…', 'loading');
   $('#report-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
   try {
-    const result = await apiRequest('/api/analyze', { videos: [...state.selectedVideos].map(id => videos.find(video => video.id === id)), creatorContext: creatorContext(), offer: $('#offer-input').value });
+    const result = await apiRequest('/api/analyze', state.lastAnalysisPayload);
     state.apiSource = result.source || 'fallback';
+    setProviderStatus(state.apiSource === 'live' ? 'Live sponsor analysis complete' : 'Analysis complete · prepared fallback data', state.apiSource === 'live' ? 'ready' : 'warning');
     showToast(`Deal analyzed · ${state.apiSource === 'live' ? 'live sponsor data' : 'fallback data'}`);
-  } catch {
+  } catch (error) {
+    setProviderStatus(error.name === 'AbortError' ? 'Analysis timed out · retry when ready' : 'Analysis failed · retry when ready', 'error', true);
     showToast('Deal analyzed · local fallback kept the flow running');
+  } finally {
+    state.analyzing = false; analyzeButton.disabled = false; analyzeButton.innerHTML = 'Analyze this deal <span>→</span>';
   }
 }
 
 renderVideos();
 $('#analyze-button').addEventListener('click', analyzeDeal);
+$('#retry-analysis').addEventListener('click', () => { if (state.lastAnalysisPayload) analyzeDeal(); });
 $('#ai-fab').addEventListener('click', () => openChat());
 $('#close-chat').addEventListener('click', () => $('#chat-drawer').classList.remove('open'));
 $('#chat-form').addEventListener('submit', (event) => { event.preventDefault(); const input = $('#chat-input'); sendChat(input.value.trim()); input.value = ''; });

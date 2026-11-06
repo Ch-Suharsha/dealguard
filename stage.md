@@ -110,6 +110,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** The frontend integration wiring has been added. Analyze, Creator AI, and campaign-concept actions now attempt the server routes; keys remain server-side and the fallback path remains available. Provider-specific live verification is still pending.
 
+### Stage 12 — Browser resilience
+
+**Definition of done:** Live-facing browser actions communicate progress, prevent duplicate submissions, identify live/fallback results, and recover from timeout or transport failure.
+
+**Checkpoint:** Loading states, abortable client timeout handling, retry analysis, provider-status messaging, Creator AI thinking state, and duplicate-submit guards have been added. Live provider failure simulation remains pending until real provider configuration is available; deterministic client timeout QA is available through `window.DEALGUARD_SIMULATE_TIMEOUT = true`.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

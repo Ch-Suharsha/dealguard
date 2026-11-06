@@ -175,6 +175,17 @@ Each route works in fallback mode immediately. When the required provider key/co
 
 The v2 browser is now wired to these routes through same-origin `fetch` calls. This keeps the browser contract stable while allowing the server adapter to change when private sponsor schemas arrive.
 
+## 8. Browser resilience before keys arrive
+
+The browser now has provider-neutral resilience behavior that does not require live credentials:
+
+- Analysis shows a loading state, disables duplicate submits, and exposes `Retry analysis` after a timeout or transport failure.
+- Creator AI shows a thinking indicator, disables duplicate sends, and restores the local answer when the gateway is unavailable.
+- The report status identifies live sponsor reasoning versus prepared fallback data.
+- Requests use an abortable client timeout. QA can set `window.DEALGUARD_SIMULATE_TIMEOUT = true` to exercise the timeout path deterministically.
+
+These are client safeguards; they do not replace live provider verification once keys and private schemas are available.
+
 ## 7. Key handoff checklist
 
 When the hackathon team provides access:

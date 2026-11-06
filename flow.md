@@ -315,3 +315,17 @@ Each call sends creator context, selected-video metadata, and the current offer.
 
 **Decision references:** D027, D028, D036.
 
+## 14. Resilient request states
+
+1. Creator starts analysis or asks Creator AI.
+2. DealGuard marks the action busy and disables the matching submit control.
+3. The browser request uses an abortable timeout.
+4. While waiting, the UI shows an explicit loading state.
+5. On success, the UI labels the result as live sponsor data or prepared fallback data.
+6. On timeout or transport failure, the UI preserves the local experience and exposes a retry action for analysis.
+7. A second click or duplicate chat submission is ignored while the first request is active.
+
+For deterministic QA, setting `window.DEALGUARD_SIMULATE_TIMEOUT = true` before an action forces the short client timeout path without requiring a provider outage.
+
+**Decision references:** D028, D036, D037.
+
