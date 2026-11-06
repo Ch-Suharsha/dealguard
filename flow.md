@@ -287,3 +287,19 @@ Open DealGuard
   → generate sponsored concept
 ```
 
+## 12. V2 deal lab flow
+
+V2 preserves every step above and adds an interactive decision layer after the first report:
+
+1. Show the initial fair-value range and recommendation.
+2. Render a rights/value simulator with paid usage, exclusivity, raw footage, and revision toggles.
+3. When a toggle changes, recompute the deterministic value range and suggested counter immediately.
+4. Show how removing exclusivity or shortening paid usage changes the creator's position.
+5. Show a brand-trust signal based on content fit, style fit, and claim risk.
+6. Let Creator AI explain the changed scenario.
+7. Generate the final counteroffer and Compound concept from the approved scenario.
+
+**Fallback behavior:** The simulator works without any provider key because the rights valuation is deterministic. Oriane/GMI/Compound remain optional live layers behind the existing adapters.
+
+**Decision references:** D033, D034, D035.
+

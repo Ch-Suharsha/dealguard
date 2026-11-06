@@ -197,6 +197,19 @@ This test plan covers the local MVP in `dist/`:
 
 ## Current test conclusions
 
+## V2 test cases
+
+| ID | Scenario | Expected result | Priority | Result |
+|---|---|---|---|---|
+| V2-001 | Open report on v2 branch | Rights/value simulator and brand-trust card are visible | P0 | Static checked; browser pending |
+| V2-002 | Toggle paid usage off | Suggested counter decreases by $600 | P0 | Code path checked; browser pending |
+| V2-003 | Toggle exclusivity off | Suggested counter decreases by $450 | P0 | Code path checked; browser pending |
+| V2-004 | Toggle all rights off | Suggested counter returns to $500 and note says only base fee remains | P0 | Code path checked; browser pending |
+| V2-005 | Toggle rights repeatedly | Total remains deterministic and no duplicate state is created | P0 | Code path checked; browser pending |
+| V2-006 | Ask Creator AI after changing rights | Chat explains the current scenario | P1 | Pending dynamic live-context wiring |
+| V2-007 | Run v2 without provider keys | Simulator works and fallback report remains available | P0 | Static checked |
+| V2-008 | Compare v1 tag with v2 branch | v1 has no v2 simulator changes | P0 | Git tag/branch separation created |
+
 ## Browser execution results
 
 The local browser run completed successfully for the primary vertical flow:

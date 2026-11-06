@@ -57,6 +57,16 @@ function sendChat(prompt) {
   setTimeout(() => appendMessage(assistantAnswer(prompt), 'assistant'), 350);
 }
 
+function updateSimulator() {
+  const base = 500;
+  const fees = $$('.toggle-row input:checked').reduce((total, input) => total + Number(input.dataset.fee), 0);
+  const total = base + fees;
+  const count = $$('.toggle-row input:checked').length;
+  $('#simulator-total').textContent = `$${total.toLocaleString()}`;
+  $('#suggested-counter').textContent = `$${total.toLocaleString()}`;
+  $('#simulator-note').textContent = count ? `You’re pricing ${count} additional right${count === 1 ? '' : 's'}.` : 'Only the base content fee remains.';
+}
+
 function analyzeDeal() {
   if (state.selectedVideos.size === 0) { showToast('Select at least one video so DealGuard can understand your style.'); return; }
   if (!$('#offer-input').value.trim()) { showToast('Paste a brand offer before analyzing the deal.'); $('#offer-input').focus(); return; }
@@ -84,6 +94,7 @@ $('#download-report').addEventListener('click', () => {
   setTimeout(() => URL.revokeObjectURL(url), 1000); showToast('Decision packet downloaded.');
 });
 $('#generate-concept').addEventListener('click', () => showToast('Compound concept regenerated from your selected videos.'));
+$$('.toggle-row input').forEach(input => input.addEventListener('change', () => { updateSimulator(); showToast('Deal value recalculated from your selected rights.'); }));
 
 $$('.nav-item[data-view]').forEach(button => button.addEventListener('click', () => {
   $$('.nav-item[data-view]').forEach(item => item.classList.remove('active')); button.classList.add('active');

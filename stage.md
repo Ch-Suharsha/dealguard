@@ -2,9 +2,9 @@
 
 This file records the current implementation checkpoint. Future work should update this file when a stage is completed or when a material change is made to the system, visual identity, images, logo, or flow.
 
-## Current stage: Stage 6 — Vertical MVP implemented; QA pass complete; live integration pending
+## Current stage: Stage 10 — V2 deal lab started; live integration pending
 
-**Status:** MVP implementation complete for the local fallback path. Static QA and code-contract checks pass. Live Oriane integration and browser preview verification remain pending.
+**Status:** V1 is frozen and pushed to a private GitHub repository. V2 development is active on a separate branch with the rights/value simulator and brand-trust signal added. Live provider verification remains pending.
 
 The planning system has been installed. The documentation artifacts and the first working DealGuard vertical slice have been added. The build now continues from the local prototype checkpoint.
 
@@ -22,6 +22,7 @@ The planning system has been installed. The documentation artifacts and the firs
 - `.env.example` — safe configuration template with no real keys.
 - `server/integrations.js` — Oriane, GMI Cloud, and Compound adapters plus health reporting.
 - `server/index.js` — local API gateway with live/fallback routes.
+- `v1.0.0` Git tag — frozen v1 baseline.
 
 ### Locked product state
 
@@ -96,6 +97,12 @@ The planning system has been installed. The documentation artifacts and the firs
 **Definition of done:** Sponsor responsibilities are mapped, server-side provider adapters exist, environment variables are documented, fallback behavior is preserved, and the remaining unknowns are limited to private keys/endpoints/schema confirmation.
 
 **Checkpoint:** The sponsor integration scaffold has been installed and the adapter routes have been added. GMI Cloud's public OpenAI-compatible path is represented directly. Oriane and Compound use isolated configurable boundaries because their exact private event schemas are not yet available. Lovable is documented as the build/cloud/connector surface. No real keys are present.
+
+### Stage 10 — V2 deal lab
+
+**Definition of done:** The v2 branch adds the interactive rights/value simulator and brand-trust signal without changing the v1 baseline.
+
+**Checkpoint:** The V2 deal lab has been added. Rights toggles update the suggested counter deterministically, and the brand-trust card is visible in the report. Browser regression testing and live API wiring remain next.
 
 ## Change protocol
 

@@ -258,3 +258,27 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** DealGuard remains portable and can be moved into Lovable Cloud/serverless functions without rewriting provider adapters.
 
+## D033 — V2 branch isolation
+
+**Decision:** Keep v1 frozen on `main` and tag `v1.0.0`; develop new features on `codex/dealguard-v2`.
+
+**Reason:** The hackathon needs a safe fallback if v2 becomes unstable.
+
+**Flow impact:** V2 additions are layered onto the existing vertical flow; v1 remains the recovery baseline.
+
+## D034 — Rights/value simulator
+
+**Decision:** Add an interactive simulator that recalculates the recommended counter when the creator toggles paid usage, exclusivity, raw footage, and revisions.
+
+**Reason:** It turns a passive AI report into a visible decision tool and creates the strongest live-demo moment.
+
+**Flow impact:** After the initial report, creators can change deal assumptions and immediately see the commercial impact.
+
+## D035 — Brand trust signal
+
+**Decision:** Add a brand-trust card showing topic fit, style fit, and claim risk.
+
+**Reason:** A deal is not only about price; creators need to protect audience trust.
+
+**Flow impact:** The report includes a trust layer alongside financial risk.
+
