@@ -405,3 +405,16 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D044, D045, D046.
 
+## 21. Optional Creator AI voice flow
+
+1. Creator opens the compact Creator AI drawer and chooses push-to-talk.
+2. Browser requests microphone permission and records a short audio clip; no provider key is exposed.
+3. DealGuard sends the clip through a server-side audio/transcription adapter only if a verified GMI audio model and schema are configured.
+4. The resulting text question is added to the same contextual chat flow used by typed questions.
+5. GMI receives the creator context, Oriane evidence, offer, rights state, and conversation history.
+6. DealGuard renders the text response immediately.
+7. If a verified output-audio model exists, DealGuard may synthesize a response; otherwise the response remains text.
+8. If microphone permission, model access, audio schema, or timeout fails, the UI preserves the question when possible and says to continue in text.
+
+**Decision references:** D047, D048, D049.
+

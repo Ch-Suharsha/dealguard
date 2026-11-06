@@ -276,6 +276,33 @@ For the judged vertical, implement and demonstrate this minimum sponsor-visible 
 
 Do not make AgentBox, voice, MCP, direct Lovable deployment, or automatic Compound posting part of the critical demo until the supplied credentials and latency are verified.
 
+## 13. GMI voice feasibility
+
+The current GMI Cloud LLM documentation confirms an OpenAI-compatible REST surface at `https://api.gmi-serving.com/v1`, Bearer authentication, model discovery through `GET /v1/models`, and chat completions that support text, image, and audio modalities. It also mentions streaming and realtime APIs, but the public reference reviewed here does not provide enough detail to assume OpenAI Realtime/WebRTC session compatibility.
+
+### Recommended voice design
+
+Implement voice as an optional push-to-talk mode:
+
+```text
+Browser microphone
+  → short audio capture
+  → server-side transcription/audio-capable GMI model
+  → same DealGuard context + GMI reasoning
+  → text response immediately
+  → optional speech synthesis only after an output-audio model is verified
+```
+
+The text chat route remains the source of truth. Voice should reuse the exact same creator context, Oriane evidence, offer terms, rights state, and approval rules. The browser must never receive the GMI key.
+
+### What is confirmed versus unknown
+
+Confirmed: Bearer auth, OpenAI-shaped chat-completions route, model listing, streaming flag, audio modality support in chat documentation, and model-specific capability discovery.
+
+Not yet confirmed: the exact audio message schema, supported speech-to-text model IDs, supported text-to-speech/output-audio model IDs, WebSocket/WebRTC session endpoint, browser CORS behavior, audio duration/format limits, and whether the event key has access to those models.
+
+Therefore, do not label the feature “OpenAI voice mode” yet. Label it “optional voice conversation” and gate it on a model smoke test. A text answer and a visible “Voice unavailable—continue in text” fallback are required.
+
 `/rest/contents/search` is the important endpoint for DealGuard. It searches Oriane-indexed social content across Instagram, TikTok, and YouTube. It supports `sort`, `offset`, `limit` (1–100), `projection` (`basic`, `default`, `full`), and `aiSearchAnchor` query parameters.
 
 The request body uses a required top-level `operator` (`and` or `or`) and optional `filters`/`queries`. Content filters include platform, external platform ID, format, profile, caption, transcript, on-screen text, hashtags, engagement metrics, publication date, audio, co-authors, mentions, location, and `visualSimilarity`. Nested query depth is limited to two; total filter values are limited to 500; visual-similarity values are limited to 10.

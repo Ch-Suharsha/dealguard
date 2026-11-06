@@ -152,6 +152,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** The report audit has been installed in `integrations.md`, `decisions.md`, and `flow.md`. DealGuard's critical path is now Oriane evidence → deterministic rights/value decision → GMI explanation/chat → creator-approved counteroffer and `context.md` → Compound-ready concept. The remaining work is to verify live credentials, map the private Oriane key to the documented REST request, rehearse the 3-minute pitch, and test the fallback path under event conditions.
 
+### Stage 19 — GMI voice feasibility
+
+**Definition of done:** GMI model availability and audio contract are verified, and voice is either safely added as an optional push-to-talk enhancement or explicitly deferred without affecting text chat.
+
+**Checkpoint:** The voice design and verification gates have been recorded. The workspace does not currently contain a local `.env`, so the user-provided keys have not yet been installed into the runtime. Next inspection is `/v1/models`, followed by one text smoke test and one audio capability test. No realtime/WebRTC compatibility is assumed from the phrase “OpenAI-compatible.”
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

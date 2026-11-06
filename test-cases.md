@@ -300,6 +300,17 @@ This test plan covers the local MVP in `dist/`:
 | EVENT-007 | Judge asks an adversarial question | Creator AI answers from the same evidence/offer context without inventing an external send or changing the report without approval | Partial; approval behavior remains pending |
 | EVENT-008 | Optional sponsor feature is unavailable | Voice, AgentBox, MCP runtime, Lovable deployment, and Compound rendering can be skipped without breaking the core demo | Architecture covered; event verification pending |
 
+### Optional voice tests
+
+| ID | Scenario | Expected result | Result |
+|---|---|---|---|
+| VOICE-001 | GMI key is configured; list models | Available model IDs and capabilities are inspected before exposing voice | Pending key installation |
+| VOICE-002 | Push-to-talk with verified audio input | Short clip is captured and converted into a contextual text question | Pending model/schema verification |
+| VOICE-003 | Voice response model is unavailable | Text answer still appears; UI explains voice output is unavailable | Pending implementation |
+| VOICE-004 | Microphone permission denied | No crash; typed chat remains usable | Pending implementation |
+| VOICE-005 | Audio request times out or credits are exhausted | Text fallback/retry appears and no duplicate request is submitted | Pending implementation |
+| VOICE-006 | Inspect network/browser bundle | Oriane/GMI keys never appear in client-side code | PASS by architecture; recheck after voice implementation |
+
 ## Browser execution results
 
 The local browser run completed successfully for the primary vertical flow:

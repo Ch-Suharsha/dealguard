@@ -366,6 +366,30 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** QA must cover a cold-start demo, live-provider success, live-provider timeout, and fallback recovery. The pitch script should show one creator, one suspicious offer, one evidence-backed change, and one exported artifact.
 
+## D047 — Voice is an optional push-to-talk enhancement
+
+**Decision:** Add voice as an optional Creator AI enhancement using short browser audio capture and the existing server-side DealGuard context, while keeping text chat as the canonical path and fallback.
+
+**Reason:** GMI's current documentation confirms an OpenAI-compatible HTTP inference surface and audio modalities, but does not establish that OpenAI Realtime/WebRTC is directly compatible or that the event key can use every audio model. A full realtime voice implementation would create avoidable demo risk.
+
+**Flow impact:** Voice may transcribe a creator question, send it through the same evidence-aware chat route, and optionally speak the response after a verified output-audio model is found. If any audio capability is missing, the user continues in text without losing the conversation.
+
+## D048 — Do not treat an OpenAI-compatible API as OpenAI Realtime compatibility
+
+**Decision:** Verify GMI model IDs, audio input/output schema, and realtime transport from the live account before implementing a WebRTC/WebSocket voice loop.
+
+**Reason:** “OpenAI-compatible” reliably supports the documented HTTP request shape, authentication, and chat-completions concepts; it does not guarantee identical model names, audio content schema, realtime events, browser permissions, or CORS behavior.
+
+**Flow impact:** The first live check is `/v1/models`, followed by a small text request and a small audio-capability request. Only then should the UI expose microphone capture, and only behind a feature flag.
+
+## D049 — Protect secrets and record key readiness without storing keys in Git
+
+**Decision:** Keep Oriane and GMI keys in a local ignored `.env` or deployment secret store; never place them in chat, `dist/app.js`, documentation, or commits.
+
+**Reason:** The project currently has no `.env` file in the workspace, so a key mentioned by the user has not yet been installed into the local runtime. Provider credentials must stay server-side.
+
+**Flow impact:** Once the user adds the keys locally, the app can run provider health, model discovery, and smoke tests without changing browser code. Missing keys continue to produce explicit fallback status.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.
