@@ -512,3 +512,13 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D061.
 
+## 31. Session chat history
+
+1. DealGuard loads the current tab's saved Creator AI messages from `sessionStorage`.
+2. If none exist, it shows the initial context-aware greeting.
+3. Every submitted creator question and completed assistant answer is appended to the visible history and saved to the session.
+4. Reopening the drawer or refreshing the same tab renders the entire history again.
+5. Ending the browser tab session removes the history automatically.
+
+**Decision references:** D062.
+

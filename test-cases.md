@@ -384,4 +384,6 @@ Browser execution could not yet verify mobile layout, keyboard-only navigation, 
 - **E2E-004:** Download `context.md` after analysis and confirm the portable handoff action is available.
 - **CHAT-005:** Submit a response containing bold markers, bullets, and a pipe-delimited table; confirm the chat shows readable prose/detail rows with no raw `**`, `|`, or separator lines.
 - **CHAT-006:** Ask two distinct Creator AI questions and confirm the live response text is not replaced by the same canned fallback when GMI is available.
+- **CHAT-007:** Send two messages, close/reopen Creator AI, and confirm both user questions and assistant answers remain visible.
+- **CHAT-008:** Refresh the same tab and confirm session history is restored; open a new tab and confirm it starts with only the greeting.
 

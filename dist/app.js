@@ -6,7 +6,13 @@ const videos = [
   { id: 5, title: 'My creator stack', meta: '51.3K views · 9.1% saves', selected: true },
 ];
 
-const state = { selectedVideos: new Set(videos.filter(v => v.selected).map(v => v.id)), reportVisible: false, apiSource: 'fallback', analyzing: false, chatting: false, lastAnalysisPayload: null };
+const CHAT_SESSION_KEY = 'dealguard-chat-history-v1';
+const defaultChatHistory = [{ role: 'assistant', text: 'Hey! I know your selected videos, creator context, and the ClipForge offer. Ask me anything—or challenge the recommendation.' }];
+function loadChatHistory() {
+  try { const saved = JSON.parse(sessionStorage.getItem(CHAT_SESSION_KEY) || 'null'); return Array.isArray(saved) && saved.length ? saved : defaultChatHistory; }
+  catch { return defaultChatHistory; }
+}
+const state = { selectedVideos: new Set(videos.filter(v => v.selected).map(v => v.id)), reportVisible: false, apiSource: 'fallback', analyzing: false, chatting: false, lastAnalysisPayload: null, chatHistory: loadChatHistory() };
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
@@ -126,11 +132,21 @@ function formatAssistantMessage(text) {
   return html.join('') || '<p>I’m here. What would you like to work through?</p>';
 }
 
-function appendMessage(text, role) {
+function persistChatHistory() {
+  try { sessionStorage.setItem(CHAT_SESSION_KEY, JSON.stringify(state.chatHistory)); } catch { /* session persistence is best effort */ }
+}
+
+function appendMessage(text, role, persist = true) {
   const message = document.createElement('div'); message.className = `chat-bubble ${role}`;
   if (role === 'assistant') message.innerHTML = formatAssistantMessage(text);
   else message.textContent = text;
   $('#chat-messages').appendChild(message); $('#chat-messages').scrollTop = $('#chat-messages').scrollHeight;
+  if (persist) { state.chatHistory.push({ text, role }); persistChatHistory(); }
+}
+
+function renderChatHistory() {
+  $('#chat-messages').innerHTML = '';
+  state.chatHistory.forEach(message => appendMessage(message.text, message.role, false));
 }
 
 async function apiRequest(path, payload, options = {}) {
@@ -268,6 +284,7 @@ async function analyzeDeal() {
 }
 
 renderVideos();
+renderChatHistory();
 $('#analyze-button').addEventListener('click', analyzeDeal);
 $('#retry-analysis').addEventListener('click', () => { if (state.lastAnalysisPayload) analyzeDeal(); });
 $('#copy-context').addEventListener('click', copyContext);

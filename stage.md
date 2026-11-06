@@ -202,6 +202,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** Installed conversational GMI instruction, safe client-side formatter, and structured table/list styling. Browser verification remains.
 
+### Stage 27 — Session chat continuity
+
+**Definition of done:** The full Creator AI conversation remains visible throughout the current browser session, including after closing/reopening the drawer or refreshing the same tab.
+
+**Checkpoint:** Installed session-only history with no account or server persistence. Browser verification remains.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

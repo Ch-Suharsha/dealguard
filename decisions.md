@@ -486,6 +486,14 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** Live and fallback answers use the same readable chat renderer; model content remains escaped before presentation.
 
+## D062 — Persist Creator AI history for the browser session only
+
+**Decision:** Store Creator AI user and assistant messages in `sessionStorage`, reload them when the app opens, and clear them automatically when the browser tab session ends.
+
+**Reason:** The creator needs continuity while testing or recording, but the hackathon build does not have accounts or a backend conversation store.
+
+**Flow impact:** Closing/reopening the drawer and refreshing the same tab preserves the full conversation; no account, cross-device sync, or long-term personal data storage is introduced.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.
