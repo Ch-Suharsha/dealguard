@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#17151f" />
+    <title>DealGuard — Know your worth before you say yes</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-mark"><span class="brand-spark">✦</span> DealGuard</div>
+        <div class="creator-mini">
+          <div class="avatar avatar-purple">SC</div>
+          <div>
+            <strong>Suharsha</strong>
+            <span>Creator workspace</span>
+          </div>
+          <span class="status-dot"></span>
+        </div>
+        <nav class="side-nav" aria-label="Primary navigation">
+          <button class="nav-item active" data-view="deal"><span>✦</span> Deal check</button>
+          <button class="nav-item" data-view="content"><span>◉</span> My content</button>
+          <button class="nav-item" data-view="history"><span>↗</span> Deal history</button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="pro-tip">
+            <span class="tip-icon">⚡</span>
+            <strong>Creator-first, always.</strong>
+            <p>Your work has value beyond the post.</p>
+          </div>
+          <button class="nav-item muted"><span>⚙</span> Preferences</button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <div class="eyebrow">CREATOR WORKSPACE / DEAL CHECK</div>
+            <h1>Know your worth<br /><em>before you say yes.</em></h1>
+          </div>
+          <div class="topbar-actions">
+            <button class="icon-btn" title="Notifications">♢<span class="notification-dot"></span></button>
+            <button class="profile-chip"><span class="avatar avatar-small">SC</span> Suharsha <span>⌄</span></button>
+          </div>
+        </header>
+
+        <div id="toast" class="toast" role="status"></div>
+
+        <section id="deal-view" class="view active-view">
+          <div class="progress-strip">
+            <div class="progress-step done"><span>1</span><b>Your content</b></div>
+            <div class="progress-line filled"></div>
+            <div class="progress-step current"><span>2</span><b>The offer</b></div>
+            <div class="progress-line"></div>
+            <div class="progress-step"><span>3</span><b>Your decision</b></div>
+          </div>
+
+          <div class="hero-grid">
+            <section class="panel content-panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="step-kicker">STEP 01 · YOUR SIGNAL</span>
+                  <h2>Select the content that feels like <span>you.</span></h2>
+                  <p>DealGuard reads only what you choose. Your voice stays yours.</p>
+                </div>
+                <button class="text-action" id="edit-profile">Edit profile <span>↗</span></button>
+              </div>
+              <div id="video-grid" class="video-grid"></div>
+              <div class="upload-row">
+                <label class="upload-drop" for="video-input"><span>＋</span> Add video links or upload files</label>
+                <input id="video-input" type="file" accept="video/*" multiple hidden />
+                <span id="selected-count" class="selected-count">5 selected</span>
+              </div>
+            </section>
+
+            <section class="panel profile-panel">
+              <div class="panel-heading compact">
+                <div>
+                  <span class="step-kicker">YOUR CREATOR CONTEXT</span>
+                  <h2>Make the read <span>actually yours.</span></h2>
+                </div>
+                <span class="edit-pill">EDITABLE</span>
+              </div>
+              <div class="profile-fields">
+                <label>What do you make?<input id="niche" value="Tech, AI & productivity" /></label>
+                <label>Who watches?<input id="audience" value="Curious builders who want practical shortcuts" /></label>
+                <label>Creator boundary<textarea id="boundary" rows="2">No gambling, no miracle claims. Keep it useful.</textarea></label>
+              </div>
+              <button class="ghost-button full-width" id="save-profile">Save context <span>✓</span></button>
+            </section>
+          </div>
+
+          <section class="panel offer-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="step-kicker">STEP 02 · THE OFFER</span>
+                <h2>Paste the brand message. We’ll find the <span>fine print.</span></h2>
+                <p>Try the demo offer below, or paste your own email, brief, or contract.</p>
+              </div>
+              <div class="offer-source"><span class="source-dot"></span> Demo workspace</div>
+            </div>
+            <div class="offer-layout">
+              <div class="offer-input-wrap">
+                <div class="message-meta"><span class="mail-avatar">C</span><div><strong>Camille from ClipForge</strong><span>camille@clipforge.co · just now</span></div><span class="mail-label">Brand offer</span></div>
+                <textarea id="offer-input" class="offer-input" spellcheck="false">Hey Suharsha! We love your practical AI content and would love to partner on a 60-second TikTok/Instagram video for ClipForge. We can offer $500 for the post. We'd also like 12 months of paid advertising usage, 6 months of exclusivity against competing creator tools, the raw footage, and unlimited revisions. Let us know if you're interested!</textarea>
+                <div class="offer-input-footer"><span>✦ Parsed securely in this workspace</span><button class="link-button" id="reset-offer">Reset demo offer</button></div>
+              </div>
+              <div class="offer-summary">
+                <div class="summary-label">QUICK READ</div>
+                <div class="quick-read-row"><span class="risk-symbol high">!</span><div><b>Rights may be underpriced</b><small>Paid usage + exclusivity detected</small></div></div>
+                <div class="quick-read-row"><span class="risk-symbol medium">↗</span><div><b>Content fit looks promising</b><small>ClipForge matches your creator lane</small></div></div>
+                <button class="primary-button analyze-button" id="analyze-button">Analyze this deal <span>→</span></button>
+              </div>
+            </div>
+          </section>
+
+          <section id="report-section" class="report-section hidden">
+            <div class="report-header">
+              <div><span class="step-kicker">STEP 03 · YOUR DECISION</span><h2>The honest read, <span>not the brand-friendly one.</span></h2></div>
+              <div class="report-actions"><button class="ghost-button" id="download-report">↓ Download packet</button><button class="primary-button" id="copy-counter">Copy counteroffer <span>↗</span></button></div>
+            </div>
+            <div class="decision-grid">
+              <div class="decision-card counter">
+                <div class="decision-top"><span class="decision-badge">RECOMMENDATION</span><span class="confidence">● 87% confidence</span></div>
+                <div class="decision-word">COUNTER</div>
+                <p>This is not a $500 post. It’s a post + a year of paid media + six months of category lock-in.</p>
+                <div class="decision-price"><span>Estimated fair range</span><strong>$1,450 <small>—</small> $1,800</strong></div>
+                <button class="chat-prompt" data-prompt="Why did you recommend countering this offer?">Ask why <span>↗</span></button>
+                <div class="report-disclaimer">Commercial negotiation guidance only — not legal advice.</div>
+              </div>
+              <div class="risk-card">
+                <div class="card-title-row"><h3>What’s really in the deal?</h3><span class="tiny-label">3 FLAGS</span></div>
+                <div class="risk-item"><span class="risk-symbol high">!</span><div><b>12 months paid usage</b><p>They can turn your video into an ad for a full year. That is a separate media asset.</p></div><button class="evidence-button" data-prompt="Explain the paid usage risk">evidence</button></div>
+                <div class="risk-item"><span class="risk-symbol high">!</span><div><b>6 months exclusivity</b><p>You lose access to every competing creator tool for half a year.</p></div><button class="evidence-button" data-prompt="How should I price the exclusivity clause?">price it</button></div>
+                <div class="risk-item"><span class="risk-symbol medium">↗</span><div><b>Unlimited revisions</b><p>“One video” can quietly become an open-ended editing project.</p></div><button class="evidence-button" data-prompt="What revision limit should I counter with?">counter</button></div>
+              </div>
+            </div>
+            <div class="lower-report-grid">
+              <div class="insight-card"><div class="card-title-row"><h3>Why it fits your content</h3><span class="fit-label">GOOD FIT · 82</span></div><p>ClipForge maps to the practical, tool-focused videos you selected. Your strongest pattern is showing the outcome first, then the workflow.</p><div class="evidence-chips"><span>◉ Video 01 · hook</span><span>◉ Video 04 · workflow</span><span>◉ Video 05 · CTA</span></div></div>
+              <div class="calculation-card"><div class="card-title-row"><h3>Fair value breakdown</h3><button class="link-button" data-prompt="Show me the full pricing calculation">Explain ↗</button></div><div class="calc-row"><span>Base 60-sec video</span><b>$500</b></div><div class="calc-row"><span>12-mo paid usage</span><b>+$600</b></div><div class="calc-row"><span>6-mo exclusivity</span><b>+$450</b></div><div class="calc-row"><span>Raw footage + revisions</span><b>+$300</b></div><div class="calc-total"><span>Suggested counter</span><strong>$1,850</strong></div></div>
+            </div>
+            <div class="counteroffer-card"><div><span class="step-kicker">READY WHEN YOU ARE</span><h3>Your counteroffer, in your voice.</h3><p id="counteroffer-text">“Hey Camille — I’m excited about ClipForge. For the requested deliverables, including 12 months of paid usage, 6 months of category exclusivity, and raw footage, my rate would be $1,850. I can include one round of revisions and 30 days of organic usage. Happy to find a structure that works!”</p></div><button class="secondary-button" id="edit-counter">Edit message <span>↗</span></button></div>
+            <div class="concept-card"><div class="concept-art"><div class="concept-play">▶</div><span>COMPOUND PREVIEW</span></div><div class="concept-copy"><span class="step-kicker">AUTHENTIC CAMPAIGN CONCEPT</span><h3>“I replaced my 5-tab AI workflow with one clean timeline.”</h3><p>Built from your selected videos: result-first hook, screen demo, one practical takeaway. No forced brand voice.</p><button class="link-button" id="generate-concept">Regenerate concept ↗</button></div></div>
+            </div>
+          </section>
+
+          <section id="content-view" class="view hidden"><div class="empty-state"><span class="empty-icon">◉</span><h2>Your content, your signal.</h2><p>Analyze selected videos, refine your creator context, and keep your voice at the center of every deal.</p><button class="primary-button" data-go="deal">Start with your videos <span>→</span></button></div></section>
+          <section id="history-view" class="view hidden"><div class="empty-state"><span class="empty-icon">↗</span><h2>Deal history is next.</h2><p>Save approved decision packets here to compare offers over time.</p><button class="primary-button" data-go="deal">Check a new deal <span>→</span></button></div></section>
+        </section>
+      </main>
+
+      <button class="ai-fab" id="ai-fab" aria-label="Open Creator AI"><span class="ai-spark">✦</span><span>Ask Creator AI</span></button>
+      <aside class="chat-drawer" id="chat-drawer" aria-label="Creator AI">
+        <div class="chat-header"><div><span class="online-dot"></span> Creator AI <small>context-aware</small></div><button id="close-chat" class="close-button">×</button></div>
+        <div id="chat-messages" class="chat-messages"><div class="chat-bubble assistant">Hey! I know your selected videos, creator context, and the ClipForge offer. Ask me anything—or challenge the recommendation.</div></div>
+        <div class="chat-suggestions"><button data-prompt="Why did you recommend countering this offer?">Why counter?</button><button data-prompt="What happens if I remove exclusivity?">Remove exclusivity?</button><button data-prompt="Show me the full pricing calculation">Show calculation</button></div>
+        <form id="chat-form" class="chat-form"><input id="chat-input" placeholder="Ask about this situation…" autocomplete="off" /><button aria-label="Send">↑</button></form>
+      </aside>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
