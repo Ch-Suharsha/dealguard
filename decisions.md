@@ -342,6 +342,30 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** The current API adapter remains the primary GMI integration. The verified model should come from `/v1/models`; the deck's `deepseek-ai/DeepSeek-V4` is the new default example. Voice and AgentBox are documented extension points with explicit credential and time checks.
 
+## D044 — Optimize the judged vertical around evidence and a Monday artifact
+
+**Decision:** Shape the hackathon demo around one complete creator workflow: selected video evidence → transparent deal decision → creator-approved counteroffer/context handoff → Compound-ready campaign concept. Keep optional sponsor capabilities outside the critical path.
+
+**Reason:** The private Hack the Feed report says judging prioritizes meaningful use of video intelligence—what videos show, say, and sound like—and asks for a tool a creator can use on Monday. A broad collection of disconnected sponsor features would make the 3-minute pitch less legible and increase event-day failure risk.
+
+**Flow impact:** The first report view must visibly cite Oriane-derived evidence. GMI explains the decision but does not replace deterministic rights valuation. The final screen must show a usable artifact and the app must remain demoable from seeded fallback data if live sponsor calls fail.
+
+## D045 — Treat sponsor loop features as staged enhancements
+
+**Decision:** Use Oriane as the core live evidence integration, GMI as the core reasoning integration, Lovable as an optional build/deployment surface, and Compound as an optional campaign-rendering/distribution handoff. Do not add voice, AgentBox, MCP runtime calls, automatic posting, or direct Lovable project management to the critical demo before credentials and latency are verified.
+
+**Reason:** The report confirms credits and capabilities, but it does not guarantee that every surface is ready for a stable end-to-end runtime in a same-day build. Reliability and judge comprehension matter more than feature count.
+
+**Flow impact:** Every optional layer has a clear fallback: prepared evidence, local reasoning, local concept preview, and context.md export. Live sponsor status is disclosed in the UI.
+
+## D046 — Prepare for the event review and live pitch constraints
+
+**Decision:** Maintain a seeded demo path, a 4:30 PM submission checkpoint, and a 3-minute pitch with 2-minute Q&A as explicit release constraints.
+
+**Reason:** The private report says all projects are reviewed before the stage round and finalists have a short live demo. The product must communicate value in one pass and tolerate provider failure.
+
+**Flow impact:** QA must cover a cold-start demo, live-provider success, live-provider timeout, and fallback recovery. The pitch script should show one creator, one suspicious offer, one evidence-backed change, and one exported artifact.
+
 **Reason:** This lets us add keys later without exposing secrets or rewriting the interface, while preserving the working demo today.
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.

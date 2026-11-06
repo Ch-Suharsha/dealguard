@@ -287,6 +287,19 @@ This test plan covers the local MVP in `dist/`:
 | GMI-005 | Test optional audio model | Voice response works or text fallback remains available | Pending voice credential/model |
 | GMI-006 | Test AgentBox credential separately | Container launch/upload/execute works without confusing AgentBox credentials with inference credentials | Pending AgentBox access |
 
+### Hack the Feed judged-vertical tests
+
+| ID | Scenario | Expected result | Result |
+|---|---|---|---|
+| EVENT-001 | Run seeded demo with no provider keys | Full evidence-to-counteroffer-to-concept flow completes with clear fallback labels | Pending final rehearsal |
+| EVENT-002 | Run live Oriane + GMI path | Report visibly uses video evidence and GMI explanation while retaining deterministic rights math | Pending event credentials |
+| EVENT-003 | Oriane returns partial/failed data during pitch | Evidence cards remain usable or fall back; demo does not block | Architecture covered; live simulation pending |
+| EVENT-004 | Creator edits rights assumptions | Counteroffer changes immediately and the explanation reflects the approved scenario | Implemented; browser regression pending |
+| EVENT-005 | Export the final artifact | Counteroffer copy/download and context.md handoff are available before the final concept | Implemented; browser regression pending |
+| EVENT-006 | Deliver a 3-minute demo | A cold viewer can identify the creator problem, evidence, recommendation, and Monday artifact in one pass | Rehearsal pending |
+| EVENT-007 | Judge asks an adversarial question | Creator AI answers from the same evidence/offer context without inventing an external send or changing the report without approval | Partial; approval behavior remains pending |
+| EVENT-008 | Optional sponsor feature is unavailable | Voice, AgentBox, MCP runtime, Lovable deployment, and Compound rendering can be skipped without breaking the core demo | Architecture covered; event verification pending |
+
 ## Browser execution results
 
 The local browser run completed successfully for the primary vertical flow:

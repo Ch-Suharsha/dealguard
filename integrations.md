@@ -239,6 +239,43 @@ POST /rest/profiles/search
 POST /rest/assets
 ```
 
+## 12. Private Hack the Feed report audit
+
+The private event report was reviewed end-to-end on 2026-11-06. Its central message is a four-part sponsor loop:
+
+```text
+Oriane: find the signal in video data
+Lovable: build the product quickly
+GMI Cloud: host, reason, and scale it
+Compound: turn the approved idea into a shareable video
+```
+
+### What this changes for DealGuard
+
+- The judging criteria explicitly reward use of video intelligence data and depth across what videos show, say, and sound like. DealGuard should make those evidence cards visible in the first demo screen instead of presenting a generic AI recommendation.
+- The report asks for “the tool a creator ... uses on Monday.” The demo must therefore end in a concrete Monday artifact: a fair-value decision, editable counteroffer, context.md handoff, and campaign concept—not only an analysis.
+- The event provides credits across all partners, but the credits are not a reason to add risky features. Oriane is the evidence layer, GMI is the reasoning layer, Lovable is the build surface, and Compound is the optional distribution layer.
+- The event has a first review deadline at 4:30 PM and finalists give a 3-minute pitch plus 2-minute Q&A at 5:30 PM. DealGuard needs a deterministic seeded demo path and a concise narrative that survives a live API hiccup.
+
+### Confirmed sponsor resources
+
+- Oriane: event API access for Instagram and TikTok data, including API/MCP access and visual, spoken, on-screen, and music signals. The private report instructs attendees to obtain the event key through its QR flow. The public REST contract still requires the authentication and URL-to-content mapping confirmation recorded above.
+- Lovable: 100 credits via the event's Pro Plan 1 monthly redemption flow. Useful for rapid iteration or a hosted clone, but not a runtime dependency for the existing DealGuard server.
+- GMI Cloud: hosting, GPU compute, and scaling; the event deck separately documents the OpenAI-compatible inference API, MCP discovery, and AgentBox. Use the standard inference path first.
+- Compound: free event access using the event code and a $1,000 viral award for the best-performing `#HackTheFeed` video. Treat Compound as a concept/video handoff or optional post-demo enhancement unless a supported programmatic integration is supplied.
+
+### Integration recommendation
+
+For the judged vertical, implement and demonstrate this minimum sponsor-visible path:
+
+1. Creator selects public videos or uploads local sources.
+2. Oriane returns observable evidence: transcript/spoken signals, on-screen text, visual cues, music/context where available, and performance metadata.
+3. DealGuard combines that evidence with rights and offer terms using deterministic valuation plus GMI explanation.
+4. Creator approves/edits the recommendation and exports a counteroffer plus `context.md`.
+5. DealGuard produces a Compound-ready campaign concept; actual rendering/posting remains optional.
+
+Do not make AgentBox, voice, MCP, direct Lovable deployment, or automatic Compound posting part of the critical demo until the supplied credentials and latency are verified.
+
 `/rest/contents/search` is the important endpoint for DealGuard. It searches Oriane-indexed social content across Instagram, TikTok, and YouTube. It supports `sort`, `offset`, `limit` (1–100), `projection` (`basic`, `default`, `full`), and `aiSearchAnchor` query parameters.
 
 The request body uses a required top-level `operator` (`and` or `or`) and optional `filters`/`queries`. Content filters include platform, external platform ID, format, profile, caption, transcript, on-screen text, hashtags, engagement metrics, publication date, audio, co-authors, mentions, location, and `visualSimilarity`. Nested query depth is limited to two; total filter values are limited to 500; visual-similarity values are limited to 10.

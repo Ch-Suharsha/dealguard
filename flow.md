@@ -383,3 +383,25 @@ For deterministic QA, setting `window.DEALGUARD_SIMULATE_TIMEOUT = true` before 
 
 **Decision references:** D030, D043.
 
+## 20. Judged hackathon vertical
+
+The private Hack the Feed report defines the sponsor loop and the judged experience:
+
+1. Start with a creator who has a brand offer and a small set of selected public videos or local files.
+2. Show the creator's evidence signal first: what their videos show, say, and sound like, plus performance context when available from Oriane.
+3. Extract the offer terms and calculate rights/value impact deterministically.
+4. Ask GMI to explain the recommendation in the creator's context and answer follow-up questions.
+5. Let the creator change rights assumptions, approve or edit the recommendation, and generate the counteroffer.
+6. Export `context.md` so the creator's existing AI workspace can continue with the same context.
+7. Generate a Compound-ready campaign concept from the approved negotiation and creator style.
+8. If any live sponsor call fails, keep the same screen and disclose fallback status rather than blocking the demo.
+
+### Event release constraints
+
+- A seeded path must work without keys for rehearsal and submission.
+- The live path should demonstrate Oriane evidence and GMI reasoning when credentials are available.
+- The pitch should fit a 3-minute demo followed by 2 minutes of questions.
+- AgentBox, voice, MCP runtime calls, Lovable deployment, and automatic Compound posting stay optional until verified.
+
+**Decision references:** D044, D045, D046.
+

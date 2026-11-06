@@ -146,6 +146,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** The GMI API, model discovery, audio, MCP, AgentBox, credit claim, and credential separation have been recorded. The default inference model is aligned to the deck's `deepseek-ai/DeepSeek-V4` example. Live model availability, credits, voice capability, and AgentBox credentials remain event-day verification tasks.
 
+### Stage 18 — Private event report audit and judged vertical
+
+**Definition of done:** The private Hack the Feed report is read end-to-end, sponsor capabilities are mapped to the product, judging constraints are captured, and the demo scope is narrowed to a reliable evidence-to-artifact workflow.
+
+**Checkpoint:** The report audit has been installed in `integrations.md`, `decisions.md`, and `flow.md`. DealGuard's critical path is now Oriane evidence → deterministic rights/value decision → GMI explanation/chat → creator-approved counteroffer and `context.md` → Compound-ready concept. The remaining work is to verify live credentials, map the private Oriane key to the documented REST request, rehearse the 3-minute pitch, and test the fallback path under event conditions.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:
