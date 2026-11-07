@@ -4,6 +4,24 @@
 
 The single preview above links to the full MP4 with audio.
 
+## How DealGuard works
+
+![DealGuard system design](docs/system-design.svg)
+
+In plain language:
+
+1. **The creator adds evidence** — a public video link or upload, plus the brand’s message, email, or PDF.
+2. **Oriane reads the video** — it provides public performance metrics and content signals such as transcript, on-screen text, and visual frames when available.
+3. **DealGuard separates the value** — it estimates the creator’s content value, then prices paid usage, exclusivity, raw footage, and other rights separately.
+4. **GMI Cloud powers Creator AI** — the assistant receives the current offer, creator context, DealGuard calculation, and Oriane evidence. It explains the recommendation in plain language and answers follow-up questions.
+5. **The creator decides** — accept a fair offer, send a defensible counteroffer, or export the context for another AI workspace.
+
+The key chain is:
+
+```text
+Public video → Oriane evidence → DealGuard valuation → GMI Creator AI → creator decision
+```
+
 DealGuard is a creator-side brand-deal intelligence workspace. It helps a creator understand what a brand is actually asking for, see what their public video evidence is worth, price usage rights separately, and decide whether to accept or counter.
 
 ## Why it exists
