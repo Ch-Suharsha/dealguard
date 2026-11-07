@@ -742,3 +742,11 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 4. The live-demo button remains available, followed by the existing problem, evidence, valuation, and assistant slides.
 
 **Decision references:** D084.
+
+## 54. Diagram-only fifth presentation slide
+
+1. After the creator-value slide, the fifth slide shows the existing DealGuard system-design image by itself.
+2. The image scales to fit the available viewport without cropping the architecture.
+3. The fifth navigation item is labeled “System design”; the existing previous, next, and keyboard controls continue to work.
+
+**Decision references:** D085.

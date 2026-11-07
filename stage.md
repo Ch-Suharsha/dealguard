@@ -322,6 +322,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** Installed scoped opening-slide copy and responsive styles. Verified the large DealGuard title, solo-creator benefit, three workflow steps, and live-demo URL in the local browser. Visual review at the default 1280×720 viewport shows the complete opening story together; saved a preview. Diff checks pass. D084 and flow section 53 record this presentation-only change.
 
+### Stage 47 — Diagram-only fifth slide
+
+**Definition of done:** The fifth slide contains only the full system-design image, with accessible alternative text and responsive sizing.
+
+**Checkpoint:** Replaced the fifth slide with one system-design image. Browser verification confirms an empty text body, a single image child, and a successfully loaded 1400×820 SVG. Advanced through the deck to slide 5 and visually verified the full diagram fits the 1280×720 viewport; saved a preview. Diff checks pass. D085 and flow section 54 record the update.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

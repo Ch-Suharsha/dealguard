@@ -674,3 +674,11 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** The opening presentation slide introduces the user, input, analysis, and next action. Keep the live-demo entry point and explain Creator AI's role. The remaining slides and application workflow retain their existing behavior.
 
+## D085 — Make the fifth slide diagram-only
+
+**Decision:** Replace the fifth slide's Creator AI copy and chat example with only the existing repository system-design image. Size the complete image within the presentation viewport and retain its accessible description.
+
+**Reason:** The requested fifth slide should let the system diagram explain how creator inputs, Oriane, DealGuard, GMI Cloud, and the decision connect without competing content.
+
+**Flow impact:** The fifth navigation item becomes “System design.” Existing presentation navigation and the other seven slides retain their current content. The application is unchanged.
+
