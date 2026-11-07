@@ -1,7 +1,13 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
+const crypto = require('crypto');
+const { execFile } = require('child_process');
+const { promisify } = require('util');
 const { CompoundAdapter, GmiAdapter, OrianeAdapter, ProviderNotConfiguredError, providerHealth } = require('./integrations');
+const { computeDealRecommendation } = require('./recommendation');
+const execFileAsync = promisify(execFile);
 
 const root = path.resolve(__dirname, '..');
 const dist = path.join(root, 'dist');
@@ -20,22 +26,10 @@ loadDotEnv(path.join(root, '.env'));
 const port = Number(process.env.PORT || 4173);
 
 function fallbackAnalysis(input = {}) {
-  const offer = String(input.offer || '');
-  const hasPaidUsage = /paid advertising|whitelisting|paid usage/i.test(offer);
-  const hasExclusivity = /exclusivity|exclusive/i.test(offer);
+  const recommendation = computeDealRecommendation(input);
   return {
     source: 'fallback',
-    recommendation: 'COUNTER',
-    confidence: 0.87,
-    fairRange: { min: 1450, max: 1800 },
-    suggestedCounter: 1850,
-    risks: [
-      hasPaidUsage ? '12 months paid advertising usage' : 'Confirm whether paid usage is included',
-      hasExclusivity ? '6 months category exclusivity' : 'Confirm whether exclusivity is included',
-      'Raw footage and unlimited revisions',
-    ],
-    assumptions: ['Base 60-second video is worth $500', 'Paid usage and exclusivity are priced separately'],
-    evidence: input.videos || [],
+    ...recommendation,
   };
 }
 
@@ -45,6 +39,13 @@ function fallbackChat(question) {
 
 function fallbackConcept() {
   return { source: 'handoff', title: 'I replaced my 5-tab AI workflow with one clean timeline.', hook: 'Show the outcome first, then the workflow.', format: '60-second creator-style sponsored video' };
+}
+
+function creatorMessages(input = {}) {
+  return [
+    { role: 'system', content: 'You are DealGuard, a thoughtful creator-side commercial negotiation advisor. Talk like a sharp, empathetic human advisor in a chat: answer the creator directly, explain the reasoning plainly, and ask one useful follow-up when appropriate. Keep replies concise (usually 2–5 short paragraphs). Do not use Markdown tables, bold markers, headings, or raw formatting. If you need a list, use simple short bullets. Base claims on the supplied creator context and offer; do not invent performance data.' },
+    { role: 'user', content: JSON.stringify(input) },
+  ];
 }
 
 function sendJson(response, status, payload) {
@@ -67,23 +68,59 @@ async function readBody(request) {
   return body ? JSON.parse(body) : {};
 }
 
+async function extractDocument(input = {}) {
+  const raw = String(input.data || '');
+  if (!raw) throw new Error('No document data provided');
+  const encoded = raw.includes(',') ? raw.slice(raw.indexOf(',') + 1) : raw;
+  if (Buffer.byteLength(encoded, 'base64') > 15 * 1024 * 1024) throw new Error('Document is larger than the 15 MB limit');
+  if (input.type === 'text/plain' || /\.(txt|md)$/i.test(String(input.name || ''))) return { text: Buffer.from(encoded, 'base64').toString('utf8'), filename: input.name || 'document.txt' };
+  if (input.type !== 'application/pdf' && !/\.pdf$/i.test(String(input.name || ''))) throw new Error('Only PDF, TXT, and Markdown offer documents are supported');
+  const filename = path.join(os.tmpdir(), `dealguard-${crypto.randomUUID()}.pdf`);
+  await fs.promises.writeFile(filename, Buffer.from(encoded, 'base64'));
+  try {
+    const { stdout } = await execFileAsync('pdftotext', [filename, '-'], { maxBuffer: 4 * 1024 * 1024 });
+    return { text: stdout.trim(), filename: input.name || 'offer.pdf' };
+  } finally { await fs.promises.unlink(filename).catch(() => {}); }
+}
+
 async function handleApi(request, response, pathname) {
   if (request.method === 'GET' && pathname === '/api/health') return sendJson(response, 200, { ok: true, providers: providerHealth() });
   try {
     const input = await readBody(request);
+    if (request.method === 'POST' && pathname === '/api/extract-document') return sendJson(response, 200, await extractDocument(input));
     if (request.method === 'POST' && pathname === '/api/analyze') {
       const adapter = new OrianeAdapter();
       if (adapter.configured) {
-        try { return sendJson(response, 200, { source: 'live', provider: 'oriane', data: await adapter.analyze(input) }); }
+        try {
+          const intelligence = await adapter.analyze(input);
+          return sendJson(response, 200, { source: 'live', provider: 'oriane', ...computeDealRecommendation(input, intelligence), data: intelligence });
+        }
         catch (error) { return sendJson(response, 200, { ...fallbackAnalysis(input), providerError: error.message, fallbackReason: 'oriane_request_failed' }); }
       }
       return sendJson(response, 200, fallbackAnalysis(input));
+    }
+    if (request.method === 'POST' && pathname === '/api/chat/stream') {
+      const adapter = new GmiAdapter();
+      response.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', Connection: 'keep-alive' });
+      if (!adapter.configured) {
+        response.write('data: {"source":"fallback"}\n\n');
+        response.write(`data: ${JSON.stringify({ delta: fallbackChat(input.question).answer })}\n\n`);
+        response.write('data: [DONE]\n\n'); response.end(); return;
+      }
+      try {
+        response.write('data: {"source":"live"}\n\n');
+        await adapter.chatStream(creatorMessages(input), delta => response.write(`data: ${JSON.stringify({ delta })}\n\n`));
+        response.write('data: [DONE]\n\n'); response.end();
+      } catch (error) {
+        response.write(`data: ${JSON.stringify({ error: error.message })}\n\n`); response.end();
+      }
+      return;
     }
     if (request.method === 'POST' && pathname === '/api/chat') {
       const adapter = new GmiAdapter();
       if (adapter.configured) {
         try {
-          const result = await adapter.chat([{ role: 'system', content: 'You are DealGuard, a thoughtful creator-side commercial negotiation advisor. Talk like a sharp, empathetic human advisor in a chat: answer the creator directly, explain the reasoning plainly, and ask one useful follow-up when appropriate. Keep replies concise (usually 2–5 short paragraphs). Do not use Markdown tables, bold markers, headings, or raw formatting. If you need a list, use simple short bullets. Base claims on the supplied creator context and offer; do not invent performance data.' }, { role: 'user', content: JSON.stringify(input) }]);
+          const result = await adapter.chat(creatorMessages(input));
           return sendJson(response, 200, { source: 'live', provider: 'gmi', answer: result.choices?.[0]?.message?.content || '' });
         } catch (error) { return sendJson(response, 200, { ...fallbackChat(input.question), providerError: error.message, fallbackReason: 'gmi_request_failed' }); }
       }

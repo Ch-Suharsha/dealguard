@@ -522,3 +522,114 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D062.
 
+## 32. Dynamic commercial recommendation
+
+1. The creator submits a current brand offer.
+2. DealGuard parses the first stated content fee and detects rights, duration, deliverables, source files, and revision scope.
+3. DealGuard calculates an explainable rights breakdown, fair range, counter, and risk list.
+4. Oriane evidence is displayed separately as live video intelligence; it does not silently invent a price.
+5. The report replaces its demo values with the current scenario's recommendation and counteroffer.
+
+**Decision references:** D063.
+
+## 33. Streaming Creator AI
+
+1. The creator submits a question.
+2. DealGuard opens the streaming GMI-compatible route and shows a rotating progress state.
+3. If GMI streams, each text delta is rendered into the chat immediately.
+4. The completed answer is stored in the current session history as one assistant message.
+5. If streaming fails or the provider is unavailable, DealGuard uses the prepared fallback and labels the provider state.
+
+**Decision references:** D064.
+
+## 34. Creator-specific live valuation
+
+1. Oriane analyzes the selected public creator content.
+2. DealGuard aggregates matched-post views and engagement into a creator performance signal.
+3. The signal estimates a creator-specific base content value; the brand's proposed fee is treated as an offer to compare, not as the creator's value.
+4. Rights premiums are calculated from the brand's requested paid usage, exclusivity, deliverables, source files, and revision scope.
+5. The report shows the live-data assumption and generates the counter for this creator and this offer.
+6. If live evidence is unavailable, DealGuard labels the fallback signal instead of presenting it as real-time valuation.
+
+**Decision references:** D065.
+
+## 35. Character-by-character streamed reply
+
+1. Creator AI opens the stream and displays rotating progress copy.
+2. GMI text deltas enter a client-side character queue.
+3. DealGuard renders one character at a time at a readable cadence.
+4. The progress copy disappears when the first character appears.
+5. The complete typed answer is saved once in the current session history.
+
+**Decision references:** D066.
+
+## 36. Accept versus counter decision
+
+1. DealGuard calculates the creator-specific fair range and reads the brand's stated offer.
+2. If the offer is at or above the fair-range minimum, the decision becomes ACCEPT.
+3. Creator AI drafts a confirmation that asks the creator to verify scope, usage, exclusivity, and revisions.
+4. If the offer is below the fair-range minimum, the decision remains COUNTER at the calculated rights-adjusted value.
+5. Deal Lab toggles use the same current breakdown and base as the report.
+
+**Decision references:** D067.
+
+## 37. Empty creator signal workspace
+
+1. The creator opens DealGuard with no seeded content.
+2. The workspace explains that a public social link or uploaded file must be added.
+3. The creator adds one or more sources and they become selected automatically.
+4. The creator can remove or deselect sources before analysis.
+5. DealGuard refuses analysis when the selected-source count is zero.
+
+**Decision references:** D068.
+
+## 38. Fresh Creator AI page session
+
+1. DealGuard loads the default Creator AI greeting.
+2. Any legacy stored chat history is cleared and ignored.
+3. Messages remain available while the current page is open, including after closing and reopening the drawer.
+4. A reload starts a new conversation with no stale messages.
+
+**Decision references:** D069.
+
+## 39. Offer paste and PDF intake
+
+1. DealGuard opens with an empty offer field and no demo email metadata.
+2. The creator pastes a brand message, brief, or contract, or selects a PDF/TXT/Markdown document.
+3. Text files are read locally; PDFs are sent to the local extraction route and converted to text.
+4. Extracted text is placed in the editable offer field and the creator reviews it.
+5. Analysis remains blocked until the offer field contains text.
+6. The extracted file is not persisted after processing.
+
+**Decision references:** D070.
+
+## 40. Optional creator context
+
+1. DealGuard opens with blank niche, audience, and boundary fields.
+2. Each field is labeled optional and provides an example placeholder.
+3. The creator may fill any subset, save it, or leave all fields blank.
+4. Analysis uses selected content and the offer regardless of context completion.
+5. If context is supplied, it enriches the report and Creator AI guidance; it never becomes a required gate.
+
+**Decision references:** D071.
+
+## 41. Vertical streamed chat layout
+
+1. Creator AI receives a streamed text delta.
+2. The delta enters the character queue and is rendered inside the active assistant bubble.
+3. The bubble wraps long words, rows, and partial text within the drawer width.
+4. Horizontal overflow is clipped from the message viewport.
+5. The viewport scrolls to the newest rendered character so later paragraphs appear below earlier ones.
+
+**Decision references:** D072.
+
+## 42. Evidence-review analysis state
+
+1. The creator submits a valid offer with selected content.
+2. DealGuard hides the decision cards and opens the live review state.
+3. The state rotates through brand request interpretation, content-signal matching, audience fit, rights valuation, and recommendation preparation.
+4. Oriane analysis runs behind the state; the displayed phases describe the actual evaluation stages rather than exposing provider internals.
+5. After the provider response and minimum presentation window complete, DealGuard reveals the report and its live/fallback status.
+
+**Decision references:** D073.
+

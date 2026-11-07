@@ -208,6 +208,60 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** Installed session-only history with no account or server persistence. Browser verification remains.
 
+### Stage 28 — Dynamic deal scenarios and streaming Creator AI
+
+**Definition of done:** Changing the brand offer changes the report's fair range, breakdown, risks, and counter; Creator AI visibly progresses and renders live model text when GMI streaming is available.
+
+**Checkpoint:** Server regression and local end-to-end checks PASS. Live creator metrics now change the base value, while offer rights change the counter. Streaming route returns SSE events. Final browser rehearsal should confirm the visual timing in the active tab.
+
+### Stage 29 — Progressive Creator AI rendering
+
+**Definition of done:** Creator AI shows rotating progress copy while waiting and renders streamed text character-by-character rather than inserting the completed response as one pasted block.
+
+**Checkpoint:** Installed the client-side stream queue and typewriter renderer; JavaScript syntax and diff checks pass. Browser timing rehearsal remains.
+
+### Stage 30 — Negotiation direction and Deal Lab consistency
+
+**Definition of done:** A sufficient brand offer is accepted rather than countered downward, and the V2 Deal Lab reflects the same current analysis values immediately after analysis.
+
+**Checkpoint:** Local API regression PASS: a $1,200 offer against a $500–$650 fair range now returns ACCEPT with a $1,200 suggested response. Dynamic Deal Lab synchronization is installed; browser verification remains.
+
+### Stage 31 — Creator-owned content selection
+
+**Definition of done:** Fake seed videos are removed; the creator starts with an empty signal workspace and must add their own public links or files before analysis.
+
+**Checkpoint:** Empty-state rendering and zero-source guard installed. JavaScript syntax and diff checks remain required before final rehearsal.
+
+### Stage 32 — Fresh Creator AI sessions
+
+**Definition of done:** Old Creator AI messages do not return after a page reload; messages remain available only during the current open page session.
+
+**Checkpoint:** Browser storage restoration removed and legacy history cleanup added. Syntax and diff checks pass; refresh behavior should be verified in the browser.
+
+### Stage 33 — Real offer intake
+
+**Definition of done:** The offer area starts blank, accepts pasted text and PDF attachments, extracts PDF text for review, and does not send a seeded demo offer.
+
+**Checkpoint:** Empty textarea, upload control, extraction route, and analysis validation installed. PDF extraction command is available locally; browser and sample-PDF verification remain.
+
+### Stage 34 — Optional creator context
+
+**Definition of done:** No fake niche, audience, or boundary is prefilled, and analysis still works when all three are blank.
+
+**Checkpoint:** Blank optional fields and placeholders installed. Existing validation only requires content and offer; syntax and diff checks remain required.
+
+### Stage 35 — Vertical streamed chat
+
+**Definition of done:** Streamed Creator AI text wraps inside the drawer, never grows sideways, and auto-scrolls as characters arrive.
+
+**Checkpoint:** Overflow constraints and bottom-following scroll helper installed. Browser streaming rehearsal remains.
+
+### Stage 36 — Evidence-review loading state
+
+**Definition of done:** Analyze no longer reveals the report instantly; it shows a rotating review state and reveals the recommendation only after analysis completes.
+
+**Checkpoint:** Five review phases, Oriane-backed status updates, report concealment, progress animation, and 5.5-second minimum presentation window installed. Browser timing rehearsal remains.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

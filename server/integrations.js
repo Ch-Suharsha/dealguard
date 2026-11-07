@@ -137,6 +137,41 @@ class GmiAdapter {
       body: JSON.stringify(body),
     }, this.timeoutMs);
   }
+
+  async chatStream(messages, onDelta) {
+    if (!this.configured) throw new ProviderNotConfiguredError('gmi', ['GMI_API_KEY']);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), this.timeoutMs);
+    try {
+      const response = await fetch(`${this.baseUrl}/chat/completions`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${this.key}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: this.model, temperature: 0.2, messages, stream: true }),
+        signal: controller.signal,
+      });
+      if (!response.ok || !response.body) throw new Error(`Provider returned ${response.status}`);
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      while (true) {
+        const { value, done } = await reader.read();
+        buffer += decoder.decode(value || new Uint8Array(), { stream: !done });
+        const lines = buffer.split(/\r?\n/);
+        buffer = lines.pop() || '';
+        for (const line of lines) {
+          const data = line.replace(/^data:\s*/, '').trim();
+          if (!data || data === '[DONE]') continue;
+          try {
+            const delta = JSON.parse(data)?.choices?.[0]?.delta?.content;
+            if (delta) onDelta(delta);
+          } catch { /* Ignore keepalive or provider metadata lines. */ }
+        }
+        if (done) break;
+      }
+    } finally {
+      clearTimeout(timer);
+    }
+  }
 }
 
 class CompoundAdapter {

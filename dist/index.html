@@ -91,9 +91,9 @@
                 <span class="edit-pill">EDITABLE</span>
               </div>
               <div class="profile-fields">
-                <label>What do you make?<input id="niche" value="Tech, AI & productivity" /></label>
-                <label>Who watches?<input id="audience" value="Curious builders who want practical shortcuts" /></label>
-                <label>Creator boundary<textarea id="boundary" rows="2">No gambling, no miracle claims. Keep it useful.</textarea></label>
+                <label>What do you make? <span class="optional-label">optional</span><input id="niche" placeholder="e.g. travel photography, beauty, gaming, education" /></label>
+                <label>Who watches? <span class="optional-label">optional</span><input id="audience" placeholder="e.g. budget travelers, new parents, indie developers" /></label>
+                <label>Creator boundary <span class="optional-label">optional</span><textarea id="boundary" rows="2" placeholder="Anything you will not accept or want the AI to protect? You can leave this blank."></textarea></label>
               </div>
               <button class="ghost-button full-width" id="save-profile">Save context <span>✓</span></button>
             </section>
@@ -104,20 +104,19 @@
               <div>
                 <span class="step-kicker">STEP 02 · THE OFFER</span>
                 <h2>Paste the brand message. We’ll find the <span>fine print.</span></h2>
-                <p>Try the demo offer below, or paste your own email, brief, or contract.</p>
+                <p>Paste the brand's message or upload the PDF they sent you.</p>
               </div>
-              <div class="offer-source"><span class="source-dot"></span> Demo workspace</div>
+              <div class="offer-source"><span class="source-dot"></span> Private workspace</div>
             </div>
             <div class="offer-layout">
               <div class="offer-input-wrap">
-                <div class="message-meta"><span class="mail-avatar">C</span><div><strong>Camille from ClipForge</strong><span>camille@clipforge.co · just now</span></div><span class="mail-label">Brand offer</span></div>
-                <textarea id="offer-input" class="offer-input" spellcheck="false">Hey Suharsha! We love your practical AI content and would love to partner on a 60-second TikTok/Instagram video for ClipForge. We can offer $500 for the post. We'd also like 12 months of paid advertising usage, 6 months of exclusivity against competing creator tools, the raw footage, and unlimited revisions. Let us know if you're interested!</textarea>
-                <div class="offer-input-footer"><span>✦ Parsed securely in this workspace</span><button class="link-button" id="reset-offer">Reset demo offer</button></div>
+                <textarea id="offer-input" class="offer-input" spellcheck="false" placeholder="Paste the brand email, campaign brief, contract, or negotiation message here…"></textarea>
+                <div class="offer-upload-row"><label class="secondary-button" for="offer-file">＋ Upload offer PDF</label><input id="offer-file" type="file" accept="application/pdf,.pdf,text/plain,.txt,.md" hidden /><span id="offer-file-name">No document attached</span></div>
+                <div class="offer-input-footer"><span>✦ Your offer is parsed securely in this workspace</span></div>
               </div>
-              <div class="offer-summary">
-                <div class="summary-label">QUICK READ</div>
-                <div class="quick-read-row"><span class="risk-symbol high">!</span><div><b>Rights may be underpriced</b><small>Paid usage + exclusivity detected</small></div></div>
-                <div class="quick-read-row"><span class="risk-symbol medium">↗</span><div><b>Content fit looks promising</b><small>ClipForge matches your creator lane</small></div></div>
+              <div class="offer-summary offer-summary-empty">
+                <div class="summary-label">READY TO REVIEW</div>
+                <p>Paste text or attach a PDF. DealGuard will extract the terms before analyzing the deal.</p>
                 <button class="primary-button analyze-button" id="analyze-button">Analyze this deal <span>→</span></button>
               </div>
             </div>
@@ -129,6 +128,7 @@
               <div class="report-actions"><button class="ghost-button" id="download-report">↓ Download packet</button><button class="primary-button" id="copy-counter">Copy counteroffer <span>↗</span></button></div>
             </div>
             <div class="provider-status" id="provider-status" role="status" aria-live="polite"><span class="provider-status-dot"></span><span id="provider-status-text">Ready to analyze</span><button class="retry-button hidden" id="retry-analysis" type="button">Retry analysis</button></div>
+            <div class="analysis-loading hidden" id="analysis-loading" aria-live="polite"><span class="analysis-loading-kicker">DEALGUARD · LIVE REVIEW</span><h3 id="analysis-loading-title">Reading the brand's request…</h3><p id="analysis-loading-text">Understanding the offer, your content signal, and the audience fit before showing a recommendation.</p><div class="analysis-loading-bar"><span></span></div></div>
             <div class="oriane-signal hidden" id="oriane-signal" aria-live="polite"></div>
             <div class="context-handoff-card">
               <div><span class="step-kicker">AI HANDOFF</span><h3>Bring your creator brain anywhere.</h3><p>Export your profile, content signal, deal rules, and current recommendation as a portable <code>context.md</code> file for Butler, Claude, or any AI agency that accepts Markdown.</p></div>
@@ -137,9 +137,9 @@
             <div class="decision-grid">
               <div class="decision-card counter">
                 <div class="decision-top"><span class="decision-badge">RECOMMENDATION</span><span class="confidence">● 87% confidence</span></div>
-                <div class="decision-word">COUNTER</div>
-                <p>This is not a $500 post. It’s a post + a year of paid media + six months of category lock-in.</p>
-                <div class="decision-price"><span>Estimated fair range</span><strong>$1,450 <small>—</small> $1,800</strong></div>
+                <div class="decision-word" id="decision-word">COUNTER</div>
+                <p id="decision-summary">This is not a $500 post. It’s a post + a year of paid media + six months of category lock-in.</p>
+                <div class="decision-price"><span>Estimated fair range</span><strong id="fair-range">$1,450 <small>—</small> $1,800</strong></div>
                 <button class="chat-prompt" data-prompt="Why did you recommend countering this offer?">Ask why <span>↗</span></button>
                 <div class="report-disclaimer">Commercial negotiation guidance only — not legal advice.</div>
               </div>
@@ -152,7 +152,7 @@
             </div>
             <div class="lower-report-grid">
               <div class="insight-card"><div class="card-title-row"><h3>Why it fits your content</h3><span class="fit-label">GOOD FIT · 82</span></div><p>ClipForge maps to the practical, tool-focused videos you selected. Your strongest pattern is showing the outcome first, then the workflow.</p><div class="evidence-chips"><span>◉ Video 01 · hook</span><span>◉ Video 04 · workflow</span><span>◉ Video 05 · CTA</span></div></div>
-              <div class="calculation-card"><div class="card-title-row"><h3>Fair value breakdown</h3><button class="link-button" data-prompt="Show me the full pricing calculation">Explain ↗</button></div><div class="calc-row"><span>Base 60-sec video</span><b>$500</b></div><div class="calc-row"><span>12-mo paid usage</span><b>+$600</b></div><div class="calc-row"><span>6-mo exclusivity</span><b>+$450</b></div><div class="calc-row"><span>Raw footage + revisions</span><b>+$300</b></div><div class="calc-total"><span>Suggested counter</span><strong id="suggested-counter">$1,850</strong></div></div>
+                <div class="calculation-card"><div class="card-title-row"><h3>Fair value breakdown</h3><button class="link-button" data-prompt="Show me the full pricing calculation">Explain ↗</button></div><div class="calc-row"><span>Base content fee</span><b id="calc-base">$500</b></div><div class="calc-row"><span>Paid usage</span><b id="calc-paid">+$600</b></div><div class="calc-row"><span>Exclusivity</span><b id="calc-exclusivity">+$450</b></div><div class="calc-row"><span>Source files + revisions</span><b id="calc-rights">+$300</b></div><div class="calc-total"><span>Suggested counter</span><strong id="suggested-counter">$1,850</strong></div></div>
             </div>
             <div class="v2-grid">
               <div class="simulator-card">

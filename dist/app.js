@@ -1,28 +1,19 @@
-const videos = [
-  { id: 1, title: 'The 3-tab AI workflow', meta: '42.8K views · 8.2% saves', selected: true },
-  { id: 2, title: 'I tried 7 AI note apps', meta: '18.4K views · 5.4% saves', selected: true },
-  { id: 3, title: 'Build this in 10 minutes', meta: '66.1K views · 11.8% saves', selected: true },
-  { id: 4, title: 'The honest tool review', meta: '29.7K views · 6.9% saves', selected: true },
-  { id: 5, title: 'My creator stack', meta: '51.3K views · 9.1% saves', selected: true },
-];
+const videos = [];
 
 const CHAT_SESSION_KEY = 'dealguard-chat-history-v1';
-const defaultChatHistory = [{ role: 'assistant', text: 'Hey! I know your selected videos, creator context, and the ClipForge offer. Ask me anything—or challenge the recommendation.' }];
-function loadChatHistory() {
-  try { const saved = JSON.parse(sessionStorage.getItem(CHAT_SESSION_KEY) || 'null'); return Array.isArray(saved) && saved.length ? saved : defaultChatHistory; }
-  catch { return defaultChatHistory; }
-}
-const state = { selectedVideos: new Set(videos.filter(v => v.selected).map(v => v.id)), reportVisible: false, apiSource: 'fallback', analyzing: false, chatting: false, lastAnalysisPayload: null, chatHistory: loadChatHistory() };
+const defaultChatHistory = [{ role: 'assistant', text: 'Hey! Add the videos you want me to understand, then I can use your creator context and brand offer to help. Ask me anything—or challenge the recommendation.' }];
+function loadChatHistory() { try { sessionStorage.removeItem(CHAT_SESSION_KEY); } catch { /* best effort cleanup */ } return [...defaultChatHistory]; }
+const state = { selectedVideos: new Set(videos.filter(v => v.selected).map(v => v.id)), reportVisible: false, apiSource: 'fallback', analyzing: false, chatting: false, lastAnalysisPayload: null, recommendation: null, chatHistory: loadChatHistory() };
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
 function renderVideos() {
-  $('#video-grid').innerHTML = videos.map(video => `
+  $('#video-grid').innerHTML = videos.length ? videos.map(video => `
     <button class="video-card ${state.selectedVideos.has(video.id) ? 'selected' : ''}" data-video="${video.id}" aria-pressed="${state.selectedVideos.has(video.id)}">
       ${state.selectedVideos.has(video.id) ? '<span class="checkmark">✓</span>' : ''}
       <span class="video-number">0${video.id}</span><span class="video-play">▶</span>
       <span class="video-info"><b>${video.title}</b><small>${video.meta}</small></span>
-    </button>`).join('');
+    </button>`).join('') : '<div class="video-empty">Add a public TikTok, Instagram, or YouTube link—or upload a video file—to start your creator signal.</div>';
   $('#selected-count').textContent = `${state.selectedVideos.size} selected`;
   $$('.video-card').forEach(card => card.addEventListener('click', () => {
     const id = Number(card.dataset.video);
@@ -50,7 +41,7 @@ function renderAddedMedia() {
 }
 
 function addVideoSource(title, meta, url = '') {
-  const id = Math.max(...videos.map(video => video.id)) + 1;
+  const id = (videos.length ? Math.max(...videos.map(video => video.id)) : 0) + 1;
   videos.push({ id, title, meta, url, selected: true, added: true });
   state.selectedVideos.add(id);
   renderVideos();
@@ -93,6 +84,37 @@ function renderOrianeSignal(result) {
   card.innerHTML = `<div class="oriane-signal-head"><div><span class="oriane-signal-kicker">ORIANE · LIVE VIDEO INTELLIGENCE</span><h3>${escapeHtml(row.title || `${row.platform || 'Social'} post analyzed`)}</h3><p>${escapeHtml(evidence)} · ${escapeHtml(row.publishedAt || 'indexed public post')}</p></div><span class="oriane-signal-badge">LIVE API</span></div><div class="oriane-signal-grid"><div class="oriane-signal-stat"><b>${formatNumber(row.viewsCount)}</b><small>views</small></div><div class="oriane-signal-stat"><b>${formatNumber(row.likesCount)}</b><small>likes</small></div><div class="oriane-signal-stat"><b>${formatNumber(row.commentsCount)}</b><small>comments</small></div><div class="oriane-signal-stat"><b>${formatNumber(row.sharesCount)}</b><small>shares</small></div></div><p class="oriane-signal-foot">Evidence request ${escapeHtml(payload.metadata?.requestId || 'complete')} · Oriane result ${escapeHtml(row.id || 'indexed')}</p>`;
 }
 
+function money(value) { return `$${Number(value || 0).toLocaleString()}`; }
+
+function renderRecommendation(result) {
+  const recommendation = result || {};
+  state.recommendation = recommendation;
+  const range = recommendation.fairRange || { min: 1450, max: 1800 };
+  const breakdown = recommendation.breakdown || {};
+  const decisionWord = $('#decision-word'); if (decisionWord) decisionWord.textContent = recommendation.recommendation || 'COUNTER';
+  const fairRange = $('#fair-range'); if (fairRange) fairRange.innerHTML = `${money(range.min)} <small>—</small> ${money(range.max)}`;
+  const suggested = $('#suggested-counter'); if (suggested) suggested.textContent = money(recommendation.suggestedCounter || 1850);
+  const base = $('#calc-base'); if (base) base.textContent = money(breakdown.base || 500);
+  const paid = $('#calc-paid'); if (paid) paid.textContent = `+${money(breakdown.paidUsage || 0)}`;
+  const exclusive = $('#calc-exclusivity'); if (exclusive) exclusive.textContent = `+${money(breakdown.exclusivity || 0)}`;
+  const rights = $('#calc-rights'); if (rights) rights.textContent = `+${money((breakdown.rawFootage || 0) + (breakdown.revisions || 0) + (breakdown.extraDeliverables || 0))}`;
+  const summary = $('#decision-summary');
+  if (summary) {
+    const signal = recommendation.creatorSignal;
+    const sourceText = signal?.source === 'oriane_live' ? `Based on ${Number(signal.averageViews).toLocaleString()} average views and ${(Number(signal.engagementRate || 0) * 100).toFixed(1)}% engagement from live Oriane data, this creator's base value is ${money(breakdown.base || 500)}.` : `Using the available content signal, this creator's estimated base value is ${money(breakdown.base || 500)}.`;
+    summary.textContent = recommendation.recommendation === 'ACCEPT'
+      ? `${sourceText} The brand's offer of ${money(recommendation.brandOffer)} already meets this deal's estimated fair value. Accept it or clarify the final scope—do not counter yourself downward.`
+      : `${sourceText} The requested usage, restrictions, and deliverables bring the defensible counter to ${money(recommendation.suggestedCounter || 1850)}.`;
+  }
+  const counter = $('#counteroffer-text');
+  if (counter) counter.textContent = recommendation.recommendation === 'ACCEPT'
+    ? `“Thanks for reaching out. The ${money(recommendation.brandOffer)} offer works for the requested scope. Before we finalize, please confirm the deliverables, usage period, exclusivity category, and one-revision limit in the agreement.”`
+    : `“Thanks for reaching out. Based on the requested deliverables and usage, my rate would be ${money(recommendation.suggestedCounter || 1850)}. That includes the agreed content, one revision round, and clearly defined campaign usage. I’m happy to adjust the scope if you need a different budget.”`;
+  const dynamicFees = [breakdown.paidUsage || 0, breakdown.exclusivity || 0, breakdown.rawFootage || 0, breakdown.revisions || 0];
+  $$('.toggle-row input').forEach((input, index) => { input.dataset.fee = String(dynamicFees[index] || 0); input.checked = dynamicFees[index] > 0; const small = input.parentElement.querySelector('small'); if (small) small.textContent = `${small.textContent.split('·')[0].trim()} · +${money(dynamicFees[index] || 0)}`; });
+  updateSimulator();
+}
+
 function openChat(prompt) {
   $('#chat-drawer').classList.add('open');
   if (prompt) sendChat(prompt);
@@ -133,15 +155,21 @@ function formatAssistantMessage(text) {
 }
 
 function persistChatHistory() {
-  try { sessionStorage.setItem(CHAT_SESSION_KEY, JSON.stringify(state.chatHistory)); } catch { /* session persistence is best effort */ }
+  // Conversation history is intentionally page-session-only. Do not restore stale chats after reload.
 }
 
 function appendMessage(text, role, persist = true) {
   const message = document.createElement('div'); message.className = `chat-bubble ${role}`;
   if (role === 'assistant') message.innerHTML = formatAssistantMessage(text);
   else message.textContent = text;
-  $('#chat-messages').appendChild(message); $('#chat-messages').scrollTop = $('#chat-messages').scrollHeight;
+  $('#chat-messages').appendChild(message); keepChatAtBottom();
   if (persist) { state.chatHistory.push({ text, role }); persistChatHistory(); }
+}
+
+function keepChatAtBottom() {
+  const messages = $('#chat-messages');
+  if (!messages) return;
+  requestAnimationFrame(() => { messages.scrollTop = messages.scrollHeight; });
 }
 
 function renderChatHistory() {
@@ -159,6 +187,31 @@ async function apiRequest(path, payload, options = {}) {
   } finally { clearTimeout(timer); }
   if (!response.ok) throw new Error(`DealGuard API ${response.status}`);
   return response.json();
+}
+
+async function streamChatRequest(payload, onDelta, onSource) {
+  const controller = new AbortController();
+  const timeoutMs = window.DEALGUARD_SIMULATE_TIMEOUT ? 40 : 30000;
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch('/api/chat/stream', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), signal: controller.signal });
+    if (!response.ok || !response.body) throw new Error(`DealGuard API ${response.status}`);
+    const reader = response.body.getReader(); const decoder = new TextDecoder(); let buffer = '';
+    while (true) {
+      const { value, done } = await reader.read();
+      buffer += decoder.decode(value || new Uint8Array(), { stream: !done });
+      const lines = buffer.split(/\r?\n/); buffer = lines.pop() || '';
+      for (const line of lines) {
+        const data = line.replace(/^data:\s*/, '').trim();
+        if (!data || data === '[DONE]') continue;
+        const event = JSON.parse(data);
+        if (event.source) onSource(event.source);
+        if (event.error) throw new Error(event.error);
+        if (event.delta) onDelta(event.delta);
+      }
+      if (done) break;
+    }
+  } finally { clearTimeout(timer); }
 }
 
 function creatorContext() {
@@ -232,14 +285,37 @@ async function sendChat(prompt) {
   state.chatting = true;
   $('#chat-drawer').classList.add('open'); appendMessage(prompt, 'user');
   const input = $('#chat-input'); const send = $('#chat-send'); input.disabled = true; send.disabled = true;
-  const loading = document.createElement('div'); loading.className = 'chat-bubble assistant loading-bubble'; loading.setAttribute('aria-label', 'Creator AI is thinking'); loading.innerHTML = '<i></i><i></i><i></i>'; $('#chat-messages').appendChild(loading);
+  const loading = document.createElement('div'); loading.className = 'chat-bubble assistant loading-bubble'; loading.setAttribute('aria-label', 'Creator AI is thinking'); loading.innerHTML = '<span class="loading-copy">Analyzing your question…</span>'; $('#chat-messages').appendChild(loading);
+  const loadingMessages = ['Reviewing your creator context…', 'Analyzing your question…', 'Understanding your whole deal…', 'Getting the best reply for you…', 'Checking the relevant information…'];
+  let loadingIndex = 0; let streamBuffer = ''; let displayedBuffer = ''; let pendingChars = ''; let streamSource = 'fallback'; let typing = false; let streamEnded = false; let resolveTyping;
+  const typingDone = new Promise(resolve => { resolveTyping = resolve; });
+  const typeNextCharacter = () => {
+    if (pendingChars) {
+      displayedBuffer += pendingChars[0]; pendingChars = pendingChars.slice(1);
+      loading.innerHTML = formatAssistantMessage(displayedBuffer); keepChatAtBottom();
+      setTimeout(typeNextCharacter, 14);
+      return;
+    }
+    typing = false;
+    if (streamEnded) resolveTyping();
+  };
+  const enqueueStreamText = delta => {
+    streamBuffer += delta; pendingChars += delta;
+    if (!typing) { typing = true; typeNextCharacter(); }
+  };
+  const loadingTimer = setInterval(() => { if (!displayedBuffer && !pendingChars) { loadingIndex = (loadingIndex + 1) % loadingMessages.length; const copy = loading.querySelector('.loading-copy'); if (copy) copy.textContent = loadingMessages[loadingIndex]; } }, 1200);
   try {
-    const result = await apiRequest('/api/chat', { question: prompt, creatorContext: creatorContext(), offer: $('#offer-input').value }, { timeoutMs: 30000 });
-    state.apiSource = result.source || 'fallback';
+    await streamChatRequest({ question: prompt, creatorContext: creatorContext(), offer: $('#offer-input').value }, enqueueStreamText, source => { streamSource = source; });
+    streamEnded = true;
+    if (!pendingChars && !typing) resolveTyping();
+    await typingDone;
+    state.apiSource = streamSource;
     setProviderStatus(state.apiSource === 'live' ? 'Live sponsor reasoning active' : 'Using prepared fallback reasoning', state.apiSource === 'live' ? 'ready' : 'warning');
+    clearInterval(loadingTimer);
     loading.remove();
-    appendMessage(result.answer || assistantAnswer(prompt), 'assistant');
+    appendMessage(streamBuffer || assistantAnswer(prompt), 'assistant');
   } catch (error) {
+    clearInterval(loadingTimer);
     loading.remove();
     appendMessage(assistantAnswer(prompt), 'assistant');
     setProviderStatus(error.name === 'AbortError' ? 'Creator AI timed out · fallback answer used' : 'Creator AI unavailable · fallback answer used', 'warning');
@@ -249,7 +325,7 @@ async function sendChat(prompt) {
 }
 
 function updateSimulator() {
-  const base = 500;
+  const base = state.recommendation?.breakdown?.base || 500;
   const fees = $$('.toggle-row input:checked').reduce((total, input) => total + Number(input.dataset.fee), 0);
   const total = base + fees;
   const count = $$('.toggle-row input:checked').length;
@@ -265,20 +341,36 @@ async function analyzeDeal() {
   state.analyzing = true;
   state.lastAnalysisPayload = { videos: [...state.selectedVideos].map(id => videos.find(video => video.id === id)), creatorContext: creatorContext(), offer: $('#offer-input').value };
   const analyzeButton = $('#analyze-button'); analyzeButton.disabled = true; analyzeButton.innerHTML = 'Analyzing your deal <span class="button-spinner">◌</span>';
-  state.reportVisible = true; $('#report-section').classList.remove('hidden');
-  setProviderStatus('Analyzing selected videos and offer…', 'loading');
+  state.reportVisible = true; const report = $('#report-section'); report.classList.remove('hidden'); report.classList.add('analysis-pending');
+  const loading = $('#analysis-loading'); loading.classList.remove('hidden');
+  const analysisPhases = [
+    ['Reading the brand’s request…', 'Understanding what the brand is asking for and which rights are included.'],
+    ['Matching the offer to your content…', 'Comparing the brand brief with the creator signal selected for this review.'],
+    ['Checking audience fit…', 'Estimating whether the partnership makes sense for this creator’s audience and style.'],
+    ['Valuing the rights…', 'Separating the content fee from usage, exclusivity, deliverables, and revision scope.'],
+    ['Preparing the honest read…', 'Cross-checking the evidence and preparing the clearest next step.'],
+  ];
+  let phaseIndex = 0;
+  const showPhase = () => { $('#analysis-loading-title').textContent = analysisPhases[phaseIndex][0]; $('#analysis-loading-text').textContent = analysisPhases[phaseIndex][1]; setProviderStatus(analysisPhases[phaseIndex][0], 'loading'); };
+  showPhase();
+  const phaseTimer = setInterval(() => { phaseIndex = (phaseIndex + 1) % analysisPhases.length; showPhase(); }, 1100);
+  const minimumPresentation = new Promise(resolve => setTimeout(resolve, 5500));
   $('#report-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
   try {
-    const result = await apiRequest('/api/analyze', state.lastAnalysisPayload, { timeoutMs: 30000 });
+    const analysisRequest = apiRequest('/api/analyze', state.lastAnalysisPayload, { timeoutMs: 30000 });
+    const [result] = await Promise.all([analysisRequest, minimumPresentation]);
     state.apiSource = result.source || 'fallback';
+    renderRecommendation(result);
     renderOrianeSignal(result);
     const liveLabel = result.source === 'live' ? `Live Oriane analysis complete · ${result.data?.results?.length || 0} indexed match${result.data?.results?.length === 1 ? '' : 'es'}` : 'Analysis complete · prepared fallback data';
     setProviderStatus(liveLabel, state.apiSource === 'live' ? 'ready' : 'warning');
     showToast(`Deal analyzed · ${state.apiSource === 'live' ? 'live sponsor data' : 'fallback data'}`);
   } catch (error) {
+    await minimumPresentation;
     setProviderStatus(error.name === 'AbortError' ? 'Analysis timed out · retry when ready' : 'Analysis failed · retry when ready', 'error', true);
     showToast('Deal analyzed · local fallback kept the flow running');
   } finally {
+    clearInterval(phaseTimer); report.classList.remove('analysis-pending'); loading.classList.add('hidden');
     state.analyzing = false; analyzeButton.disabled = false; analyzeButton.innerHTML = 'Analyze this deal <span>→</span>';
   }
 }
@@ -295,7 +387,21 @@ $('#chat-form').addEventListener('submit', (event) => { event.preventDefault(); 
 $$('[data-prompt]').forEach(button => button.addEventListener('click', () => sendChat(button.dataset.prompt)));
 $('#save-profile').addEventListener('click', () => showToast('Creator context saved — future recommendations will use it.'));
 $('#edit-profile').addEventListener('click', () => { $('#niche').focus(); showToast('Your context is always editable.'); });
-$('#reset-offer').addEventListener('click', () => { $('#offer-input').value = 'Hey Suharsha! We love your practical AI content and would love to partner on a 60-second TikTok/Instagram video for ClipForge. We can offer $500 for the post. We\'d also like 12 months of paid advertising usage, 6 months of exclusivity against competing creator tools, the raw footage, and unlimited revisions. Let us know if you\'re interested!'; showToast('Demo offer restored.'); });
+$('#offer-file').addEventListener('change', async event => {
+  const file = event.target.files?.[0];
+  if (!file) return;
+  $('#offer-file-name').textContent = file.name;
+  try {
+    if (file.type === 'text/plain' || /\.(txt|md)$/i.test(file.name)) {
+      $('#offer-input').value = await file.text();
+    } else {
+      const data = await new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(file); });
+      const result = await apiRequest('/api/extract-document', { name: file.name, type: file.type || 'application/pdf', data }, { timeoutMs: 30000 });
+      $('#offer-input').value = result.text || '';
+    }
+    showToast(`${file.name} added — review the extracted offer before analyzing.`);
+  } catch { showToast('Could not read that document. Paste the offer text instead.'); }
+});
 $('#add-video-link').addEventListener('click', () => {
   const input = $('#video-link');
   const value = input.value.trim();

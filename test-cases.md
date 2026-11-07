@@ -387,3 +387,30 @@ Browser execution could not yet verify mobile layout, keyboard-only navigation, 
 - **CHAT-007:** Send two messages, close/reopen Creator AI, and confirm both user questions and assistant answers remain visible.
 - **CHAT-008:** Refresh the same tab and confirm session history is restored; open a new tab and confirm it starts with only the greeting.
 
+- **DEAL-009:** Analyze a plain `$500` single-post offer and a `$1,200` offer with paid usage, exclusivity, and raw footage; confirm the fair range, breakdown, and counter differ.
+- **DEAL-010:** Analyze an offer without a stated price; confirm the documented default base is used and the assumptions remain visible.
+- **CHAT-009:** Submit a Creator AI question while GMI is configured; confirm rotating progress messages appear, streamed text arrives incrementally, and the final answer is saved once in session history.
+- **CHAT-010:** Disable or break GMI; confirm the stream route ends in a readable fallback answer with provider/fallback status and no duplicate assistant message.
+- **DEAL-011:** Submit the same offer against two Oriane metric sets with materially different views/engagement; confirm the creator base and counter differ.
+- **DEAL-012:** Submit a low brand anchor for a high-performing creator; confirm the brand offer is shown as an input/comparison and does not overwrite the live creator-based base value.
+- **CHAT-011:** Ask Creator AI with GMI streaming enabled; confirm progress copy rotates before the first delta and the visible answer grows character-by-character until completion.
+- **DEAL-013:** Submit a $1,200 offer whose calculated fair range is $500–$650; confirm the recommendation is ACCEPT and no lower counter is generated.
+- **DEAL-014:** Complete analysis, then inspect V2 Deal Lab; confirm its base and right premiums match the report and its total is not the stale $1,850 demo value.
+- **CONTENT-009:** Open a fresh session; confirm no fake creator videos are preselected and the selected count is zero.
+- **CONTENT-010:** Attempt analysis with no selected sources; confirm DealGuard asks the creator to add a video and does not call Oriane.
+- **CONTENT-011:** Add a public link; confirm it becomes selected, appears in the content workspace, and can be removed before analysis.
+- **CHAT-012:** Send a Creator AI question, close/reopen the drawer, and confirm the current conversation remains.
+- **CHAT-013:** Send a Creator AI question, reload the page, and confirm the old conversation is gone and only the fresh greeting remains.
+- **OFFER-009:** Open a fresh session; confirm the offer field is blank and no demo sender/message appears.
+- **OFFER-010:** Paste a brand message and analyze; confirm the pasted text is the only offer input used.
+- **OFFER-011:** Upload a text-based PDF; confirm extracted text populates the editable offer field before analysis.
+- **OFFER-012:** Upload an oversized, malformed, or unsupported document; confirm a clear error appears and analysis does not use fabricated offer text.
+- **CONTEXT-012:** Open a fresh session; confirm niche, audience, and boundary are blank and marked optional.
+- **CONTEXT-013:** Add content and an offer while leaving all context fields blank; confirm analysis proceeds.
+- **CONTEXT-014:** Fill only one context field; confirm partial context is accepted and used without requiring the others.
+- **CHAT-014:** Stream a multi-paragraph Creator AI response; confirm every paragraph wraps below the previous one with no horizontal overflow.
+- **CHAT-015:** Stream a response longer than the drawer viewport; confirm the message area follows the newest text and the input remains reachable.
+- **ANALYSIS-015:** Click Analyze with a valid source and offer; confirm the report cards stay hidden while the review phases rotate and appear only after analysis completes.
+- **ANALYSIS-016:** Use a fast fallback response; confirm the review state remains visible for at least the minimum presentation window and does not expose stale demo results.
+- **ANALYSIS-017:** Force an analysis timeout; confirm the rotating state ends with a clear retry/error status rather than revealing a fabricated live result.
+

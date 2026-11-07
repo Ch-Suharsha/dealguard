@@ -498,3 +498,91 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** Analysis, Creator AI, and campaign-concept actions now attempt the server gateway first and retain the existing fallback behavior on failure.
 
+## D063 — Calculate the recommendation from the current offer
+
+**Decision:** Parse the brand's current offer on the server and calculate the base fee, deliverables, paid usage, exclusivity, source files, and revision exposure before rendering the fair range and suggested counter.
+
+**Reason:** The previous report used demo constants ($1,450–$1,800 and $1,850), so every brand and offer appeared identical. Oriane provides video intelligence evidence, but it does not determine commercial rights pricing; DealGuard must keep that pricing layer explicit and explainable.
+
+**Flow impact:** Two different offer texts now produce different breakdowns, ranges, risk flags, and counteroffers. The calculation is heuristic negotiation guidance, not a legal or market guarantee.
+
+## D064 — Stream Creator AI responses and rotate wait states
+
+**Decision:** Use the GMI OpenAI-compatible streaming response when available, render deltas as they arrive, and rotate concise progress messages while no text has arrived yet.
+
+**Reason:** The previous adapter sent `stream: false`, making the creator wait for the complete model response and making a healthy provider feel stalled. A visible progress state improves perceived responsiveness without hiding the real provider status.
+
+**Flow impact:** Creator AI uses an SSE gateway with fallback behavior. The UI cycles through “Analyzing,” “Reviewing,” “Understanding,” and “Finding better options,” then replaces the wait state with the streamed conversational answer.
+
+## D065 — Anchor creator value to live performance evidence
+
+**Decision:** Do not use the brand's proposed fee as the creator's base value. When Oriane returns live metrics, estimate the base from the selected creator's average views and engagement rate, then add transparent rights premiums from the offer.
+
+**Reason:** A fixed rate makes every creator look identical and rewards a brand for anchoring the negotiation with a low offer. Creator value must change with the creator's actual audience signal and the scope being purchased.
+
+**Flow impact:** The report shows whether the base came from live Oriane evidence or a fallback content signal, exposes the performance assumption, compares the brand's offer against that value, and produces a scenario-specific counter.
+
+## D066 — Typewriter-render streamed Creator AI text
+
+**Decision:** Keep the provider's streaming response, but enqueue incoming text and render it character-by-character in the chat bubble rather than painting each provider chunk at once.
+
+**Reason:** OpenAI-compatible providers may emit several words per network chunk. Showing each chunk immediately still feels like a pasted block. A small client-side typewriter queue makes the response visibly progressive while preserving the real stream.
+
+**Flow impact:** Rotating progress copy remains visible until the first character arrives; then the response types into the existing conversational bubble and finishes before the message is committed to session history.
+
+## D067 — Never counter below a sufficient brand offer
+
+**Decision:** Compare the brand's stated offer with the calculated fair range. If the offer meets or exceeds the fair-range minimum, recommend ACCEPT and generate an acceptance/clarification message instead of a lower counter.
+
+**Reason:** A counter is useful only when the offer is below the creator-specific valuation. Returning a $650 counter against a $1,200 offer would actively reduce the creator's outcome.
+
+**Flow impact:** The recommendation can now be ACCEPT or COUNTER. The Deal Lab uses the same analyzed breakdown and updates immediately after analysis, eliminating the old hardcoded $1,850 simulator state.
+
+## D068 — Start with no seeded creator videos
+
+**Decision:** Remove the fake preselected AI/workflow cards. The creator workspace starts empty and requires the creator to add public links or upload files explicitly.
+
+**Reason:** Seed content made the product look like it was analyzing someone else's work and could create false confidence in a recommendation. Creator-owned selection is essential to trust and to the live Oriane workflow.
+
+**Flow impact:** The selection count starts at zero, the empty state explains how to add content, and analysis remains blocked until at least one source is selected.
+
+## D069 — Start a fresh Creator AI conversation on page load
+
+**Decision:** Remove persisted Creator AI history from browser storage. Keep messages in memory while the current page remains open, but start with only the greeting after a reload/new page session.
+
+**Reason:** Restoring a previous creator's conversation can expose stale context and makes a new demo feel like it is answering an old session.
+
+**Flow impact:** Closing and reopening the drawer keeps the current conversation; refreshing or reopening the app starts a clean Creator AI session.
+
+## D070 — Start offer intake empty with paste and PDF paths
+
+**Decision:** Remove the seeded demo email and expose a blank offer textarea plus an offer-document upload control. PDF text is extracted locally and placed into the same editable field for creator review before analysis.
+
+**Reason:** A prefilled email falsely suggests DealGuard already has a brand negotiation and prevents creators from understanding what the system is analyzing. Real offers may arrive as pasted messages or PDF attachments.
+
+**Flow impact:** Analysis requires creator-provided offer text or a successfully extracted document. The creator can review and edit extracted text before it reaches the analysis endpoint; files are not persisted.
+
+## D071 — Make creator context optional
+
+**Decision:** Remove seeded niche, audience, and boundary values. Keep all three fields editable but explicitly optional; the creator can analyze using only selected content and the brand offer.
+
+**Reason:** Prebuilt context falsely represents the creator and makes the form feel compulsory. Boundaries are valuable personalization, but they should never block a creator who has not decided or does not want to provide them.
+
+**Flow impact:** Empty context values are sent as empty strings, and the existing validation continues to require only creator content plus an offer for analysis.
+
+## D072 — Keep streamed chat vertical and bottom-following
+
+**Decision:** Constrain streamed chat bubbles to the drawer width, force long partial text and detail rows to wrap, hide horizontal overflow, and keep the message viewport pinned to the newest character while the response is typing.
+
+**Reason:** Partial streamed content could expand a flex/detail row horizontally, making later paragraphs appear beside the untouched text instead of below it.
+
+**Flow impact:** Streaming remains progressive, but every paragraph grows downward inside the bubble and the drawer follows the active response.
+
+## D073 — Show an evidence-review state before the deal report
+
+**Decision:** Keep the decision report concealed while analysis runs and show rotating, evidence-oriented phases for brand interpretation, Oriane signal matching, audience fit, rights valuation, and final recommendation preparation. Use a 5.5-second minimum presentation window when the provider responds faster.
+
+**Reason:** Revealing the report immediately made the result feel prefilled even when the provider path was active. The creator needs to understand what DealGuard is evaluating, not just see a button change.
+
+**Flow impact:** The report appears only after the analysis response and review state complete. Timeouts still show the error/retry state after the same presentation window.
+
