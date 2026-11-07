@@ -304,6 +304,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** Installed only the presentation markup/styles and the decision, flow, and stage records. The existing `docs/system-design.svg` remains the source diagram; no product workflow, provider integration, recommendation calculation, or application UI behavior was changed. Verify the local and live presentation routes and confirm the image loads from the public repository.
 
+### Stage 44 — Presentation wording refinement
+
+**Definition of done:** The “Why this wins” slide says “invisible work” and no longer uses “invisible labor.”
+
+**Checkpoint:** Updated only the presentation copy and documentation records. Product behavior, provider integrations, recommendation calculations, and the system diagram remain unchanged.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

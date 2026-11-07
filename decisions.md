@@ -650,3 +650,11 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** Presentation-only change. The product UI, pricing logic, integrations, and API behavior remain unchanged. If the remote image is unavailable, the sponsor workflow still remains readable and the README retains its local diagram reference.
 
+## D082 — Replace “labor” with “work” in the presentation
+
+**Decision:** Change the judging slide headline from “It turns a creator’s invisible labor into evidence” to “It turns a creator’s invisible work into evidence.”
+
+**Reason:** “Work” is simpler, more conversational, and better matches the presentation’s creator-first tone without changing the underlying message.
+
+**Flow impact:** Presentation copy only. No product behavior, pricing, provider integration, or system design changes.
+

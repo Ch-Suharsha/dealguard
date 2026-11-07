@@ -715,3 +715,11 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 5. The image is presentation-only and does not change application behavior or recommendation calculations.
 
 **Decision references:** D081.
+
+## 51. Presentation wording refinement
+
+1. The “Why this wins” slide uses “invisible work” instead of “invisible labor.”
+2. The replacement keeps the same meaning: DealGuard turns creator activity and video evidence into a defensible value signal.
+3. No application flow or recommendation calculation changes.
+
+**Decision references:** D082.
