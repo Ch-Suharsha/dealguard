@@ -655,3 +655,14 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D075.
 
+## 45. Evidence-grounded Creator AI
+
+1. Analysis stores the returned `creatorSignal` and a compact Oriane evidence object in client state.
+2. The object contains provenance, performance metrics, engagement, short transcript and on-screen excerpts, detected hook, content pattern, and visual-frame count.
+3. Each `/api/chat` and `/api/chat/stream` request includes the current evidence object alongside the creator context and offer.
+4. The server whitelists, trims, and normalizes those fields before including them in the Creator AI messages.
+5. Creator AI is instructed to use actual evidence for relevant answers and to say when a field or live provenance is unavailable.
+6. No pricing calculation, provider adapter, report presentation, offer intake, or stream transport behavior changes in this feature.
+
+**Decision references:** D076.
+

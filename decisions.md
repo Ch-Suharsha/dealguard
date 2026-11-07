@@ -602,3 +602,11 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** After the existing Oriane evidence section, DealGuard shows the base value and its reasons. Live runs identify `LIVE ORIANE`; fallback runs explicitly identify a prepared fallback signal. The existing recommendation math, rights multipliers, provider adapters, Creator AI, and Feature 1 evidence rendering remain unchanged.
 
+## D076 — Ground Creator AI in compact Oriane evidence
+
+**Decision:** After analysis, retain the current `creatorSignal` and a compact, sanitized Oriane evidence payload in client state, and include that payload in both Creator AI request paths.
+
+**Reason:** Showing Oriane only in the report leaves the conversational assistant disconnected from the evidence judges are meant to see. Creator AI should explain a recommendation using actual performance and content signals, while clearly admitting when live evidence is unavailable.
+
+**Flow impact:** `/api/chat` and `/api/chat/stream` receive only whitelisted metrics and short text excerpts. The server sanitizes and bounds the payload before adding it to the GMI prompt. Pricing, the Oriane adapter, offer intake, and streaming transport remain unchanged.
+

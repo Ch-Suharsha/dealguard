@@ -274,6 +274,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** Installed in the report UI using the existing `creatorSignal`. No recommendation, pricing, provider, Creator AI, offer-intake, or Feature 1 evidence code was changed beyond the minimal render integration. Syntax, recommendation regression, and diff checks pass; live browser rehearsal remains.
 
+### Stage 39 — Oriane-grounded Creator AI
+
+**Definition of done:** Creator AI receives the current analysis's compact Oriane evidence and uses it to explain creator value without inventing unavailable metrics.
+
+**Checkpoint:** Installed client state retention, request payload inclusion for both chat routes, server-side evidence sanitization, and updated grounding instructions. Pricing, Oriane adapter, report presentation, offer intake, and streaming transport were left unchanged. Syntax, recommendation regression, and diff checks pass; live GMI/Oriane browser rehearsal remains.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

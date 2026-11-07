@@ -41,10 +41,39 @@ function fallbackConcept() {
   return { source: 'handoff', title: 'I replaced my 5-tab AI workflow with one clean timeline.', hook: 'Show the outcome first, then the workflow.', format: '60-second creator-style sponsored video' };
 }
 
+function clippedEvidenceText(value, max = 360) {
+  return String(value ?? '').replace(/\s+/g, ' ').trim().slice(0, max);
+}
+
+function finiteEvidenceNumber(value, fallback = null) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : fallback;
+}
+
+function sanitizeCreatorEvidence(input = {}) {
+  const signal = input.creatorSignal || {};
+  const evidence = input.orianeEvidence || {};
+  const live = signal.source === 'oriane_live' || evidence.provenance === 'LIVE ORIANE';
+  return {
+    provenance: live ? 'LIVE ORIANE' : 'UNAVAILABLE',
+    views: finiteEvidenceNumber(evidence.views ?? signal.averageViews),
+    likes: finiteEvidenceNumber(evidence.likes),
+    comments: finiteEvidenceNumber(evidence.comments),
+    shares: finiteEvidenceNumber(evidence.shares),
+    engagementRate: finiteEvidenceNumber(evidence.engagementRate ?? signal.engagementRate),
+    transcript: clippedEvidenceText(evidence.transcript) || 'Unavailable',
+    onScreenText: clippedEvidenceText(evidence.onScreenText) || 'Unavailable',
+    detectedHook: clippedEvidenceText(evidence.detectedHook) || 'Unavailable',
+    contentPattern: clippedEvidenceText(evidence.contentPattern, 160) || 'Unavailable',
+    visualFrames: finiteEvidenceNumber(evidence.visualFrames, 0),
+  };
+}
+
 function creatorMessages(input = {}) {
+  const evidence = sanitizeCreatorEvidence(input);
   return [
-    { role: 'system', content: 'You are DealGuard, a thoughtful creator-side commercial negotiation advisor. Talk like a sharp, empathetic human advisor in a chat: answer the creator directly, explain the reasoning plainly, and ask one useful follow-up when appropriate. Keep replies concise (usually 2–5 short paragraphs). Do not use Markdown tables, bold markers, headings, or raw formatting. If you need a list, use simple short bullets. Base claims on the supplied creator context and offer; do not invent performance data.' },
-    { role: 'user', content: JSON.stringify(input) },
+    { role: 'system', content: 'You are DealGuard, a thoughtful creator-side commercial negotiation advisor. Talk like a sharp, empathetic human advisor in a chat: answer the creator directly, explain the reasoning plainly, and ask one useful follow-up when appropriate. Keep replies concise (usually 2–5 short paragraphs). Do not use Markdown tables, bold markers, headings, or raw formatting. If you need a list, use simple short bullets. Base claims on the supplied creator context and offer; do not invent performance data. When Oriane Content Intelligence is supplied, ground relevant answers in its actual views, engagement, transcript, on-screen text, detected hook, content pattern, and provenance. If a field says Unavailable or provenance is UNAVAILABLE, say that the evidence is unavailable rather than guessing or presenting fallback data as live evidence.' },
+    { role: 'user', content: JSON.stringify({ ...input, creatorSignal: undefined, orianeEvidence: evidence }) },
   ];
 }
 

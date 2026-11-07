@@ -3,7 +3,7 @@ const videos = [];
 const CHAT_SESSION_KEY = 'dealguard-chat-history-v1';
 const defaultChatHistory = [{ role: 'assistant', text: 'Hey! Add the videos you want me to understand, then I can use your creator context and brand offer to help. Ask me anything—or challenge the recommendation.' }];
 function loadChatHistory() { try { sessionStorage.removeItem(CHAT_SESSION_KEY); } catch { /* best effort cleanup */ } return [...defaultChatHistory]; }
-const state = { selectedVideos: new Set(videos.filter(v => v.selected).map(v => v.id)), reportVisible: false, apiSource: 'fallback', analyzing: false, chatting: false, lastAnalysisPayload: null, recommendation: null, chatHistory: loadChatHistory() };
+const state = { selectedVideos: new Set(videos.filter(v => v.selected).map(v => v.id)), reportVisible: false, apiSource: 'fallback', analyzing: false, chatting: false, lastAnalysisPayload: null, recommendation: null, creatorSignal: null, orianeEvidence: null, chatHistory: loadChatHistory() };
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
@@ -118,9 +118,40 @@ function contentPatternFromResult(result) {
   return row ? 'Creator-led story → visual evidence' : 'Pattern unavailable from fallback signal';
 }
 
+function compactOrianeEvidence(result) {
+  const signal = result?.creatorSignal || {};
+  const row = result?.data?.results?.[0];
+  const media = row?.media?.[0] || {};
+  const asText = value => {
+    if (!value) return '';
+    if (typeof value === 'string') return value;
+    if (Array.isArray(value)) return value.map(asText).filter(Boolean).join(' ');
+    return value.text || value.content || value.transcript || value.value || '';
+  };
+  const transcript = asText(media.transcript || row?.transcript);
+  const onScreenText = asText(media.onScreenText || row?.onScreenText);
+  const hook = (transcript || onScreenText).split(/(?<=[.!?])\s+/)[0].trim();
+  const frames = media.frames || row?.frames || [];
+  return {
+    provenance: signal.source === 'oriane_live' ? 'LIVE ORIANE' : 'UNAVAILABLE',
+    views: Number(row?.viewsCount || signal.averageViews || 0),
+    likes: Number(row?.likesCount || 0),
+    comments: Number(row?.commentsCount || 0),
+    shares: Number(row?.sharesCount || 0),
+    engagementRate: Number(signal.engagementRate || 0),
+    transcript: transcript.slice(0, 360),
+    onScreenText: onScreenText.slice(0, 360),
+    detectedHook: hook.slice(0, 240),
+    contentPattern: contentPatternFromResult(result),
+    visualFrames: frames.length,
+  };
+}
+
 function renderRecommendation(result) {
   const recommendation = result || {};
   state.recommendation = recommendation;
+  state.creatorSignal = recommendation.creatorSignal || null;
+  state.orianeEvidence = compactOrianeEvidence(recommendation);
   const range = recommendation.fairRange || { min: 1450, max: 1800 };
   const breakdown = recommendation.breakdown || {};
   const decisionWord = $('#decision-word'); if (decisionWord) decisionWord.textContent = recommendation.recommendation || 'COUNTER';
@@ -351,7 +382,7 @@ async function sendChat(prompt) {
   };
   const loadingTimer = setInterval(() => { if (!displayedBuffer && !pendingChars) { loadingIndex = (loadingIndex + 1) % loadingMessages.length; const copy = loading.querySelector('.loading-copy'); if (copy) copy.textContent = loadingMessages[loadingIndex]; } }, 1200);
   try {
-    await streamChatRequest({ question: prompt, creatorContext: creatorContext(), offer: $('#offer-input').value }, enqueueStreamText, source => { streamSource = source; });
+    await streamChatRequest({ question: prompt, creatorContext: creatorContext(), offer: $('#offer-input').value, creatorSignal: state.creatorSignal, orianeEvidence: state.orianeEvidence }, enqueueStreamText, source => { streamSource = source; });
     streamEnded = true;
     if (!pendingChars && !typing) resolveTyping();
     await typingDone;

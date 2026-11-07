@@ -418,4 +418,6 @@ Browser execution could not yet verify mobile layout, keyboard-only navigation, 
 - **VALUE-001:** Complete a live Oriane analysis; confirm the separate Creator Value block shows the creator base value, average views, engagement rate, LIVE ORIANE provenance, and content pattern.
 - **VALUE-002:** Complete analysis without live Oriane evidence; confirm the Creator Value block says FALLBACK SIGNAL, does not claim unavailable metrics, and keeps rights in the separate breakdown.
 - **VALUE-003:** Change the recommendation input to a different creator signal; confirm the Creator Value block updates from `creatorSignal` without changing the pricing engine.
+- **CHAT-016:** Complete a live Oriane analysis, ask Creator AI why the creator is valued this way, and confirm the request includes the current views, engagement, transcript/on-screen excerpts, hook, pattern, and LIVE ORIANE provenance.
+- **CHAT-017:** Ask Creator AI after fallback or empty Oriane evidence; confirm it explicitly says live evidence is unavailable and does not invent transcript, hook, or metrics.
 
