@@ -1,12 +1,8 @@
 # DealGuard
 
-![DealGuard product demo preview](https://raw.githubusercontent.com/Ch-Suharsha/dealguard/codex/dealguard-v3/docs/media/dealguard-product-demo-preview.gif)
+[![▶ Watch the DealGuard product demo](https://raw.githubusercontent.com/Ch-Suharsha/dealguard/codex/dealguard-v3/docs/media/dealguard-product-demo-preview.gif)](https://github.com/Ch-Suharsha/dealguard/blob/codex/dealguard-v3/docs/media/dealguard-product-demo.mp4)
 
-<video src="https://raw.githubusercontent.com/Ch-Suharsha/dealguard/codex/dealguard-v3/docs/media/dealguard-product-demo.mp4" poster="https://raw.githubusercontent.com/Ch-Suharsha/dealguard/codex/dealguard-v3/docs/media/dealguard-product-demo-poster.png" controls playsinline width="100%"></video>
-
-[![▶ Watch the DealGuard product demo](https://raw.githubusercontent.com/Ch-Suharsha/dealguard/codex/dealguard-v3/docs/media/dealguard-product-demo-poster.png)](https://github.com/Ch-Suharsha/dealguard/blob/codex/dealguard-v3/docs/media/dealguard-product-demo.mp4)
-
-The preview above is designed to play directly in GitHub. [Download or play the full MP4 with audio](https://github.com/Ch-Suharsha/dealguard/blob/codex/dealguard-v3/docs/media/dealguard-product-demo.mp4).
+The single preview above links to the full MP4 with audio.
 
 DealGuard is a creator-side brand-deal intelligence workspace. It helps a creator understand what a brand is actually asking for, see what their public video evidence is worth, price usage rights separately, and decide whether to accept or counter.
 
