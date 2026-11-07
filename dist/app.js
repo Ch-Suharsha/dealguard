@@ -70,18 +70,34 @@ function renderOrianeSignal(result) {
   if (!card) return;
   const payload = result?.data;
   const rows = payload?.results || [];
-  if (result?.source !== 'live' || !payload) { card.classList.add('hidden'); card.innerHTML = ''; return; }
-  if (!rows.length) {
+  const live = result?.source === 'live' && Boolean(payload);
+  if (!live || !rows.length) {
     card.classList.remove('hidden');
-    card.innerHTML = '<div class="oriane-signal-head"><div><span class="oriane-signal-kicker">ORIANE · LIVE CATALOG</span><h3>No indexed match for this exact post</h3><p>The API and key are working. This public URL is not currently indexed, so DealGuard kept the prepared decision path available.</p></div><span class="oriane-signal-badge">LIVE API</span></div><p class="oriane-signal-foot">Next best path: search the creator profile and let the creator choose indexed posts.</p>';
+    card.innerHTML = live
+      ? '<div class="oriane-signal-head"><div><span class="oriane-signal-kicker">ORIANE · CONTENT INTELLIGENCE</span><h3>No indexed match for this exact post</h3><p>The live API responded, but this public URL is not currently indexed. DealGuard kept the prepared decision path available.</p></div><span class="oriane-signal-badge">LIVE API</span></div><p class="oriane-signal-foot">No post-level evidence was available for this run. Try another indexed public post.</p>'
+      : '<div class="oriane-signal-head"><div><span class="oriane-signal-kicker">ORIANE · CONTENT INTELLIGENCE</span><h3>Prepared content signal</h3><p>Live Oriane evidence was unavailable for this run, so the recommendation uses the selected-content fallback signal.</p></div><span class="oriane-signal-badge fallback">FALLBACK</span></div><p class="oriane-signal-foot">No transcript, on-screen text, or visual frames are being claimed from Oriane.</p>';
     return;
   }
   const row = rows[0];
   const media = row.media?.[0] || {};
   const formatNumber = value => value == null ? '—' : Number(value).toLocaleString();
-  const evidence = [media.transcript ? 'spoken transcript' : null, media.onScreenText?.length ? `${media.onScreenText.length} on-screen cues` : null, media.frames?.length ? `${media.frames.length} visual frames` : null].filter(Boolean).join(' · ') || 'metadata available';
+  const asText = value => {
+    if (!value) return '';
+    if (typeof value === 'string') return value;
+    if (Array.isArray(value)) return value.map(asText).filter(Boolean).join(' ');
+    return value.text || value.content || value.transcript || value.value || '';
+  };
+  const transcript = asText(media.transcript || row.transcript);
+  const onScreen = asText(media.onScreenText || row.onScreenText);
+  const frames = media.frames || row.frames || [];
+  const engagement = row.viewsCount ? ((Number(row.likesCount || 0) + Number(row.commentsCount || 0) + Number(row.sharesCount || 0)) / Number(row.viewsCount)) * 100 : 0;
+  const excerpt = value => value ? `${value.trim().slice(0, 190)}${value.trim().length > 190 ? '…' : ''}` : 'Not available from this result';
+  const hook = (transcript || onScreen).split(/(?<=[.!?])\s+/)[0].trim() || 'No opening sentence detected';
+  const patternText = `${transcript} ${onScreen}`.toLowerCase();
+  const pattern = /three|3|top|best|hidden|secret|why|how to|here'?s/.test(patternText) ? 'Hook → practical proof → recommendation' : /review|unbox|tested|using/.test(patternText) ? 'Product review → demonstration → verdict' : /step|first|then|next|tutorial/.test(patternText) ? 'Tutorial → steps → outcome' : 'Creator-led story → visual evidence';
+  const evidence = [transcript ? 'spoken transcript' : null, onScreen ? 'on-screen text' : null, frames.length ? `${frames.length} visual frames` : null].filter(Boolean).join(' · ') || 'performance metadata available';
   card.classList.remove('hidden');
-  card.innerHTML = `<div class="oriane-signal-head"><div><span class="oriane-signal-kicker">ORIANE · LIVE VIDEO INTELLIGENCE</span><h3>${escapeHtml(row.title || `${row.platform || 'Social'} post analyzed`)}</h3><p>${escapeHtml(evidence)} · ${escapeHtml(row.publishedAt || 'indexed public post')}</p></div><span class="oriane-signal-badge">LIVE API</span></div><div class="oriane-signal-grid"><div class="oriane-signal-stat"><b>${formatNumber(row.viewsCount)}</b><small>views</small></div><div class="oriane-signal-stat"><b>${formatNumber(row.likesCount)}</b><small>likes</small></div><div class="oriane-signal-stat"><b>${formatNumber(row.commentsCount)}</b><small>comments</small></div><div class="oriane-signal-stat"><b>${formatNumber(row.sharesCount)}</b><small>shares</small></div></div><p class="oriane-signal-foot">Evidence request ${escapeHtml(payload.metadata?.requestId || 'complete')} · Oriane result ${escapeHtml(row.id || 'indexed')}</p>`;
+  card.innerHTML = `<div class="oriane-signal-head"><div><span class="oriane-signal-kicker">ORIANE · CONTENT INTELLIGENCE</span><h3>${escapeHtml(row.title || `${row.platform || 'Social'} post analyzed`)}</h3><p>${escapeHtml(evidence)} · ${escapeHtml(row.publishedAt || 'indexed public post')}</p></div><span class="oriane-signal-badge">LIVE API</span></div><div class="oriane-signal-grid"><div class="oriane-signal-stat"><b>${formatNumber(row.viewsCount)}</b><small>views</small></div><div class="oriane-signal-stat"><b>${formatNumber(row.likesCount)}</b><small>likes</small></div><div class="oriane-signal-stat"><b>${formatNumber(row.commentsCount)}</b><small>comments</small></div><div class="oriane-signal-stat"><b>${formatNumber(row.sharesCount)}</b><small>shares</small></div><div class="oriane-signal-stat"><b>${engagement.toFixed(1)}%</b><small>engagement</small></div><div class="oriane-signal-stat"><b>${frames.length || '—'}</b><small>visual frames</small></div></div><div class="oriane-signal-evidence"><div><span>What this video says</span><p>“${escapeHtml(excerpt(transcript))}”</p></div><div><span>What appears on screen</span><p>${escapeHtml(excerpt(onScreen))}</p></div><div><span>Detected hook</span><p>${escapeHtml(excerpt(hook))}</p></div><div><span>Content pattern</span><p>${escapeHtml(pattern)}</p></div></div><p class="oriane-signal-foot">Live evidence from Oriane · request ${escapeHtml(payload.metadata?.requestId || 'complete')} · result ${escapeHtml(row.id || 'indexed')}</p>`;
 }
 
 function money(value) { return `$${Number(value || 0).toLocaleString()}`; }

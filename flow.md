@@ -633,3 +633,14 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D073.
 
+## 43. Oriane Content Intelligence report section
+
+1. DealGuard receives the existing normalized Oriane result after analysis.
+2. The report renders a provenance badge: `LIVE API` for indexed Oriane evidence or `FALLBACK` when no live evidence is available.
+3. For a matched result, the section shows views, likes, comments, shares, engagement rate, and visual frame count.
+4. When returned, transcript and on-screen text are shown as short escaped excerpts; missing fields are labeled unavailable rather than invented.
+5. The client derives a lightweight opening hook and content-pattern label from the returned text for judge-readable interpretation.
+6. This section is evidence presentation only; the existing recommendation and pricing logic remain the source of the commercial decision.
+
+**Decision references:** D074.
+

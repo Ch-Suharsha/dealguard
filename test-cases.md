@@ -313,6 +313,8 @@ This test plan covers the local MVP in `dist/`:
 | ORI-022 | Valid public post not in catalog | Empty result is not treated as an auth failure; profile-first fallback is recommended | PASS at provider level; UI fallback pending |
 
 | ORI-023 | Live indexed result in report | Report visibly shows Oriane live status, metrics, evidence counts, and request metadata | Implemented; final browser rehearsal pending |
+| ORI-024A | Live indexed result renders Content Intelligence | Show LIVE API provenance, views, likes, comments, shares, engagement, transcript/on-screen excerpts when present, frame count, hook, and content pattern | Implemented; browser rehearsal pending |
+| ORI-024B | Fallback result renders provenance honestly | Show FALLBACK status and do not claim transcript, on-screen text, or frames when Oriane evidence is unavailable | Implemented; static checked |
 | ORI-024 | Live empty result in report | Report explains no indexed match and keeps the prepared decision visible | Implemented; final browser rehearsal pending |
 
 ### Hack the Feed judged-vertical tests

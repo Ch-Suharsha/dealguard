@@ -586,3 +586,11 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** The report appears only after the analysis response and review state complete. Timeouts still show the error/retry state after the same presentation window.
 
+## D074 — Make Oriane Content Intelligence the visible evidence layer
+
+**Decision:** Extend the existing post-analysis Oriane card to show live/fallback provenance, performance metrics, engagement rate, available transcript and on-screen text excerpts, visual-frame count, detected opening hook, and a concise content-pattern label.
+
+**Reason:** The hackathon's highest-impact judging criterion is meaningful use of video intelligence: what the video shows, says, and sounds like. A metrics-only card does not make the evidence-to-recommendation chain legible.
+
+**Flow impact:** After analysis, the report presents Oriane evidence before the recommendation. Live results identify the request and indexed result; fallback results explicitly state that transcript, on-screen text, and frames are not being claimed. Pricing, provider adapters, and Creator AI remain unchanged.
+

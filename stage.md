@@ -262,6 +262,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** Five review phases, Oriane-backed status updates, report concealment, progress animation, and 5.5-second minimum presentation window installed. Browser timing rehearsal remains.
 
+### Stage 37 — Oriane Content Intelligence evidence section
+
+**Definition of done:** The post-analysis report visibly connects Oriane to the creator signal with provenance, performance metrics, engagement rate, available transcript/on-screen excerpts, frame count, detected hook, and a concise content pattern. Fallback status is explicit and no unavailable evidence is invented.
+
+**Checkpoint:** Existing `renderOrianeSignal` was expanded without changing provider adapters, recommendation math, Creator AI, or intake. JavaScript/CSS checks pass; live browser verification with a matched Oriane result remains.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:
