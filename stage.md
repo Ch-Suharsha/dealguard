@@ -310,6 +310,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** Updated only the presentation copy and documentation records. Product behavior, provider integrations, recommendation calculations, and the system diagram remain unchanged.
 
+### Stage 45 — Sourced solo-creator and brand-outreach figures
+
+**Definition of done:** Slide 2 displays two accurately labeled 2026 survey shares with source links and sample/date context. The research note explains that 67M is a total-creator estimate and that neither a worldwide solo count nor a current monthly brand-approach average was established.
+
+**Checkpoint:** Replaced the broad market card with independent-business and brand-outreach survey cards. Logged the choice and its limits in D083 and flow section 52; supporting report is `docs/creator-market-evidence.md`. Verified both cards and their source links in the local browser; compact styling keeps both cards visible together at the default 1280×720 viewport. Diff checks pass. Recorded report definitions, dates, and limitations before publishing this scoped presentation change.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

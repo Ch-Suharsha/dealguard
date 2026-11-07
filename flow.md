@@ -723,3 +723,13 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 3. No application flow or recommendation calculation changes.
 
 **Decision references:** D082.
+
+## 52. Sourced solo-creator and brand-outreach context
+
+1. Slide 2 introduces solo creators and the brand-deal decisions DealGuard supports.
+2. The first card shows the share of CreatorIQ × Influencers.club respondents who handle their business independently, with the sample size, fieldwork dates, and a direct report link.
+3. The second card shows the share of U.S. respondents finding deals through direct brand outreach in The Influencer Marketing Factory's January 2026 survey, with its own source link and sample.
+4. The slide states that these are separate surveys and that outreach prevalence does not measure offers per month. It does not imply the same creators satisfy both statistics.
+5. The supporting research note records the original total-creator estimate, verified definitions, source locations, and the unavailable global solo count/monthly outreach average. This supersedes section 49's slide framing.
+
+**Decision references:** D083.

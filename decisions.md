@@ -658,3 +658,11 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** Presentation copy only. No product behavior, pricing, provider integration, or system design changes.
 
+## D083 — Replace broad market framing with sourced creator survey figures
+
+**Decision:** Replace slide 2's 67M headline with two linked 2026 survey results: 73% handle their business independently (CreatorIQ × Influencers.club, n=5,095), and 27% of U.S. creators find brand deals through direct brand outreach (The Influencer Marketing Factory, n=1,000, multiple answers allowed). Show each survey's scope and date alongside the figure. Keep the original Goldman Sachs total-creator estimate and all source limitations in `docs/creator-market-evidence.md`.
+
+**Reason:** Goldman Sachs's approximately 67M estimate refers to total global creators in 2025, not solo creators. Research did not establish a current universal count of solo creators or an average number of unique brands approaching them monthly. Survey shares are supportable substitutes; do not extrapolate a global solo count by multiplying different studies, or describe outreach prevalence as a monthly average.
+
+**Flow impact:** Slide 2 provides two source links and explicitly distinguishes the surveys. Presentation copy and research documentation only; product behavior is unchanged. D080's broad market framing is superseded for this slide, while its historical record is retained.
+
