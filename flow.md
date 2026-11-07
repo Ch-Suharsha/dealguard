@@ -733,3 +733,12 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 5. The supporting research note records the original total-creator estimate, verified definitions, source locations, and the unavailable global solo count/monthly outreach average. This supersedes section 49's slide framing.
 
 **Decision references:** D083.
+
+## 53. Product-led presentation opening
+
+1. The opening slide introduces DealGuard in large type and names solo creators as its target audience.
+2. The central promise is helping solo creators negotiate better brand deals.
+3. A compact story explains the inputs (content and a brand offer), the analysis (creator value and usage rights), and the next action (review, ask Creator AI, and draft a reply).
+4. The live-demo button remains available, followed by the existing problem, evidence, valuation, and assistant slides.
+
+**Decision references:** D084.

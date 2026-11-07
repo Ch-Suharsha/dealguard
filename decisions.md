@@ -666,3 +666,11 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** Slide 2 provides two source links and explicitly distinguishes the surveys. Presentation copy and research documentation only; product behavior is unchanged. D080's broad market framing is superseded for this slide, while its historical record is retained.
 
+## D084 — Open with the product, audience, and benefit
+
+**Decision:** Make “DealGuard” the opening slide's largest text, identify solo creators as the audience, and lead with “Helping solo creators negotiate better brand deals.” Replace the sample $1,200 offer card with a short content-and-offer → value-and-rights → decision story.
+
+**Reason:** The first slide should explain the product on its own. Naming the product, who it serves, and the benefit gives judges a clear frame for the evidence and pricing slides that follow.
+
+**Flow impact:** The opening presentation slide introduces the user, input, analysis, and next action. Keep the live-demo entry point and explain Creator AI's role. The remaining slides and application workflow retain their existing behavior.
+
