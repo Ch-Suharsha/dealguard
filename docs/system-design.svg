@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">DealGuard system design</title>
+  <desc id="desc">A creator supplies content and a brand offer to DealGuard. DealGuard gathers Oriane video evidence, calculates creator value and rights, and uses GMI Creator AI to explain the decision.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7f4ff"/><stop offset="1" stop-color="#efffd1"/></linearGradient>
+    <linearGradient id="dark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#17141f"/><stop offset="1" stop-color="#30234f"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#272035" flood-opacity=".14"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#7655f5"/></marker>
+    <style>
+      .title{font:800 40px Arial,sans-serif;fill:#17141f}.subtitle{font:500 18px Arial,sans-serif;fill:#756e81}.label{font:700 15px Arial,sans-serif;fill:#17141f}.small{font:500 13px Arial,sans-serif;fill:#756e81}.mono{font:700 12px monospace;letter-spacing:1.5px;fill:#7655f5}.white{fill:#fff}.line{stroke:#7655f5;stroke-width:4;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1400" height="820" rx="30" fill="url(#bg)"/>
+  <text x="70" y="78" class="mono">DEALGUARD · SYSTEM DESIGN</text>
+  <text x="70" y="128" class="title">Evidence before you say yes.</text>
+  <text x="70" y="164" class="subtitle">A creator-owned path from public video intelligence to a defensible deal decision.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="250" width="230" height="180" rx="22" fill="#fff"/>
+    <text x="100" y="295" class="mono">INPUTS</text><text x="100" y="335" class="label">Creator</text><text x="100" y="363" class="small">Public video links</text><text x="100" y="386" class="small">Optional context</text><text x="100" y="409" class="small">Brand email or PDF</text>
+  </g>
+  <path d="M300 340H400" class="line"/>
+
+  <g filter="url(#shadow)">
+    <rect x="400" y="210" width="310" height="260" rx="24" fill="url(#dark)"/>
+    <text x="435" y="257" class="mono" fill="#d8ff4e">CORE WORKSPACE</text><text x="435" y="305" class="label white">DealGuard</text><text x="435" y="340" class="small" fill="#d8d2e3">Intake → evidence → valuation</text><text x="435" y="380" class="small" fill="#d8d2e3">Creator AI conversation</text><text x="435" y="420" class="small" fill="#d8d2e3">Accept or counter</text>
+  </g>
+  <path d="M710 275H820" class="line"/><path d="M710 405H820" class="line"/>
+
+  <g filter="url(#shadow)">
+    <rect x="820" y="190" width="260" height="145" rx="22" fill="#fff"/><text x="855" y="232" class="mono">VIDEO INTELLIGENCE</text><text x="855" y="270" class="label">Oriane</text><text x="855" y="298" class="small">Metrics · transcript</text><text x="855" y="320" class="small">Frames · on-screen text</text>
+    <rect x="820" y="370" width="260" height="145" rx="22" fill="#fff"/><text x="855" y="412" class="mono">REASONING</text><text x="855" y="450" class="label">GMI Cloud</text><text x="855" y="478" class="small">Streamed Creator AI</text><text x="855" y="500" class="small">Evidence-grounded answers</text>
+  </g>
+  <path d="M1080 262H1190" class="line"/><path d="M1080 442H1190" class="line"/>
+  <g filter="url(#shadow)">
+    <rect x="1190" y="240" width="150" height="220" rx="22" fill="#d8ff4e"/><text x="1215" y="286" class="mono">OUTPUT</text><text x="1215" y="330" class="label">Creator value</text><text x="1215" y="360" class="label">Rights</text><text x="1215" y="390" class="label">Accept /</text><text x="1215" y="414" class="label">counter</text><text x="1215" y="448" class="small">context.md</text>
+  </g>
+
+  <text x="70" y="590" class="mono">THE DECISION CHAIN</text>
+  <g filter="url(#shadow)">
+    <rect x="70" y="625" width="180" height="92" rx="18" fill="#fff"/><text x="102" y="664" class="label">Video evidence</text><text x="102" y="690" class="small">What happened?</text>
+    <rect x="300" y="625" width="180" height="92" rx="18" fill="#fff"/><text x="332" y="664" class="label">Creator value</text><text x="332" y="690" class="small">What is it worth?</text>
+    <rect x="530" y="625" width="180" height="92" rx="18" fill="#fff"/><text x="562" y="664" class="label">Rights value</text><text x="562" y="690" class="small">What is being sold?</text>
+    <rect x="760" y="625" width="180" height="92" rx="18" fill="#fff"/><text x="792" y="664" class="label">Deal decision</text><text x="792" y="690" class="small">Accept or counter</text>
+    <rect x="990" y="625" width="250" height="92" rx="18" fill="#17141f"/><text x="1022" y="664" class="label white">Creator conversation</text><text x="1022" y="690" class="small" fill="#d8d2e3">Why this recommendation?</text>
+  </g>
+  <path d="M250 671H300" class="line"/><path d="M480 671H530" class="line"/><path d="M710 671H760" class="line"/><path d="M940 671H990" class="line"/>
+</svg>
