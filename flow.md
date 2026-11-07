@@ -705,3 +705,13 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 4. The market claim is confined to the presentation microsite and does not affect application logic or recommendation calculations.
 
 **Decision references:** D080.
+
+## 50. Presentation system design visual
+
+1. The “Full loop” slide introduces the four sponsor/workflow roles: Oriane, DealGuard, GMI Cloud, and Compound.
+2. The existing public system diagram is shown directly below those cards.
+3. The diagram communicates the path from public creator video links, optional context, and a brand offer to DealGuard’s evidence-to-decision workflow.
+4. It names Oriane as the video-intelligence source and GMI Cloud as the reasoning/hosting layer, then shows creator value, rights, and decision outputs.
+5. The image is presentation-only and does not change application behavior or recommendation calculations.
+
+**Decision references:** D081.

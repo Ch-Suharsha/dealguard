@@ -642,3 +642,11 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** The presentation microsite’s problem slide now moves from the broad creator market to the solo-creator beachhead. Product behavior, pricing, integrations, and the live demo remain unchanged.
 
+## D081 — Show the system design on the presentation workflow slide
+
+**Decision:** Add the repository’s existing `docs/system-design.svg` beneath the sponsor workflow on the “Full loop” presentation slide. The diagram is loaded from the public GitHub repository so the presentation and README use the same source of truth.
+
+**Reason:** The sponsor row explains who contributes what, but the diagram explains how creator inputs, DealGuard, Oriane video intelligence, GMI Cloud reasoning, and the final decision connect. This makes the architecture understandable to judges without adding a separate technical slide.
+
+**Flow impact:** Presentation-only change. The product UI, pricing logic, integrations, and API behavior remain unchanged. If the remote image is unavailable, the sponsor workflow still remains readable and the README retains its local diagram reference.
+

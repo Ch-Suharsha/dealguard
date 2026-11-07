@@ -298,6 +298,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** Updated only `dist/presentation.html` plus the project documentation. The product workflow, provider integrations, recommendation engine, and existing presentation slides remain unchanged. The local and Cloudflare presentation routes render successfully.
 
+### Stage 43 — Presentation system design visual
+
+**Definition of done:** The “Full loop” slide shows the repository system-design diagram beneath the sponsor workflow, with readable responsive sizing and accessible alternative text.
+
+**Checkpoint:** Installed only the presentation markup/styles and the decision, flow, and stage records. The existing `docs/system-design.svg` remains the source diagram; no product workflow, provider integration, recommendation calculation, or application UI behavior was changed. Verify the local and live presentation routes and confirm the image loads from the public repository.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:
