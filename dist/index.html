@@ -130,6 +130,12 @@
             <div class="provider-status" id="provider-status" role="status" aria-live="polite"><span class="provider-status-dot"></span><span id="provider-status-text">Ready to analyze</span><button class="retry-button hidden" id="retry-analysis" type="button">Retry analysis</button></div>
             <div class="analysis-loading hidden" id="analysis-loading" aria-live="polite"><span class="analysis-loading-kicker">DEALGUARD · LIVE REVIEW</span><h3 id="analysis-loading-title">Reading the brand's request…</h3><p id="analysis-loading-text">Understanding the offer, your content signal, and the audience fit before showing a recommendation.</p><div class="analysis-loading-bar"><span></span></div></div>
             <div class="oriane-signal hidden" id="oriane-signal" aria-live="polite"></div>
+            <div class="creator-value-card" id="creator-value-card" aria-live="polite">
+              <div class="creator-value-head"><div><span class="oriane-signal-kicker">CREATOR VALUE · EVIDENCE LED</span><h3>What your content is worth before rights</h3><p id="creator-value-provenance">The creator base value will be grounded in the available content signal.</p></div><span class="creator-value-source" id="creator-value-source">SIGNAL PENDING</span></div>
+              <div class="creator-value-main"><span>Creator base value</span><strong id="creator-base-value">$500</strong></div>
+              <div class="creator-value-why"><span>Why this value?</span><ul id="creator-value-why-list"><li>Performance and content evidence will appear after analysis.</li></ul></div>
+              <p class="creator-value-note">Rights are priced separately below. This value is not the brand’s offer.</p>
+            </div>
             <div class="context-handoff-card">
               <div><span class="step-kicker">AI HANDOFF</span><h3>Bring your creator brain anywhere.</h3><p>Export your profile, content signal, deal rules, and current recommendation as a portable <code>context.md</code> file for Butler, Claude, or any AI agency that accepts Markdown.</p></div>
               <div class="context-handoff-actions"><button class="secondary-button" id="copy-context" type="button">Copy context.md <span>↗</span></button><button class="primary-button" id="download-context" type="button">Download context.md <span>↓</span></button></div>

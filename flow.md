@@ -644,3 +644,14 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D074.
 
+## 44. Evidence-backed creator value presentation
+
+1. DealGuard keeps the existing `creatorSignal` returned by the recommendation engine.
+2. The report renders a separate Creator Value block after the Oriane evidence section.
+3. The block shows the creator base value before rights premiums are applied.
+4. A short Why list shows average views, engagement rate, live/fallback provenance, and the available content pattern.
+5. The existing Fair value breakdown continues to show paid usage, exclusivity, source files, revisions, and the suggested counter separately.
+6. If the signal is fallback, the block states that it is not a live Oriane valuation and does not imply unavailable metrics.
+
+**Decision references:** D075.
+

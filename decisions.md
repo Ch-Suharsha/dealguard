@@ -594,3 +594,11 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** After analysis, the report presents Oriane evidence before the recommendation. Live results identify the request and indexed result; fallback results explicitly state that transcript, on-screen text, and frames are not being claimed. Pricing, provider adapters, and Creator AI remain unchanged.
 
+## D075 — Make creator base value visibly evidence-backed
+
+**Decision:** Add a separate report block for the creator's base value, populated from the existing `creatorSignal`, with a concise Why list covering average views, engagement rate, provenance, and any available content pattern. Keep rights premiums in the separate Fair value breakdown.
+
+**Reason:** The report already calculates a creator-specific base, but presenting it only inside the rights table makes the value look like another pricing line item. A distinct evidence-led block makes the chain from Oriane signal to creator value to rights calculation legible without changing the calculation.
+
+**Flow impact:** After the existing Oriane evidence section, DealGuard shows the base value and its reasons. Live runs identify `LIVE ORIANE`; fallback runs explicitly identify a prepared fallback signal. The existing recommendation math, rights multipliers, provider adapters, Creator AI, and Feature 1 evidence rendering remain unchanged.
+

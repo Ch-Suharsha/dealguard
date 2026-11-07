@@ -102,6 +102,22 @@ function renderOrianeSignal(result) {
 
 function money(value) { return `$${Number(value || 0).toLocaleString()}`; }
 
+function contentPatternFromResult(result) {
+  const row = result?.data?.results?.[0];
+  const media = row?.media?.[0] || {};
+  const asText = value => {
+    if (!value) return '';
+    if (typeof value === 'string') return value;
+    if (Array.isArray(value)) return value.map(asText).filter(Boolean).join(' ');
+    return value.text || value.content || value.transcript || value.value || '';
+  };
+  const text = `${asText(media.transcript || row?.transcript)} ${asText(media.onScreenText || row?.onScreenText)}`.toLowerCase();
+  if (/three|3|top|best|hidden|secret|why|how to|here'?s/.test(text)) return 'Hook → practical proof → recommendation';
+  if (/review|unbox|tested|using/.test(text)) return 'Product review → demonstration → verdict';
+  if (/step|first|then|next|tutorial/.test(text)) return 'Tutorial → steps → outcome';
+  return row ? 'Creator-led story → visual evidence' : 'Pattern unavailable from fallback signal';
+}
+
 function renderRecommendation(result) {
   const recommendation = result || {};
   state.recommendation = recommendation;
@@ -115,8 +131,22 @@ function renderRecommendation(result) {
   const exclusive = $('#calc-exclusivity'); if (exclusive) exclusive.textContent = `+${money(breakdown.exclusivity || 0)}`;
   const rights = $('#calc-rights'); if (rights) rights.textContent = `+${money((breakdown.rawFootage || 0) + (breakdown.revisions || 0) + (breakdown.extraDeliverables || 0))}`;
   const summary = $('#decision-summary');
+  const signal = recommendation.creatorSignal || {};
+  const liveSignal = signal.source === 'oriane_live';
+  const baseValue = breakdown.base || 500;
+  const sourceBadge = $('#creator-value-source'); if (sourceBadge) { sourceBadge.textContent = liveSignal ? 'LIVE ORIANE' : 'FALLBACK SIGNAL'; sourceBadge.classList.toggle('fallback', !liveSignal); }
+  const provenance = $('#creator-value-provenance'); if (provenance) provenance.textContent = liveSignal
+    ? `Grounded in ${Number(signal.averageViews || 0).toLocaleString()} average views and ${(Number(signal.engagementRate || 0) * 100).toFixed(1)}% engagement from live Oriane evidence.`
+    : 'Oriane evidence was unavailable for this run. This is a prepared selected-content fallback, not a live provider valuation.';
+  const why = $('#creator-value-why-list');
+  if (why) {
+    const reasons = liveSignal
+      ? [`${Number(signal.averageViews || 0).toLocaleString()} average views`, `${(Number(signal.engagementRate || 0) * 100).toFixed(1)}% engagement rate`, 'Live source: Oriane content intelligence', `Pattern: ${contentPatternFromResult(recommendation)}`]
+      : [`${Number(signal.averageViews || 0).toLocaleString()} average views available from selected content`, 'Engagement rate unavailable from fallback data', 'Source: prepared fallback signal, not live Oriane data', `Pattern: ${contentPatternFromResult(recommendation)}`];
+    why.innerHTML = reasons.map(reason => `<li>${escapeHtml(reason)}</li>`).join('');
+  }
+  const baseValueNode = $('#creator-base-value'); if (baseValueNode) baseValueNode.textContent = money(baseValue);
   if (summary) {
-    const signal = recommendation.creatorSignal;
     const sourceText = signal?.source === 'oriane_live' ? `Based on ${Number(signal.averageViews).toLocaleString()} average views and ${(Number(signal.engagementRate || 0) * 100).toFixed(1)}% engagement from live Oriane data, this creator's base value is ${money(breakdown.base || 500)}.` : `Using the available content signal, this creator's estimated base value is ${money(breakdown.base || 500)}.`;
     summary.textContent = recommendation.recommendation === 'ACCEPT'
       ? `${sourceText} The brand's offer of ${money(recommendation.brandOffer)} already meets this deal's estimated fair value. Accept it or clarify the final scope—do not counter yourself downward.`

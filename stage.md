@@ -268,6 +268,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** Existing `renderOrianeSignal` was expanded without changing provider adapters, recommendation math, Creator AI, or intake. JavaScript/CSS checks pass; live browser verification with a matched Oriane result remains.
 
+### Stage 38 — Evidence-backed creator value presentation
+
+**Definition of done:** The report has a distinct Creator Value block that displays the calculated base value, a concise evidence-based Why list, explicit live/fallback provenance, and any available content pattern. Rights remain visibly separate in the existing breakdown.
+
+**Checkpoint:** Installed in the report UI using the existing `creatorSignal`. No recommendation, pricing, provider, Creator AI, offer-intake, or Feature 1 evidence code was changed beyond the minimal render integration. Syntax, recommendation regression, and diff checks pass; live browser rehearsal remains.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

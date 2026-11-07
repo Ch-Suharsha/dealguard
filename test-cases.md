@@ -415,4 +415,7 @@ Browser execution could not yet verify mobile layout, keyboard-only navigation, 
 - **ANALYSIS-015:** Click Analyze with a valid source and offer; confirm the report cards stay hidden while the review phases rotate and appear only after analysis completes.
 - **ANALYSIS-016:** Use a fast fallback response; confirm the review state remains visible for at least the minimum presentation window and does not expose stale demo results.
 - **ANALYSIS-017:** Force an analysis timeout; confirm the rotating state ends with a clear retry/error status rather than revealing a fabricated live result.
+- **VALUE-001:** Complete a live Oriane analysis; confirm the separate Creator Value block shows the creator base value, average views, engagement rate, LIVE ORIANE provenance, and content pattern.
+- **VALUE-002:** Complete analysis without live Oriane evidence; confirm the Creator Value block says FALLBACK SIGNAL, does not claim unavailable metrics, and keeps rights in the separate breakdown.
+- **VALUE-003:** Change the recommendation input to a different creator signal; confirm the Creator Value block updates from `creatorSignal` without changing the pricing engine.
 
