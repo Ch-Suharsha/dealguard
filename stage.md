@@ -290,3 +290,9 @@ Whenever a future change is proposed—such as changing the image system, logo, 
 4. Record what was installed or added, what remains unverified, and what should be inspected next.
 5. Only then begin implementation of the changed system.
 
+### Stage 40 — Analysis provenance trace
+
+**Definition of done:** The report shows a compact, unmistakable LIVE ORIANE or FALLBACK trace with indexed match count, evidence availability, and a safe fallback reason/timing when available.
+
+**Checkpoint:** Installed only the `/api/analyze` trace metadata, report trace component, styling, and feature-specific documentation/tests in the isolated Feature 4 workspace. Pricing, Creator AI, offer intake, existing Feature 1/2 rendering, and the active branch were not changed. Syntax, regression, and diff checks remain required; live browser rehearsal is still unverified.
+

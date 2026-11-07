@@ -610,3 +610,11 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** `/api/chat` and `/api/chat/stream` receive only whitelisted metrics and short text excerpts. The server sanitizes and bounds the payload before adding it to the GMI prompt. Pricing, the Oriane adapter, offer intake, and streaming transport remain unchanged.
 
+## D077 — Make the analysis provenance trace explicit
+
+**Decision:** Add a compact analysis trace immediately below provider status. It distinguishes `LIVE ORIANE` from `FALLBACK`, shows indexed match count, discloses evidence availability, and shows a safe fallback reason and server timing when available.
+
+**Reason:** A loading animation and a metrics card do not prove that the current recommendation used a live provider. Judges and creators need a compact audit trail that explains what happened without exposing provider internals or changing the recommendation.
+
+**Flow impact:** `/api/analyze` returns a normalized `analysisTrace` alongside the existing result. The browser renders that trace as a separate status layer. It does not alter pricing, Oriane evidence rendering, Creator AI, offer intake, or the fallback decision path.
+

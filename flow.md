@@ -666,3 +666,13 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D076.
 
+## 46. Analysis provenance trace
+
+1. The analysis gateway starts a timer before attempting the configured Oriane request.
+2. A live response returns `LIVE ORIANE`, the number of indexed results, an evidence-availability boolean, and safe evidence counts.
+3. A missing configuration or failed request returns `FALLBACK`, zero indexed matches, unavailable evidence, a non-secret reason code, and elapsed server time when available.
+4. The browser renders this compact trace below provider status, separate from the existing Oriane evidence and Creator Value sections.
+5. The trace is explanatory only; it does not alter pricing, recommendation math, Creator AI payloads, or intake behavior.
+
+**Decision references:** D077.
+

@@ -61,6 +61,29 @@ function setProviderStatus(message, mode = 'ready', retry = false) {
   $('#retry-analysis').classList.toggle('hidden', !retry);
 }
 
+function renderAnalysisTrace(result) {
+  const trace = $('#analysis-trace');
+  if (!trace) return;
+  const detail = result?.analysisTrace || {};
+  const live = detail.provenance === 'LIVE ORIANE' && result?.source === 'live';
+  const count = Number.isFinite(Number(detail.indexedMatchCount)) ? Number(detail.indexedMatchCount) : 0;
+  const evidence = detail.evidence || {};
+  const evidenceItems = [
+    evidence.transcript ? 'transcript' : null,
+    evidence.onScreenText ? 'on-screen text' : null,
+    Number(evidence.visualFrames || 0) ? `${Number(evidence.visualFrames)} visual frames` : null,
+  ].filter(Boolean);
+  const reasonLabels = {
+    oriane_not_configured: 'Oriane credentials are not configured',
+    oriane_request_failed: 'Oriane could not complete this request',
+  };
+  const reason = reasonLabels[detail.fallbackReason] || 'Live evidence was unavailable';
+  const timing = Number.isFinite(Number(detail.durationMs)) ? ` · ${Number(detail.durationMs).toLocaleString()} ms` : '';
+  trace.classList.remove('hidden');
+  trace.classList.toggle('fallback', !live);
+  trace.innerHTML = `<div class="analysis-trace-head"><div><span class="analysis-trace-kicker">ANALYSIS TRACE</span><strong>${live ? 'LIVE ORIANE EVIDENCE' : 'FALLBACK PATH'}</strong></div><span class="analysis-trace-badge ${live ? '' : 'fallback'}">${live ? 'LIVE' : 'FALLBACK'}</span></div><div class="analysis-trace-grid"><span><b>${count}</b> indexed match${count === 1 ? '' : 'es'}</span><span><b>${live && detail.evidenceAvailable ? 'Available' : 'Unavailable'}</b> evidence</span><span><b>${live && evidenceItems.length ? escapeHtml(evidenceItems.join(' · ')) : live ? 'Metrics only' : escapeHtml(reason)}</b>${live ? ' returned' : ' '}${live ? escapeHtml(timing) : ''}</span></div>`;
+}
+
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
 }
@@ -439,6 +462,7 @@ async function analyzeDeal() {
     state.apiSource = result.source || 'fallback';
     renderRecommendation(result);
     renderOrianeSignal(result);
+    renderAnalysisTrace(result);
     const liveLabel = result.source === 'live' ? `Live Oriane analysis complete · ${result.data?.results?.length || 0} indexed match${result.data?.results?.length === 1 ? '' : 'es'}` : 'Analysis complete · prepared fallback data';
     setProviderStatus(liveLabel, state.apiSource === 'live' ? 'ready' : 'warning');
     showToast(`Deal analyzed · ${state.apiSource === 'live' ? 'live sponsor data' : 'fallback data'}`);

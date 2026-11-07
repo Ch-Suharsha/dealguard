@@ -420,4 +420,8 @@ Browser execution could not yet verify mobile layout, keyboard-only navigation, 
 - **VALUE-003:** Change the recommendation input to a different creator signal; confirm the Creator Value block updates from `creatorSignal` without changing the pricing engine.
 - **CHAT-016:** Complete a live Oriane analysis, ask Creator AI why the creator is valued this way, and confirm the request includes the current views, engagement, transcript/on-screen excerpts, hook, pattern, and LIVE ORIANE provenance.
 - **CHAT-017:** Ask Creator AI after fallback or empty Oriane evidence; confirm it explicitly says live evidence is unavailable and does not invent transcript, hook, or metrics.
+- **TRACE-001:** Complete a live Oriane analysis; confirm the compact trace says LIVE ORIANE, shows indexed match count, evidence availability, evidence types/counts, and elapsed provider time.
+- **TRACE-002:** Analyze with Oriane unconfigured; confirm the trace says FALLBACK, shows zero indexed matches, unavailable evidence, and a safe non-secret configuration reason.
+- **TRACE-003:** Force an Oriane request failure; confirm the trace says FALLBACK and exposes only a safe failure reason and timing, without provider keys or raw error bodies.
+- **TRACE-004:** Inspect the recommendation after trace rendering; confirm pricing, Creator Value, Oriane Content Intelligence, Creator AI, and offer intake behavior are unchanged.
 

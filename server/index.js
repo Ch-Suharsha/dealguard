@@ -33,6 +33,30 @@ function fallbackAnalysis(input = {}) {
   };
 }
 
+function analysisTrace({ source, intelligence = null, reason = null, durationMs = null } = {}) {
+  const rows = Array.isArray(intelligence?.results) ? intelligence.results : [];
+  const evidence = rows.reduce((summary, row) => {
+    const media = row?.media?.[0] || {};
+    const transcript = Boolean(media.transcript || row?.transcript);
+    const onScreenText = Boolean(media.onScreenText || row?.onScreenText);
+    const visualFrames = Array.isArray(media.frames || row?.frames) ? (media.frames || row.frames).length : 0;
+    return {
+      transcript: summary.transcript || transcript,
+      onScreenText: summary.onScreenText || onScreenText,
+      visualFrames: summary.visualFrames + visualFrames,
+    };
+  }, { transcript: false, onScreenText: false, visualFrames: 0 });
+  const live = source === 'live';
+  return {
+    provenance: live ? 'LIVE ORIANE' : 'FALLBACK',
+    indexedMatchCount: rows.length,
+    evidenceAvailable: live ? Boolean(rows.length) : false,
+    evidence,
+    fallbackReason: live ? null : (reason || 'oriane_not_configured'),
+    durationMs: Number.isFinite(durationMs) ? Math.round(durationMs) : null,
+  };
+}
+
 function fallbackChat(question) {
   return { source: 'fallback', answer: `I’m using your creator context and current offer. Focus first on paid usage, exclusivity, raw footage, and revision limits. Your question was: ${question}` };
 }
@@ -119,14 +143,16 @@ async function handleApi(request, response, pathname) {
     if (request.method === 'POST' && pathname === '/api/extract-document') return sendJson(response, 200, await extractDocument(input));
     if (request.method === 'POST' && pathname === '/api/analyze') {
       const adapter = new OrianeAdapter();
+      const startedAt = Date.now();
       if (adapter.configured) {
         try {
           const intelligence = await adapter.analyze(input);
-          return sendJson(response, 200, { source: 'live', provider: 'oriane', ...computeDealRecommendation(input, intelligence), data: intelligence });
+          return sendJson(response, 200, { source: 'live', provider: 'oriane', ...computeDealRecommendation(input, intelligence), data: intelligence, analysisTrace: analysisTrace({ source: 'live', intelligence, durationMs: Date.now() - startedAt }) });
+        } catch (error) {
+          return sendJson(response, 200, { ...fallbackAnalysis(input), providerError: error.message, fallbackReason: 'oriane_request_failed', analysisTrace: analysisTrace({ reason: 'oriane_request_failed', durationMs: Date.now() - startedAt }) });
         }
-        catch (error) { return sendJson(response, 200, { ...fallbackAnalysis(input), providerError: error.message, fallbackReason: 'oriane_request_failed' }); }
       }
-      return sendJson(response, 200, fallbackAnalysis(input));
+      return sendJson(response, 200, { ...fallbackAnalysis(input), analysisTrace: analysisTrace({ reason: 'oriane_not_configured', durationMs: Date.now() - startedAt }) });
     }
     if (request.method === 'POST' && pathname === '/api/chat/stream') {
       const adapter = new GmiAdapter();
