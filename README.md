@@ -4,6 +4,10 @@
 
 The single preview above links to the full MP4 with audio.
 
+### [▶ Try the live demo](https://platform-fact-pvc-reporter.trycloudflare.com/)
+
+The demo is hosted temporarily through Cloudflare Tunnel and may be unavailable when the local server is offline.
+
 ## How DealGuard works
 
 ![DealGuard system design](docs/system-design.svg)
