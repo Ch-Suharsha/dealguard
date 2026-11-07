@@ -8,6 +8,10 @@ The single preview above links to the full MP4 with audio.
 
 The demo is hosted temporarily through Cloudflare Tunnel and may be unavailable when the local server is offline.
 
+### [▶ Open the presentation microsite](https://platform-fact-pvc-reporter.trycloudflare.com/presentation.html)
+
+Use the presentation view for the pitch: it walks through the creator problem, Oriane evidence, valuation, rights, GMI Creator AI, sponsor stack, and live demo.
+
 ## How DealGuard works
 
 ![DealGuard system design](docs/system-design.svg)
