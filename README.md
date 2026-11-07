@@ -1,5 +1,9 @@
 # DealGuard
 
+<video src="https://raw.githubusercontent.com/Ch-Suharsha/dealguard/codex/dealguard-v3/docs/media/dealguard-product-demo.mp4" poster="https://raw.githubusercontent.com/Ch-Suharsha/dealguard/codex/dealguard-v3/docs/media/dealguard-product-demo-poster.png" controls playsinline width="100%"></video>
+
+**[Watch or download the DealGuard product demo](docs/media/dealguard-product-demo.mp4)**
+
 DealGuard is a creator-side brand-deal intelligence workspace. It helps a creator understand what a brand is actually asking for, see what their public video evidence is worth, price usage rights separately, and decide whether to accept or counter.
 
 ## Why it exists
