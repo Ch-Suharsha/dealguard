@@ -626,3 +626,11 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** `/api/analyze` returns an `audienceFit` object and the report renders it in a separate card. Pricing, Creator AI transport, offer intake, Oriane adapters, and existing Feature 1/2 rendering remain unchanged.
 
+## D079 — Explain why Oriane evidence matters
+
+**Decision:** Add a compact post-analysis “Why this matters” card that connects demonstrated reach, audience response, and repeatable content format to brand value using only the existing analysis evidence. Every unavailable field is labeled as unavailable, and fallback runs are explicitly identified.
+
+**Reason:** Oriane metrics and content pattern are more persuasive when the creator and judges can see why those facts matter commercially. A short interpretation makes the evidence-to-value chain legible without inventing a valuation or changing pricing logic.
+
+**Flow impact:** After the existing Creator Value block, the report shows three evidence-to-value dimensions. Live runs use the current compact Oriane evidence; fallback runs explain the limitation. Pricing, Creator AI transport, offer intake, and existing Oriane/Creator Value rendering remain unchanged.
+

@@ -687,3 +687,12 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D078.
 
+## 48. Why this matters explanation
+
+1. After recommendation rendering, DealGuard reads the existing compact Oriane evidence and provenance already held in client state.
+2. The report shows a compact explanation connecting demonstrated reach, audience response, and repeatable content format to brand value.
+3. Live runs show returned views, engagement, and the derived content pattern; no new provider request is made.
+4. If evidence is missing or fallback is active, each affected dimension says unavailable and the card explains that live evidence cannot be claimed.
+5. The card is explanatory only; it does not modify pricing, recommendation state, Creator AI transport, intake, or Feature 1/2 rendering.
+
+**Decision references:** D079.

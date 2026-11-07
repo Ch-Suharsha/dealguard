@@ -435,3 +435,7 @@ Browser execution could not yet verify mobile layout, keyboard-only navigation, 
 - **TRACE-003:** Force an Oriane request failure; confirm the trace says FALLBACK and exposes only a safe failure reason and timing, without provider keys or raw error bodies.
 - **TRACE-004:** Inspect the recommendation after trace rendering; confirm pricing, Creator Value, Oriane Content Intelligence, Creator AI, and offer intake behavior are unchanged.
 
+- **WHY-001:** Complete a live Oriane analysis; confirm the Why this matters card shows live reach, audience response, and a returned content pattern with an explicit LIVE ORIANE badge.
+- **WHY-002:** Complete analysis without live Oriane evidence; confirm the card marks FALLBACK SIGNAL and labels live reach, response, and format as unavailable without inventing values.
+- **WHY-003:** Inspect the report after Feature 6; confirm the card is explanatory only and does not change pricing, Creator AI transport, offer intake, or the existing Oriane/Creator Value sections.
+

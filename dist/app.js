@@ -192,12 +192,42 @@ function compactOrianeEvidence(result) {
   };
 }
 
+function renderWhyThisMatters(result) {
+  const card = $('#why-matters-card');
+  if (!card) return;
+  const source = $('#why-matters-source');
+  const summary = $('#why-matters-summary');
+  const grid = $('#why-matters-grid');
+  const signal = result?.creatorSignal || {};
+  const evidence = compactOrianeEvidence(result);
+  const live = signal.source === 'oriane_live';
+  if (source) {
+    source.textContent = live ? 'LIVE ORIANE' : 'FALLBACK SIGNAL';
+    source.classList.toggle('fallback', !live);
+  }
+  if (summary) {
+    summary.textContent = live
+      ? 'This recommendation is connected to what the content demonstrated: reach, audience response, and a format the brand can recognize and reuse.'
+      : 'Live Oriane evidence was unavailable for this run. DealGuard can explain the selected-content signal, but it cannot claim live reach, response, or format evidence.';
+  }
+  if (!grid) return;
+  const reach = live && evidence.views ? `${Number(evidence.views).toLocaleString()} views` : 'Unavailable from live data';
+  const response = live && evidence.engagementRate ? `${(Number(evidence.engagementRate) * 100).toFixed(1)}% engagement` : 'Unavailable from live data';
+  const format = live && evidence.contentPattern && !/unavailable/i.test(evidence.contentPattern) ? evidence.contentPattern : 'Unavailable from live data';
+  grid.innerHTML = [
+    ['Demonstrated reach', reach, live ? 'What the analyzed post actually reached' : 'Oriane did not return live post evidence'],
+    ['Audience response', response, live ? 'Likes, comments, and shares relative to views' : 'Engagement cannot be claimed from fallback data'],
+    ['Repeatable format', format, live ? 'A lightweight pattern derived from returned text' : 'No content pattern is claimed without live evidence'],
+  ].map(([label, value, note]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong><small>${escapeHtml(note)}</small></div>`).join('');
+}
+
 function renderRecommendation(result) {
   const recommendation = result || {};
   state.recommendation = recommendation;
   state.creatorSignal = recommendation.creatorSignal || null;
   state.orianeEvidence = compactOrianeEvidence(recommendation);
   renderAudienceFit(recommendation);
+  renderWhyThisMatters(recommendation);
   const range = recommendation.fairRange || { min: 1450, max: 1800 };
   const breakdown = recommendation.breakdown || {};
   const decisionWord = $('#decision-word'); if (decisionWord) decisionWord.textContent = recommendation.recommendation || 'COUNTER';

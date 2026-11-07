@@ -286,6 +286,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** Installed in an isolated Feature 5 worktree from Feature 3. The new evaluator and card use only creator context, offer text, and available Oriane content text. Pricing, Creator AI transport, offer intake, Oriane adapters, and Feature 1/2 rendering remain unchanged. Syntax, regression, feature tests, and diff checks are required before commit.
 
+### Stage 41 — Why this matters explanation
+
+**Definition of done:** The report explains how existing Oriane evidence supports brand value through reach, audience response, and repeatable content format, while clearly labeling unavailable data.
+
+**Checkpoint:** Feature 6 is installed in an isolated worktree from Feature 3 checkpoint `2803f10`. It adds one independent explanation card, client-side rendering, styles, documentation, and tests. Pricing, Creator AI transport, offer intake, and existing Feature 1/2 rendering were not changed. Syntax, regression, and diff checks are required; live browser rehearsal remains unverified.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:
