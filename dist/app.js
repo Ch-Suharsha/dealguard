@@ -125,6 +125,28 @@ function renderOrianeSignal(result) {
 
 function money(value) { return `$${Number(value || 0).toLocaleString()}`; }
 
+function renderAudienceFit(result) {
+  const card = $('#audience-fit-card');
+  if (!card) return;
+  const fit = result?.audienceFit || {};
+  const label = fit.label || 'Moderate';
+  const badge = $('#audience-fit-label');
+  const sentence = $('#audience-fit-sentence');
+  const meta = $('#audience-fit-meta');
+  if (badge) { badge.textContent = label.toUpperCase(); badge.className = `audience-fit-badge ${label.toLowerCase()}`; }
+  if (sentence) sentence.textContent = fit.sentence || 'Fit could not be assessed from the available evidence.';
+  const evidence = fit.evidence || {};
+  if (meta) {
+    const chips = [];
+    if (evidence.creatorContextProvided) chips.push('Creator context provided');
+    if (evidence.audienceProvided) chips.push('Audience description provided');
+    chips.push(evidence.orianeEvidenceAvailable ? 'Oriane content evidence available' : 'No live Oriane content text');
+    if (evidence.boundaryConflict) chips.push('Boundary term needs review');
+    meta.innerHTML = chips.map(chip => `<span>${escapeHtml(chip)}</span>`).join('');
+  }
+  card.classList.remove('hidden');
+}
+
 function contentPatternFromResult(result) {
   const row = result?.data?.results?.[0];
   const media = row?.media?.[0] || {};
@@ -175,6 +197,7 @@ function renderRecommendation(result) {
   state.recommendation = recommendation;
   state.creatorSignal = recommendation.creatorSignal || null;
   state.orianeEvidence = compactOrianeEvidence(recommendation);
+  renderAudienceFit(recommendation);
   const range = recommendation.fairRange || { min: 1450, max: 1800 };
   const breakdown = recommendation.breakdown || {};
   const decisionWord = $('#decision-word'); if (decisionWord) decisionWord.textContent = recommendation.recommendation || 'COUNTER';

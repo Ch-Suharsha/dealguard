@@ -7,6 +7,7 @@ const { execFile } = require('child_process');
 const { promisify } = require('util');
 const { CompoundAdapter, GmiAdapter, OrianeAdapter, ProviderNotConfiguredError, providerHealth } = require('./integrations');
 const { computeDealRecommendation } = require('./recommendation');
+const { computeAudienceFit } = require('./audience-fit');
 const execFileAsync = promisify(execFile);
 
 const root = path.resolve(__dirname, '..');
@@ -30,6 +31,7 @@ function fallbackAnalysis(input = {}) {
   return {
     source: 'fallback',
     ...recommendation,
+    audienceFit: computeAudienceFit(input),
   };
 }
 
@@ -147,7 +149,7 @@ async function handleApi(request, response, pathname) {
       if (adapter.configured) {
         try {
           const intelligence = await adapter.analyze(input);
-          return sendJson(response, 200, { source: 'live', provider: 'oriane', ...computeDealRecommendation(input, intelligence), data: intelligence, analysisTrace: analysisTrace({ source: 'live', intelligence, durationMs: Date.now() - startedAt }) });
+          return sendJson(response, 200, { source: 'live', provider: 'oriane', ...computeDealRecommendation(input, intelligence), audienceFit: computeAudienceFit(input, intelligence), data: intelligence, analysisTrace: analysisTrace({ source: 'live', intelligence, durationMs: Date.now() - startedAt }) });
         } catch (error) {
           return sendJson(response, 200, { ...fallbackAnalysis(input), providerError: error.message, fallbackReason: 'oriane_request_failed', analysisTrace: analysisTrace({ reason: 'oriane_request_failed', durationMs: Date.now() - startedAt }) });
         }

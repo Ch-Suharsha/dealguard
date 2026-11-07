@@ -280,6 +280,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** Installed client state retention, request payload inclusion for both chat routes, server-side evidence sanitization, and updated grounding instructions. Pricing, Oriane adapter, report presentation, offer intake, and streaming transport were left unchanged. Syntax, recommendation regression, and diff checks pass; live GMI/Oriane browser rehearsal remains.
 
+### Stage 40 — Audience/content fit signal
+
+**Definition of done:** After analysis, the report shows Strong/Moderate/Weak audience/content fit with one evidence-based sentence and explicit source chips. No audience demographics are inferred when they were not supplied.
+
+**Checkpoint:** Installed in an isolated Feature 5 worktree from Feature 3. The new evaluator and card use only creator context, offer text, and available Oriane content text. Pricing, Creator AI transport, offer intake, Oriane adapters, and Feature 1/2 rendering remain unchanged. Syntax, regression, feature tests, and diff checks are required before commit.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

@@ -618,3 +618,11 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** `/api/analyze` returns a normalized `analysisTrace` alongside the existing result. The browser renders that trace as a separate status layer. It does not alter pricing, Oriane evidence rendering, Creator AI, offer intake, or the fallback decision path.
 
+## D078 — Add an evidence-bounded audience/content fit result
+
+**Decision:** Add a compact Strong/Moderate/Weak fit result after analysis, derived only from creator-provided niche/audience/boundary fields, the brand offer, and available Oriane content text. Never infer or invent audience demographics.
+
+**Reason:** Fit is a useful judge-facing bridge between video intelligence and the creator's decision, but an unsupported demographic claim would reduce trust. The feature must remain a concise signal, not a new analytics dashboard.
+
+**Flow impact:** `/api/analyze` returns an `audienceFit` object and the report renders it in a separate card. Pricing, Creator AI transport, offer intake, Oriane adapters, and existing Feature 1/2 rendering remain unchanged.
+

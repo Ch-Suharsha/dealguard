@@ -48,6 +48,16 @@ This test plan covers the local MVP in `dist/`:
 
 ## Feature tests
 
+### Feature 5 — Audience/content fit
+
+| ID | Scenario | Expected result | Priority | Result |
+|---|---|---|---|---|
+| FIT-001 | Analyze with niche/audience terms matching the offer and live Oriane text | Separate card shows `STRONG` with one sentence citing supplied context/evidence | P1 | PASS |
+| FIT-002 | Analyze with no niche, audience, or Oriane content text | Card shows `MODERATE` and explicitly says there is not enough supplied evidence; no demographics are invented | P1 | PASS |
+| FIT-003 | Analyze an offer conflicting with a creator boundary | Card shows `WEAK` and asks the creator to review the conflicting term | P1 | PASS |
+| FIT-004 | Analyze with only a niche or only an audience field | Card remains usable and does not require all context fields | P1 | PASS |
+| FIT-005 | Inspect existing report/pricing and Creator AI transport after Feature 5 | Existing pricing, Feature 1/2 rendering, intake, and chat routes remain unchanged | P0 | PASS by diff scope |
+
 ### Navigation and entry
 
 | ID | Steps | Expected result | Priority | Result |

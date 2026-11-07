@@ -676,3 +676,14 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 
 **Decision references:** D077.
 
+## 47. Evidence-bounded audience/content fit
+
+1. DealGuard receives the creator's optional niche, audience, and boundary fields, the offer text, and any returned Oriane content text.
+2. The server compares supplied terms and available content language; it does not infer follower demographics or audience attributes.
+3. DealGuard returns `Strong`, `Moderate`, or `Weak` plus one concise evidence-based sentence.
+4. Boundary conflicts are called out as a weak fit requiring review.
+5. The report shows the result in a separate compact card after analysis, with chips indicating which evidence sources were actually available.
+6. Missing context or live evidence is disclosed rather than replaced with invented claims.
+
+**Decision references:** D078.
+
