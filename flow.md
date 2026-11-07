@@ -696,3 +696,12 @@ The private Hack the Feed report defines the sponsor loop and the judged experie
 5. The card is explanatory only; it does not modify pricing, recommendation state, Creator AI transport, intake, or Feature 1/2 rendering.
 
 **Decision references:** D079.
+
+## 49. Presentation market framing
+
+1. The second presentation slide introduces an approximately 67M global creator-market estimate as context, not as a guaranteed user count.
+2. The slide narrows the target to solo creators negotiating brand deals without managers.
+3. The copy connects that audience to the product promise: understand content value, separate rights, and make a defensible decision.
+4. The market claim is confined to the presentation microsite and does not affect application logic or recommendation calculations.
+
+**Decision references:** D080.

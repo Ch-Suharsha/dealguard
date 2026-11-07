@@ -292,6 +292,12 @@ The planning system has been installed. The documentation artifacts and the firs
 
 **Checkpoint:** Feature 6 is installed in an isolated worktree from Feature 3 checkpoint `2803f10`. It adds one independent explanation card, client-side rendering, styles, documentation, and tests. Pricing, Creator AI transport, offer intake, and existing Feature 1/2 rendering were not changed. Syntax, regression, and diff checks are required; live browser rehearsal remains unverified.
 
+### Stage 42 — Presentation market framing
+
+**Definition of done:** Slide 2 communicates the broader creator-market context and clearly narrows it to DealGuard’s solo-creator beachhead without presenting the broad estimate as an exact reachable-user count.
+
+**Checkpoint:** Updated only `dist/presentation.html` plus the project documentation. The product workflow, provider integrations, recommendation engine, and existing presentation slides remain unchanged. The local and Cloudflare presentation routes render successfully.
+
 ## Change protocol
 
 Whenever a future change is proposed—such as changing the image system, logo, visual style, partner integration, recommendation logic, or major flow:

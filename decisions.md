@@ -634,3 +634,11 @@ This file records product and implementation decisions. Every decision is also r
 
 **Flow impact:** After the existing Creator Value block, the report shows three evidence-to-value dimensions. Live runs use the current compact Oriane evidence; fallback runs explain the limitation. Pricing, Creator AI transport, offer intake, and existing Oriane/Creator Value rendering remain unchanged.
 
+## D080 — Make the presentation market claim honest and useful
+
+**Decision:** Add a broad market anchor of approximately 67 million global creators to slide 2 of the presentation, while explicitly defining DealGuard’s beachhead as solo creators who negotiate without managers. Do not present 67 million as the exact reachable user count.
+
+**Reason:** The presentation needs to show why the problem matters at scale, but there is no reliable public count for creators specifically without managers. A broader estimate gives judges context without pretending the entire creator population is the immediate target.
+
+**Flow impact:** The presentation microsite’s problem slide now moves from the broad creator market to the solo-creator beachhead. Product behavior, pricing, integrations, and the live demo remain unchanged.
+
